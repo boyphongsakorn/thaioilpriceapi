@@ -24,14 +24,14 @@
     <p id="tomor6" style="font-size: 1.5cm;font-style: italic;position: absolute;left: 535px;top: 593px;">88.88</p>
     <p id="tomor7" style="font-size: 1.5cm;font-style: italic;position: absolute;left: 535px;top: 668px;">88.88</p>
     <p id="tomor8" style="font-size: 1.5cm;font-style: italic;position: absolute;left: 535px;top: 743px;">88.88</p>
-    <p style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 165px;text-align: center;width: 100px;">-</p>
-    <p style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 240px;text-align: center;width: 100px;">-</p>
-    <p style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 315px;text-align: center;width: 100px;">-</p>
-    <p style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 395px;text-align: center;width: 100px;">-</p>
-    <p style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 545px;text-align: center;width: 100px;">-</p>
-    <p style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 625px;text-align: center;width: 100px;">-</p>
-    <p style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 700px;text-align: center;width: 100px;">-</p>
-    <p style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 775px;text-align: center;width: 100px;">-</p>
+    <p id="diff1" style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 165px;text-align: center;width: 100px;">-</p>
+    <p id="diff2" style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 240px;text-align: center;width: 100px;">-</p>
+    <p id="diff3" style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 315px;text-align: center;width: 100px;">-</p>
+    <p id="diff4" style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 395px;text-align: center;width: 100px;">-</p>
+    <p id="diff5" style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 545px;text-align: center;width: 100px;">-</p>
+    <p id="diff6" style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 625px;text-align: center;width: 100px;">-</p>
+    <p id="diff7" style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 700px;text-align: center;width: 100px;">-</p>
+    <p id="diff8" style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 775px;text-align: center;width: 100px;">-</p>
     <script>
         //fetch from topapi.pwisetthon.com
         var requestOptions = {
@@ -58,6 +58,80 @@
             document.getElementById("tomor6").innerHTML = result[0][6];
             document.getElementById("tomor7").innerHTML = result[0][7];
             document.getElementById("tomor8").innerHTML = result[0][8];
+            //if result[2][x] is 0, then diff is -, else diff is result[2][x]
+            if(result[2][1] == 0){
+                document.getElementById("diff1").innerHTML = "-";
+            }else{
+                //if result[2][x] > 0, then add + sign to diff , else no sign
+                if(result[2][1] > 0){
+                    document.getElementById("diff1").innerHTML = "+" + result[2][1];
+                }else{
+                    document.getElementById("diff1").innerHTML = result[2][1];
+                }
+            }
+            if(result[2][2] == 0){
+                document.getElementById("diff2").innerHTML = "-";
+            }else{
+                if(result[2][2] > 0){
+                    document.getElementById("diff2").innerHTML = "+" + result[2][2];
+                }else{
+                    document.getElementById("diff2").innerHTML = result[2][2];
+                }
+            }
+            if(result[2][3] == 0){
+                document.getElementById("diff3").innerHTML = "-";
+            }else{
+                if(result[2][3] > 0){
+                    document.getElementById("diff3").innerHTML = "+" + result[2][3];
+                }else{
+                    document.getElementById("diff3").innerHTML = result[2][3];
+                }
+            }
+            if(result[2][4] == 0){
+                document.getElementById("diff4").innerHTML = "-";
+            }else{
+                if(result[2][4] > 0){
+                    document.getElementById("diff4").innerHTML = "+" + result[2][4];
+                }else{
+                    document.getElementById("diff4").innerHTML = result[2][4];
+                }
+            }
+            if(result[2][5] == 0){
+                document.getElementById("diff5").innerHTML = "-";
+            }else{
+                if(result[2][5] > 0){
+                    document.getElementById("diff5").innerHTML = "+" + result[2][5];
+                }else{
+                    document.getElementById("diff5").innerHTML = result[2][5];
+                }
+            }
+            if(result[2][6] == 0){
+                document.getElementById("diff6").innerHTML = "-";
+            }else{
+                if(result[2][6] > 0){
+                    document.getElementById("diff6").innerHTML = "+" + result[2][6];
+                }else{
+                    document.getElementById("diff6").innerHTML = result[2][6];
+                }
+            }
+            if(result[2][7] == 0){
+                document.getElementById("diff7").innerHTML = "-";
+            }else{
+                if(result[2][7] > 0){
+                    document.getElementById("diff7").innerHTML = "+" + result[2][7];
+                }else{
+                    document.getElementById("diff7").innerHTML = result[2][7];
+                }
+            }
+            if(result[2][8] == 0){
+                document.getElementById("diff8").innerHTML = "-";
+            }else{
+                if(result[2][8] > 0){
+                    document.getElementById("diff8").innerHTML = "+" + result[2][8];
+                }else{
+                    document.getElementById("diff8").innerHTML = result[2][8];
+                }
+            }
         })
         .catch(error => console.log('error', error));
     </script>
