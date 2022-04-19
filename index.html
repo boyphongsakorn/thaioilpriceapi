@@ -8,7 +8,7 @@
 </head>
 <body style="background-image: url(oilbg.jpg);background-repeat: no-repeat;background-size: cover;">
     <p style="font-size: 2cm;position: absolute;left: 275px;top: -52px;">ราคาน้ำมันวันนี้</p>
-    <p style="font-size: 1cm;font-style: italic;position: absolute;left: 327px;top: 165px;">88.88</p>
+    <p id="today1" style="font-size: 1cm;font-style: italic;position: absolute;left: 327px;top: 165px;">88.88</p>
     <p style="font-size: 1cm;font-style: italic;position: absolute;left: 327px;top: 240px;">88.88</p>
     <p style="font-size: 1cm;font-style: italic;position: absolute;left: 327px;top: 315px;">88.88</p>
     <p style="font-size: 1cm;font-style: italic;position: absolute;left: 327px;top: 395px;">88.88</p>
@@ -32,5 +32,19 @@
     <p style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 625px;text-align: center;width: 100px;">-</p>
     <p style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 700px;text-align: center;width: 100px;">-</p>
     <p style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 775px;text-align: center;width: 100px;">-</p>
+    <script>
+        //fetch from topapi.pwisetthon.com
+        var requestOptions = {
+            method: 'GET',
+            redirect: 'follow'
+        };
+
+        fetch("https://topapi.pwisetthon.com", requestOptions)
+        .then(response => response.json())
+        .then(result => {
+            document.getElementById("today1").innerHTML = result[1][1];
+        })
+        .catch(error => console.log('error', error));
+    </script>
 </body>
 </html>
