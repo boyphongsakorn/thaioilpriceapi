@@ -16,14 +16,14 @@
     <p id="today6" style="font-size: 1cm;font-style: italic;position: absolute;left: 327px;top: 625px;">88.88</p>
     <p id="today7" style="font-size: 1cm;font-style: italic;position: absolute;left: 327px;top: 700px;">88.88</p>
     <p id="today8" style="font-size: 1cm;font-style: italic;position: absolute;left: 327px;top: 775px;">88.88</p>
-    <p style="font-size: 1.5cm;font-style: italic;position: absolute;left: 535px;top: 133px;">88.88</p>
-    <p style="font-size: 1.5cm;font-style: italic;position: absolute;left: 535px;top: 208px;">88.88</p>
-    <p style="font-size: 1.5cm;font-style: italic;position: absolute;left: 535px;top: 283px;">88.88</p>
-    <p style="font-size: 1.5cm;font-style: italic;position: absolute;left: 535px;top: 363px;">88.88</p>
-    <p style="font-size: 1.5cm;font-style: italic;position: absolute;left: 535px;top: 518px;">88.88</p>
-    <p style="font-size: 1.5cm;font-style: italic;position: absolute;left: 535px;top: 593px;">88.88</p>
-    <p style="font-size: 1.5cm;font-style: italic;position: absolute;left: 535px;top: 668px;">88.88</p>
-    <p style="font-size: 1.5cm;font-style: italic;position: absolute;left: 535px;top: 743px;">88.88</p>
+    <p id="tomor1" style="font-size: 1.5cm;font-style: italic;position: absolute;left: 535px;top: 133px;">88.88</p>
+    <p id="tomor2" style="font-size: 1.5cm;font-style: italic;position: absolute;left: 535px;top: 208px;">88.88</p>
+    <p id="tomor3" style="font-size: 1.5cm;font-style: italic;position: absolute;left: 535px;top: 283px;">88.88</p>
+    <p id="tomor4" style="font-size: 1.5cm;font-style: italic;position: absolute;left: 535px;top: 363px;">88.88</p>
+    <p id="tomor5" style="font-size: 1.5cm;font-style: italic;position: absolute;left: 535px;top: 518px;">88.88</p>
+    <p id="tomor6" style="font-size: 1.5cm;font-style: italic;position: absolute;left: 535px;top: 593px;">88.88</p>
+    <p id="tomor7" style="font-size: 1.5cm;font-style: italic;position: absolute;left: 535px;top: 668px;">88.88</p>
+    <p id="tomor8" style="font-size: 1.5cm;font-style: italic;position: absolute;left: 535px;top: 743px;">88.88</p>
     <p style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 165px;text-align: center;width: 100px;">-</p>
     <p style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 240px;text-align: center;width: 100px;">-</p>
     <p style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 315px;text-align: center;width: 100px;">-</p>
@@ -50,6 +50,14 @@
             document.getElementById("today6").innerHTML = result[1][6];
             document.getElementById("today7").innerHTML = result[1][7];
             document.getElementById("today8").innerHTML = result[1][8];
+            document.getElementById("tomor1").innerHTML = result[0][1];
+            document.getElementById("tomor2").innerHTML = result[0][2];
+            document.getElementById("tomor3").innerHTML = result[0][3];
+            document.getElementById("tomor4").innerHTML = result[0][4];
+            document.getElementById("tomor5").innerHTML = result[0][5];
+            document.getElementById("tomor6").innerHTML = result[0][6];
+            document.getElementById("tomor7").innerHTML = result[0][7];
+            document.getElementById("tomor8").innerHTML = result[0][8];
         })
         .catch(error => console.log('error', error));
     </script>
