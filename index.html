@@ -9,8 +9,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet">
 </head>
-<body style="background-image: url(oilbg.jpg);background-repeat: no-repeat;background-size: cover;font-family: 'Noto Sans Thai', sans-serif;">
+<body style="background-image: url(oilbg.png);background-repeat: no-repeat;background-size: cover;font-family: 'Noto Sans Thai', sans-serif;">
     <p style="font-size: 2cm;position: absolute;top: -62px;width: 100%;text-align: center;">ราคาน้ำมันวันนี้</p>
+    <p id="date" style="font-size: 0.7cm;font-style: bold;position: absolute;left: 500px;top: 117px;color: white;width: 200px;text-align: center;"></p>
     <p id="today1" style="font-size: 1cm;font-style: italic;position: absolute;left: 322px;top: 160px;">88.88</p>
     <p id="today2" style="font-size: 1cm;font-style: italic;position: absolute;left: 322px;top: 235px;">88.88</p>
     <p id="today3" style="font-size: 1cm;font-style: italic;position: absolute;left: 322px;top: 310px;">88.88</p>
@@ -45,6 +46,53 @@
         fetch("https://anywhere.pwisetthon.com/https://topapi.pwisetthon.com", requestOptions)
         .then(response => response.json())
         .then(result => {
+            //date = result[0][0];
+            let date = result[0][0];
+            //get month from date
+            let month = date.substring(3,5);
+            //convert month to month thai name
+            let month_thai = "";
+            switch(month){
+                case "01":
+                    month_thai = "มกราคม";
+                    break;
+                case "02":
+                    month_thai = "กุมภาพันธ์";
+                    break;
+                case "03":
+                    month_thai = "มีนาคม";
+                    break;
+                case "04":
+                    month_thai = "เมษายน";
+                    break;
+                case "05":
+                    month_thai = "พฤษภาคม";
+                    break;
+                case "06":
+                    month_thai = "มิถุนายน";
+                    break;
+                case "07":
+                    month_thai = "กรกฎาคม";
+                    break;
+                case "08":
+                    month_thai = "สิงหาคม";
+                    break;
+                case "09":
+                    month_thai = "กันยายน";
+                    break;
+                case "10":
+                    month_thai = "ตุลาคม";
+                    break;
+                case "11":
+                    month_thai = "พฤศจิกายน";
+                    break;
+                case "12":
+                    month_thai = "ธันวาคม";
+                    break;
+            }
+
+            document.getElementById("date").innerHTML = date.substring(0,2) + " " + month_thai + " " + date.substring(6,10);
+
             document.getElementById("today1").innerHTML = result[1][1];
             document.getElementById("today2").innerHTML = result[1][2];
             document.getElementById("today3").innerHTML = result[1][3];
