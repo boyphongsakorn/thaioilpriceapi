@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet">
 </head>
 <body style="background-image: url(oilbg.jpg);background-repeat: no-repeat;background-size: cover;font-family: 'Noto Sans Thai', sans-serif;">
-    <p style="font-size: 2cm;position: absolute;left: 275px;top: -52px;">ราคาน้ำมันวันนี้</p>
+    <p style="font-size: 2cm;position: absolute;top: -62px;width: 100%;text-align: center;">ราคาน้ำมันวันนี้</p>
     <p id="today1" style="font-size: 1cm;font-style: italic;position: absolute;left: 322px;top: 160px;">88.88</p>
     <p id="today2" style="font-size: 1cm;font-style: italic;position: absolute;left: 322px;top: 235px;">88.88</p>
     <p id="today3" style="font-size: 1cm;font-style: italic;position: absolute;left: 322px;top: 310px;">88.88</p>
@@ -109,7 +109,7 @@
                     document.getElementById("tomor5").style.color = "red";
                     document.getElementById("tomor5").style.fontWeight = "bold";
                     //left position of tomor5 -10px
-                    document.getElementById("tomor5").style.left = document.getElementById("tomor5").style.left.replace("px", "") - 10 + "px";
+                    document.getElementById("tomor5").style.left = document.getElementById("tomor5").style.left.replace("px", "") - 15 + "px";
                     //top position of tomor5 -5px
                     document.getElementById("tomor5").style.top = document.getElementById("tomor5").style.top.replace("px", "") - 5 + "px";
                 }else{
@@ -119,7 +119,7 @@
                     document.getElementById("tomor5").style.color = "green";
                     document.getElementById("tomor5").style.fontWeight = "bold";
                     //left position of tomor5 -10px
-                    document.getElementById("tomor5").style.left = document.getElementById("tomor5").style.left.replace("px", "") - 10 + "px";
+                    document.getElementById("tomor5").style.left = document.getElementById("tomor5").style.left.replace("px", "") - 15 + "px";
                     //top position of tomor5 -5px
                     document.getElementById("tomor5").style.top = document.getElementById("tomor5").style.top.replace("px", "") - 5 + "px";
                 }
@@ -129,8 +129,25 @@
             }else{
                 if(result[2][6] > 0){
                     document.getElementById("diff6").innerHTML = "+" + result[2][6];
+                    document.getElementById("diff6").style.color = "red";
+                    document.getElementById("diff6").style.fontWeight = "bold";
+                    document.getElementById("tomor6").style.color = "red";
+                    document.getElementById("tomor6").style.fontWeight = "bold";
+                    //left position of tomor5 -10px
+                    document.getElementById("tomor6").style.left = document.getElementById("tomor6").style.left.replace("px", "") - 15 + "px";
+                    //top position of tomor5 -5px
+                    //document.getElementById("tomor6").style.top = document.getElementById("tomor6").style.top.replace("px", "") - 5 + "px";
                 }else{
                     document.getElementById("diff6").innerHTML = result[2][6];
+                    document.getElementById("diff6").style.color = "green";
+                    document.getElementById("diff6").style.fontWeight = "bold";
+                    document.getElementById("tomor6").style.color = "green";
+                    document.getElementById("tomor6").style.fontWeight = "bold";
+                    //left position of tomor5 -10px
+                    document.getElementById("tomor6").style.left = document.getElementById("tomor6").style.left.replace("px", "") - 15 + "px";
+                    //top position of tomor5 -5px
+                    //document.getElementById("tomor6").style.top = document.getElementById("tomor6").style.top.replace("px", "") - 5 + "px";
+                    
                 }
             }
             if(result[2][7] == 0){
@@ -138,8 +155,24 @@
             }else{
                 if(result[2][7] > 0){
                     document.getElementById("diff7").innerHTML = "+" + result[2][7];
+                    document.getElementById("diff7").style.color = "red";
+                    document.getElementById("diff7").style.fontWeight = "bold";
+                    document.getElementById("tomor7").style.color = "red";
+                    document.getElementById("tomor7").style.fontWeight = "bold";
+                    //left position of tomor5 -10px
+                    document.getElementById("tomor7").style.left = document.getElementById("tomor7").style.left.replace("px", "") - 15 + "px";
+                    //top position of tomor5 -5px
+                    //document.getElementById("tomor7").style.top = document.getElementById("tomor7").style.top.replace("px", "") - 5 + "px";
                 }else{
                     document.getElementById("diff7").innerHTML = result[2][7];
+                    document.getElementById("diff7").style.color = "green";
+                    document.getElementById("diff7").style.fontWeight = "bold";
+                    document.getElementById("tomor7").style.color = "green";
+                    document.getElementById("tomor7").style.fontWeight = "bold";
+                    //left position of tomor5 -10px
+                    document.getElementById("tomor7").style.left = document.getElementById("tomor7").style.left.replace("px", "") - 15 + "px";
+                    //top position of tomor5 -5px
+                    //document.getElementById("tomor7").style.top = document.getElementById("tomor7").style.top.replace("px", "") - 5 + "px";
                 }
             }
             if(result[2][8] == 0){
@@ -147,8 +180,24 @@
             }else{
                 if(result[2][8] > 0){
                     document.getElementById("diff8").innerHTML = "+" + result[2][8];
+                    document.getElementById("diff8").style.color = "red";
+                    document.getElementById("diff8").style.fontWeight = "bold";
+                    document.getElementById("tomor8").style.color = "red";
+                    document.getElementById("tomor8").style.fontWeight = "bold";
+                    //left position of tomor5 -10px
+                    document.getElementById("tomor8").style.left = document.getElementById("tomor8").style.left.replace("px", "") - 15 + "px";
+                    //top position of tomor5 -5px
+                    //document.getElementById("tomor8").style.top = document.getElementById("tomor8").style.top.replace("px", "") - 5 + "px";
                 }else{
                     document.getElementById("diff8").innerHTML = result[2][8];
+                    document.getElementById("diff8").style.color = "green";
+                    document.getElementById("diff8").style.fontWeight = "bold";
+                    document.getElementById("tomor8").style.color = "green";
+                    document.getElementById("tomor8").style.fontWeight = "bold";
+                    //left position of tomor5 -10px
+                    document.getElementById("tomor8").style.left = document.getElementById("tomor8").style.left.replace("px", "") - 15 + "px";
+                    //top position of tomor5 -5px
+                    //document.getElementById("tomor8").style.top = document.getElementById("tomor8").style.top.replace("px", "") - 5 + "px";
                 }
             }
         })
