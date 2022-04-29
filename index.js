@@ -1,7 +1,8 @@
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 const cheerio = require('cheerio');
 var http = require('http');
 var fs = require('fs');
+const Pageres = require('pageres');
 
 //if process.port is not empty , then set port to 8080
 const port = process.env.PORT || 8080;
@@ -36,8 +37,8 @@ async function getData() {
     //console.log(arr2);
 
     //get 2 string
-    var date1 = new Date(arr[0][0].substr(3, 2)+'/'+arr[0][0].substr(0, 2)+'/'+(parseInt(arr[0][0].substr(6, 4))-543));
-    var date2 = new Date(arr[1][0].substr(3, 2)+'/'+arr[1][0].substr(0, 2)+'/'+(parseInt(arr[1][0].substr(6, 4))-543));
+    var date1 = new Date(arr[0][0].substr(3, 2) + '/' + arr[0][0].substr(0, 2) + '/' + (parseInt(arr[0][0].substr(6, 4)) - 543));
+    var date2 = new Date(arr[1][0].substr(3, 2) + '/' + arr[1][0].substr(0, 2) + '/' + (parseInt(arr[1][0].substr(6, 4)) - 543));
     console.log(date1);
     console.log(date2);
 
@@ -79,9 +80,21 @@ function sparray(wow) {
 //getData();
 
 http.createServer(async function (req, res) {
-    let data = await getData();
-    //writehead json
-    res.writeHead(200, {'Content-Type': 'application/json'});
-    res.write(JSON.stringify(data));
-    res.end();
+    if (req.url == '/image') {
+        await new Pageres({ format: 'png', delay: 1, filename: 'oilprice', launchOptions: { args: ['--no-sandbox', '--disable-setuid-sandbox', '--no-first-run', '--disable-extensions'] } })
+            .src('https://boyphongsakorn.github.io/thaioilpriceapi/', ['1000x1000'])
+            .dest(__dirname)
+            .run();
+
+        console.log('Finished generating screenshots!');
+
+        res.writeHead(200, { 'content-type': 'image/png' });
+        fs.createReadStream('oilprice.png').pipe(res);
+    } else {
+        let data = await getData();
+        //writehead json
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.write(JSON.stringify(data));
+        res.end();
+    }
 }).listen(port);
