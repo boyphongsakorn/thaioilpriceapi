@@ -1,4 +1,5 @@
 FROM node:16-alpine
+RUN apk add --no-cache libevent libevent-dev chromium
 WORKDIR '/app'
 COPY package*.json ./
 #RUN apk add --update g++ make python3 py3-pip 
