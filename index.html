@@ -11,6 +11,7 @@
 </head>
 <body style="background-image: url(oilbg.png);background-repeat: no-repeat;background-size: cover;font-family: 'Noto Sans Thai', sans-serif;">
     <p style="font-size: 2cm;position: absolute;top: -62px;width: 100%;text-align: center;">ราคาน้ำมันวันนี้</p>
+    <p id="olddate" style="font-size: 0.7cm;font-style: bold;position: absolute;left: 270px;top: 117px;color: white;width: 200px;text-align: center;background-color: #00abf0;"></p>
     <p id="date" style="font-size: 0.7cm;font-style: bold;position: absolute;left: 500px;top: 117px;color: white;width: 200px;text-align: center;"></p>
     <p id="today1" style="font-size: 1cm;font-style: italic;position: absolute;left: 322px;top: 160px;"></p>
     <p id="today2" style="font-size: 1cm;font-style: italic;position: absolute;left: 322px;top: 235px;"></p>
@@ -37,6 +38,49 @@
     <p id="diff7" style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 700px;text-align: center;width: 100px;">-</p>
     <p id="diff8" style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 775px;text-align: center;width: 100px;">-</p>
     <script>
+        function monthtotext(month) {
+            //convert month to number
+            var month = parseInt(month);
+            switch (month) {
+                case 1:
+                    return "มกราคม";
+                    break;
+                case 2:
+                    return "กุมภาพันธ์";
+                    break;
+                case 3:
+                    return "มีนาคม";
+                    break;
+                case 4:
+                    return "เมษายน";
+                    break;
+                case 5:
+                    return "พฤษภาคม";
+                    break;
+                case 6:
+                    return "มิถุนายน";
+                    break;
+                case 7:
+                    return "กรกฎาคม";
+                    break;
+                case 8:
+                    return "สิงหาคม";
+                    break;
+                case 9:
+                    return "กันยายน";
+                    break;
+                case 10:
+                    return "ตุลาคม";
+                    break;
+                case 11:
+                    return "พฤศจิกายน";
+                    break;
+                case 12:
+                    return "ธันวาคม";
+                    break;
+            }
+        }
+
         //fetch from topapi.pwisetthon.com
         var requestOptions = {
             method: 'GET',
@@ -47,11 +91,11 @@
         .then(response => response.json())
         .then(result => {
             //date = result[0][0];
-            let date = result[0][0];
+            //let date = result[0][0];
             //get month from date
-            let month = date.substring(3,5);
+            //let month = date.substring(3,5);
             //convert month to month thai name
-            let month_thai = "";
+            /*let month_thai = "";
             switch(month){
                 case "01":
                     month_thai = "มกราคม";
@@ -89,9 +133,10 @@
                 case "12":
                     month_thai = "ธันวาคม";
                     break;
-            }
+            }*/
 
-            document.getElementById("date").innerHTML = date.substring(0,2) + " " + month_thai + " " + date.substring(6,10);
+            document.getElementById("olddate").innerHTML = result[1][0].substring(0,2) + " " + monthtotext(result[1][0].substring(3,5));
+            document.getElementById("date").innerHTML = result[0][0].substring(0,2) + " " + monthtotext(result[0][0].substring(3,5));
 
             document.getElementById("today1").innerHTML = result[1][1];
             document.getElementById("today2").innerHTML = result[1][2];
@@ -110,7 +155,7 @@
             document.getElementById("tomor7").innerHTML = result[0][7];
             document.getElementById("tomor8").innerHTML = result[0][8];
             //if result[2][x] is 0, then diff is -, else diff is result[2][x]
-            if(result[2][1] == 0){
+            /*if(result[2][1] == 0){
                 document.getElementById("diff1").innerHTML = "-";
             }else{
                 //if result[2][x] > 0, then add + sign to diff , else no sign
@@ -246,6 +291,35 @@
                     document.getElementById("tomor8").style.left = document.getElementById("tomor8").style.left.replace("px", "") - 15 + "px";
                     //top position of tomor5 -5px
                     //document.getElementById("tomor8").style.top = document.getElementById("tomor8").style.top.replace("px", "") - 5 + "px";
+                }
+            }*/
+            var listresult = ["1","2","3","4","5","6","7","8"];
+            //loop result
+            for(var i = 0; i < listresult.length; i++){
+                if(result[2][i+1] == 0){
+                    document.getElementById("diff"+listresult[i]).innerHTML = "-";
+                }else{
+                    if(result[2][i+1] > 0){
+                        document.getElementById("diff"+listresult[i]).innerHTML = "+" + result[2][i+1];
+                        document.getElementById("diff"+listresult[i]).style.color = "red";
+                        document.getElementById("diff"+listresult[i]).style.fontWeight = "bold";
+                        document.getElementById("tomor"+listresult[i]).style.color = "red";
+                        document.getElementById("tomor"+listresult[i]).style.fontWeight = "bold";
+                        //left position of tomor5 +10px
+                        document.getElementById("tomor"+listresult[i]).style.left = (parseInt(document.getElementById("tomor"+listresult[i]).style.left.replace("px", "")) + 10) + "px";
+                        //top position of tomor5 +5px
+                        document.getElementById("tomor"+listresult[i]).style.top = (parseInt(document.getElementById("tomor"+listresult[i]).style.top.replace("px", "")) + 5) + "px";
+                    }else{
+                        document.getElementById("diff"+listresult[i]).innerHTML = result[2][i+1];
+                        document.getElementById("diff"+listresult[i]).style.color = "green";
+                        document.getElementById("diff"+listresult[i]).style.fontWeight = "bold";
+                        document.getElementById("tomor"+listresult[i]).style.color = "green";
+                        document.getElementById("tomor"+listresult[i]).style.fontWeight = "bold";
+                        //left position of tomor5 -10px
+                        document.getElementById("tomor"+listresult[i]).style.left = document.getElementById("tomor"+listresult[i]).style.left.replace("px", "") - 15 + "px";
+                        //top position of tomor5 -5px
+                        //document.getElementById("tomor8").style.top = document.getElementById("tomor8").style.top.replace("px", "") - 5 + "px";
+                    }
                 }
             }
         })
