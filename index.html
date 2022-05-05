@@ -94,6 +94,21 @@
             document.getElementById("olddate").innerHTML = result[1][0].substring(0,2) + " " + monthtotext(result[1][0].substring(3,5));
             document.getElementById("date").innerHTML = result[0][0].substring(0,2) + " " + monthtotext(result[0][0].substring(3,5));
 
+            let today = new Date();
+
+            if(result[1][0] == today.getDate().toString().padStart(2, '0') + '/' + (today.getMonth() + 1).toString().padStart(2, '0') + '/' + (today.getFullYear()+543)) {
+                document.getElementById("olddate").innerHTML = "วันนี้";
+                document.getElementById("date").innerHTML = "พรุ่งนี้";
+            }
+
+            if(result[0][0] == today.getDate().toString().padStart(2, '0') + '/' + (today.getMonth() + 1).toString().padStart(2, '0') + '/' + (today.getFullYear()+543)) {
+                document.getElementById("date").innerHTML = "วันนี้";
+                if(result[1][0] == (today.getDate()-1).toString().padStart(2, '0') + '/' + (today.getMonth() + 1).toString().padStart(2, '0') + '/' + (today.getFullYear()+543)) {
+                    document.getElementById("olddate").innerHTML = "เมื่อวาน";
+                }
+                
+            }
+
             document.getElementById("today1").innerHTML = result[1][1];
             document.getElementById("today2").innerHTML = result[1][2];
             document.getElementById("today3").innerHTML = result[1][3];
