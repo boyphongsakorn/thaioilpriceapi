@@ -25,8 +25,8 @@
     <p id="tomor2" style="font-size: 1.5cm;font-style: italic;position: absolute;left: 530px;top: 203px;"></p>
     <p id="tomor3" style="font-size: 1.5cm;font-style: italic;position: absolute;left: 530px;top: 278px;"></p>
     <p id="tomor4" style="font-size: 1.5cm;font-style: italic;position: absolute;left: 530px;top: 358px;"></p>
-    <p id="tomor5" style="font-size: 1.5cm;font-style: italic;position: absolute;left: 530px;top: 513px;"></p>
-    <p id="tomor6" style="font-size: 1.5cm;font-style: italic;position: absolute;left: 530px;top: 588px;"></p>
+    <p id="tomor5" style="font-size: 1.5cm;font-style: italic;position: absolute;left: 530px;top: 508px;"></p>
+    <p id="tomor6" style="font-size: 1.5cm;font-style: italic;position: absolute;left: 530px;top: 583px;"></p>
     <p id="tomor7" style="font-size: 1.5cm;font-style: italic;position: absolute;left: 530px;top: 663px;"></p>
     <p id="tomor8" style="font-size: 1.5cm;font-style: italic;position: absolute;left: 530px;top: 738px;"></p>
     <p id="diff1" style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 165px;text-align: center;width: 100px;">-</p>
@@ -306,7 +306,7 @@
                         document.getElementById("tomor"+listresult[i]).style.color = "red";
                         document.getElementById("tomor"+listresult[i]).style.fontWeight = "bold";
                         //left position of tomor5 +10px
-                        document.getElementById("tomor"+listresult[i]).style.left = (parseInt(document.getElementById("tomor"+listresult[i]).style.left.replace("px", "")) + 10) + "px";
+                        document.getElementById("tomor"+listresult[i]).style.left = (parseInt(document.getElementById("tomor"+listresult[i]).style.left.replace("px", "")) + 5) + "px";
                         //top position of tomor5 +5px
                         document.getElementById("tomor"+listresult[i]).style.top = (parseInt(document.getElementById("tomor"+listresult[i]).style.top.replace("px", "")) + 5) + "px";
                     }else{
@@ -316,7 +316,7 @@
                         document.getElementById("tomor"+listresult[i]).style.color = "green";
                         document.getElementById("tomor"+listresult[i]).style.fontWeight = "bold";
                         //left position of tomor5 -10px
-                        document.getElementById("tomor"+listresult[i]).style.left = document.getElementById("tomor"+listresult[i]).style.left.replace("px", "") - 15 + "px";
+                        //document.getElementById("tomor"+listresult[i]).style.left = document.getElementById("tomor"+listresult[i]).style.left.replace("px", "") - 15 + "px";
                         //top position of tomor5 -5px
                         //document.getElementById("tomor8").style.top = document.getElementById("tomor8").style.top.replace("px", "") - 5 + "px";
                     }
