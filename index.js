@@ -100,9 +100,28 @@ http.createServer(async function (req, res) {
             .then(body => {
                 const $ = cheerio.load(body);
 
+                let arr = $('update_date').text().split('/');
+
+                let year = parseInt(arr[2].substring(0, 4))-543;
+
+                let todaydate = new Date(arr[1] + '/' + arr[0] + '/' + year.toString());
+
+                console.log(arr);
+                console.log(todaydate);
+                //console.log(arr[0])
+                //console.log(arr[1])
+                //console.log(arr[2])
+
                 //push date/month/year to newdata[0]
                 let date = new Date();
-                newdata[0] = (date.getDate()+1).toString().padStart(2, '0') + '/' + (date.getMonth() + 1).toString().padStart(2, '0') + '/' + (date.getFullYear() + 543);
+
+                //if todaydate is yesterday
+                if (date.getDate()-1 == todaydate.getDate() && date.getMonth() == todaydate.getMonth() && date.getFullYear() == todaydate.getFullYear()) {
+                    console.log('yesterday');
+                    newdata[0] = (date.getDate()).toString().padStart(2, '0') + '/' + (date.getMonth() + 1).toString().padStart(2, '0') + '/' + (date.getFullYear() + 543);
+                }else{
+                    newdata[0] = (date.getDate()+1).toString().padStart(2, '0') + '/' + (date.getMonth() + 1).toString().padStart(2, '0') + '/' + (date.getFullYear() + 543);
+                }
 
                 newdata[1] = $('item').eq(0).find('tomorrow').text();
                 newdata[2] = $('item').eq(1).find('tomorrow').text();
