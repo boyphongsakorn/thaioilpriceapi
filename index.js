@@ -82,7 +82,7 @@ function sparray(wow) {
 
 http.createServer(async function (req, res) {
     if (req.url == '/image') {
-        await new Pageres({ format: 'png', delay: 2, filename: 'oilprice', launchOptions: { args: ['--no-sandbox', '--disable-setuid-sandbox', '--no-first-run', '--disable-extensions'] } })
+        await new Pageres({ format: 'png', delay: 3, filename: 'oilprice', launchOptions: { args: ['--no-sandbox', '--disable-setuid-sandbox', '--no-first-run', '--disable-extensions'] } })
             .src('https://boyphongsakorn.github.io/thaioilpriceapi/', ['1000x1000'])
             .dest(__dirname)
             .run();
