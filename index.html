@@ -109,6 +109,10 @@
                 
             }
 
+            if(result[0][0] ==  (today.getDate()+1).toString().padStart(2, '0') + '/' + (today.getMonth() + 1).toString().padStart(2, '0') + '/' + (today.getFullYear()+543)) {
+                document.getElementById("date").innerHTML = "พรุ่งนี้";
+            }
+
             document.getElementById("today1").innerHTML = result[1][1];
             document.getElementById("today2").innerHTML = result[1][2];
             document.getElementById("today3").innerHTML = result[1][3];
