@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap" rel="stylesheet">
 </head>
 <body style="background-image: url(oilbg.png);background-repeat: no-repeat;background-size: cover;font-family: 'Noto Sans Thai', sans-serif;">
-    <p style="font-size: 2cm;position: absolute;top: -62px;width: 100%;text-align: center;">ราคาน้ำมันวันนี้</p>
+    <p id="texttitle" style="font-size: 2cm;position: absolute;top: -62px;width: 100%;text-align: center;">ราคาน้ำมันวันนี้</p>
     <p id="olddate" style="font-size: 0.7cm;font-style: bold;position: absolute;left: 270px;top: 117px;color: white;width: 200px;text-align: center;background-color: #00abf0;"></p>
     <p id="date" style="font-size: 0.7cm;font-style: bold;position: absolute;left: 500px;top: 117px;color: white;width: 200px;text-align: center;"></p>
     <p id="today1" style="font-size: 1cm;font-style: italic;position: absolute;left: 322px;top: 160px;"></p>
@@ -111,6 +111,7 @@
 
             if(result[0][0] ==  (today.getDate()+1).toString().padStart(2, '0') + '/' + (today.getMonth() + 1).toString().padStart(2, '0') + '/' + (today.getFullYear()+543)) {
                 document.getElementById("date").innerHTML = "พรุ่งนี้";
+                document.getElementById("texttitle").innerText = "ราคาน้ำมันพรุ่งนี้";
             }
 
             document.getElementById("today1").innerHTML = result[1][1];
