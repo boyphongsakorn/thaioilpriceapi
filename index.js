@@ -16,16 +16,33 @@ async function getData() {
     const $ = cheerio.load(body);
 
     //console first tr inside tbody
-    const tr = $('tbody tr').first();
+    let tr = $('tbody tr').first();
     //console.log(tr.text());
 
     //console.log(sparray(tr.text()));
 
     //console second tr inside tbody
-    const tr2 = $('tbody tr').eq(1);
+    let tr2 = $('tbody tr').eq(1);
     //console.log(tr2.text());
 
     //console.log(sparray(tr2.text()));
+
+    //get count of difference sparray(tr.text()) and sparray(tr2.text())
+    let count = 0;
+    for (let i = 0; i < sparray(tr.text()).length; i++) {
+        if (sparray(tr.text())[i] != sparray(tr2.text())[i]) {
+            count++;
+        }
+    }
+    console.log("======")
+    console.log(count);
+    console.log("======")
+
+    //if count = 1, tr = tr2 and tr2 = $('tbody tr').eq(2)
+    if (count == 1) {
+        tr = tr2;
+        tr2 = $('tbody tr').eq(2);
+    }
 
     //add sparray tr and tr2 to array
     const arr = [sparray(tr.text()), sparray(tr2.text())];
