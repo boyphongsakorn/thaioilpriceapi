@@ -100,7 +100,7 @@ function sparray(wow) {
 http.createServer(async function (req, res) {
     if (req.url == '/image') {
         await new Pageres({ format: 'png', delay: 3, filename: 'oilprice', launchOptions: { args: ['--no-sandbox', '--disable-setuid-sandbox', '--no-first-run', '--disable-extensions'] } })
-            .src('https://boyphongsakorn.github.io/thaioilpriceapi/', ['1000x1000'], {crop: true})
+            .src('https://boyphongsakorn.github.io/thaioilpriceapi/', ['1000x1000'], { crop: true })
             .dest(__dirname)
             .run();
 
@@ -110,57 +110,73 @@ http.createServer(async function (req, res) {
         fs.createReadStream('oilprice.png').pipe(res);
     } else {
         let data = await getData();
-        let newdata = ["","","","","","","","","",""];
+        let newdata = ["", "", "", "", "", "", "", "", "", ""];
 
-        await fetch('https://crmmobile.bangchak.co.th/webservice/oil_price.aspx')
+        let tmrprice = await fetch('https://crmmobile.bangchak.co.th/webservice/oil_price.aspx')
+        let body = await tmrprice.text();
+        //if tmrprce is 4xx or 5xx
+        if (tmrprice.status >= 400 && tmrprice.status <= 599) {
+            //if have tmrprice.txt
+            if (fs.existsSync('tmrprice.txt')) {
+                //body = fs.readFileSync('tmrprice.txt', 'utf8');
+                body = fs.readFileSync('tmrprice.txt', 'utf8');
+            }else{
+                newdata[0] = "ไม่สามารถติดต่อกับระบบได้";
+            }
+        }else{
+            //write body to tmrprice.txt
+            fs.writeFileSync('tmrprice.txt', body);
+        }
+
+        /*await fetch('https://crmmobile.bangchak.co.th/webservice/oil_price.aspx')
             .then(res => res.text())
-            .then(body => {
-                const $ = cheerio.load(body);
+            .then(body => {*/
+        const $ = cheerio.load(body);
 
-                let arr = $('update_date').text().split('/');
+        let arr = $('update_date').text().split('/');
 
-                let year = parseInt(arr[2].substring(0, 4))-543;
+        let year = parseInt(arr[2].substring(0, 4)) - 543;
 
-                let todaydate = new Date(arr[1] + '/' + arr[0] + '/' + year.toString());
+        let todaydate = new Date(arr[1] + '/' + arr[0] + '/' + year.toString());
 
-                console.log(arr);
-                console.log(todaydate);
-                //console.log(arr[0])
-                //console.log(arr[1])
-                //console.log(arr[2])
+        console.log(arr);
+        console.log(todaydate);
+        //console.log(arr[0])
+        //console.log(arr[1])
+        //console.log(arr[2])
 
-                //push date/month/year to newdata[0]
-                let date = new Date();
+        //push date/month/year to newdata[0]
+        let date = new Date();
 
-                //if todaydate is yesterday
-                if (date.getDate()-1 == todaydate.getDate() && date.getMonth() == todaydate.getMonth() && date.getFullYear() == todaydate.getFullYear()) {
-                    console.log('yesterday');
-                    newdata[0] = (date.getDate()).toString().padStart(2, '0') + '/' + (date.getMonth() + 1).toString().padStart(2, '0') + '/' + (date.getFullYear() + 543);
-                }else{
-                    //tomorrowdate = date + 1 day
-                    let tomorrowdate = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
-                    newdata[0] = (tomorrowdate.getDate()).toString().padStart(2, '0') + '/' + (tomorrowdate.getMonth() + 1).toString().padStart(2, '0') + '/' + (tomorrowdate.getFullYear() + 543);
-                }
+        //if todaydate is yesterday
+        if (date.getDate() - 1 == todaydate.getDate() && date.getMonth() == todaydate.getMonth() && date.getFullYear() == todaydate.getFullYear()) {
+            console.log('yesterday');
+            newdata[0] = (date.getDate()).toString().padStart(2, '0') + '/' + (date.getMonth() + 1).toString().padStart(2, '0') + '/' + (date.getFullYear() + 543);
+        } else {
+            //tomorrowdate = date + 1 day
+            let tomorrowdate = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
+            newdata[0] = (tomorrowdate.getDate()).toString().padStart(2, '0') + '/' + (tomorrowdate.getMonth() + 1).toString().padStart(2, '0') + '/' + (tomorrowdate.getFullYear() + 543);
+        }
 
-                newdata[1] = $('item').eq(0).find('tomorrow').text();
-                newdata[2] = $('item').eq(1).find('tomorrow').text();
-                newdata[3] = $('item').eq(2).find('tomorrow').text();
-                newdata[4] = $('item').eq(3).find('tomorrow').text();
-                newdata[5] = $('item').eq(4).find('tomorrow').text();
-                newdata[6] = $('item').eq(5).find('tomorrow').text();
-                newdata[7] = $('item').eq(6).find('tomorrow').text();
-                newdata[8] = $('item').eq(7).find('tomorrow').text();
-                newdata[9] = '-';
-                
-                //log every item tag
+        newdata[1] = $('item').eq(0).find('tomorrow').text();
+        newdata[2] = $('item').eq(1).find('tomorrow').text();
+        newdata[3] = $('item').eq(2).find('tomorrow').text();
+        newdata[4] = $('item').eq(3).find('tomorrow').text();
+        newdata[5] = $('item').eq(4).find('tomorrow').text();
+        newdata[6] = $('item').eq(5).find('tomorrow').text();
+        newdata[7] = $('item').eq(6).find('tomorrow').text();
+        newdata[8] = $('item').eq(7).find('tomorrow').text();
+        newdata[9] = '-';
 
-                /*$('item').each(function(i, elem) {
-                    console.log($(this).find('type').text());
-                    console.log($(this).find('today').text());
-                    console.log($(this).find('tomorrow').text());
-                    console.log($(this).find('yesterday').text());
-                });*/
-            });
+        //log every item tag
+
+        /*$('item').each(function(i, elem) {
+            console.log($(this).find('type').text());
+            console.log($(this).find('today').text());
+            console.log($(this).find('tomorrow').text());
+            console.log($(this).find('yesterday').text());
+        });*/
+        //});
 
         console.log(newdata);
 
@@ -195,7 +211,7 @@ http.createServer(async function (req, res) {
             //remove last element of data[2]
             data[2].pop();
         }
-    
+
         //writehead json
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.write(JSON.stringify(data));
