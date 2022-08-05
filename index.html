@@ -81,13 +81,13 @@
             }
         }
 
-        //fetch from topapi.pwisetthon.com
+        //fetch from https://thaioilpriceapi-vercel.vercel.app if don't work redirect to https://topapi.pwisetthon.com
         var requestOptions = {
             method: 'GET',
             redirect: 'follow'
         };
 
-        fetch("https://thaioilpriceapi-vercel.vercel.app", requestOptions)
+        fetch("https://topapi.pwisetthon.com", requestOptions)
         .then(response => response.json())
         .then(result => {
 
