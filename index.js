@@ -3,7 +3,7 @@ const cheerio = require('cheerio');
 var http = require('http');
 var fs = require('fs');
 //const Pageres = require('pageres');
-const Pageres = (...args) => import('pageres').then(({ default: Pageres }) => Pageres(...args));
+const Pageres = (...args) => import('pageres').then(() => Pageres(...args));
 const { parse } = require('querystring');
 
 //if process.port is not empty , then set port to 8080
