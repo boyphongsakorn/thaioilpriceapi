@@ -2,8 +2,8 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
 const cheerio = require('cheerio');
 var http = require('http');
 var fs = require('fs');
-//const Pageres = require('pageres');
-const Pageres = (...args) => import('pageres');
+const Pageres = require('pageres');
+//const Pageres = (...args) => import('pageres');
 const { parse } = require('querystring');
 
 //if process.port is not empty , then set port to 8080
