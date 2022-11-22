@@ -271,7 +271,9 @@ http.createServer(async function (req, res) {
                     //console.log($fromnew(el).find('pubDate').text());
                     //convert from Mon, 21 Nov 2022 10:12:20 +0000 to date
                     //console.log(new Date($fromnew(el).find('pubDate').text()));
-                    if(new Date($fromnew(el).find('pubDate').text()) > new Date().setDate(new Date().getDate() - 1)){
+                    //if new Date($fromnew(el).find('pubDate').text()) same as today
+                    if(new Date($fromnew(el).find('pubDate').text()).getDate() == new Date().getDate() && new Date($fromnew(el).find('pubDate').text()).getMonth() == new Date().getMonth() && new Date($fromnew(el).find('pubDate').text()).getFullYear() == new Date().getFullYear()){
+                    //if(new Date($fromnew(el).find('pubDate').text()) == new Date()){
                         console.log('new');
                         const content = $fromnew(el).find('content\\:encoded').html();
                         //find ul tag in content
