@@ -258,6 +258,41 @@ http.createServer(async function (req, res) {
         if (count > 1) {
             data[1] = data[0];
             data[0] = newdata;
+
+            const fromnew = await fetch('https://www.prachachat.net/feed?tag=%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A1%E0%B8%B1%E0%B8%99');
+            const fromnewbody = await fromnew.text();
+            const $fromnew = cheerio.load(fromnewbody);
+            //arary item
+            const fromnewitem = $fromnew('item');
+            //console each title
+            fromnewitem.each((i, el) => {
+                if($fromnew(el).find('title').text().includes('พรุ่งนี้')){
+                    //console.log($fromnew(el).find('title').text());
+                    //console.log($fromnew(el).find('pubDate').text());
+                    //convert from Mon, 21 Nov 2022 10:12:20 +0000 to date
+                    //console.log(new Date($fromnew(el).find('pubDate').text()));
+                    if(new Date($fromnew(el).find('pubDate').text()) > new Date().setDate(new Date().getDate() - 1)){
+                        console.log('new');
+                        const content = $fromnew(el).find('content\\:encoded').html();
+                        //find ul tag in content
+                        const $content = cheerio.load(content);
+                        const ul = $content('ul');
+                        //console each li tag
+                        ul[0].children.forEach((li) => {
+                            if(li.name === 'li'){
+                                //console.log(li.children[0].data);
+                                if(li.children[0].data.includes('ULG')){
+                                    //console.log(li.children[0].data);
+                                    let ulg = li.children[0].data.replace('ULG', '').replace('=','').replace('บาท','').trim();
+                                    data[0][9] = ulg;
+                                }
+                            }
+                        });
+                        //console first ul
+                    }
+                }
+            })
+
             //subtract data[1] from data[0] and set to data[2]
             data[2] = data[0].map((e, i) => e - data[1][i]);
             //format number to 2 decimal
