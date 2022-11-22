@@ -2,7 +2,7 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
 const cheerio = require('cheerio');
 var http = require('http');
 var fs = require('fs');
-const Pageres = require('pageres');
+//const Pageres = require('pageres');
 //const Pageres = (...args) => import('pageres');
 const { parse } = require('querystring');
 
@@ -51,15 +51,53 @@ async function getData() {
     //console.log(arr[0][0]);
     //console.log(arr[1][0]);
 
-    //subtract arr[1] from arr[0]
-    const arr2 = arr[0].map((e, i) => e - arr[1][i]);
-    //console.log(arr2);
-
     //get 2 string
     var date1 = new Date(arr[0][0].substr(3, 2) + '/' + arr[0][0].substr(0, 2) + '/' + (parseInt(arr[0][0].substr(6, 4)) - 543));
     var date2 = new Date(arr[1][0].substr(3, 2) + '/' + arr[1][0].substr(0, 2) + '/' + (parseInt(arr[1][0].substr(6, 4)) - 543));
     console.log(date1);
     console.log(date2);
+
+    const pttprice = await fetch("https://orapiweb1.pttor.com/api/oilprice/search", {
+        "headers": {
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "th-TH,th;q=0.9,en;q=0.8",
+            "content-type": "application/json",
+            "sec-ch-ua": "\"Google Chrome\";v=\"107\", \"Chromium\";v=\"107\", \"Not=A?Brand\";v=\"24\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"macOS\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-site",
+            "Referer": "https://www.pttor.com/",
+            "Referrer-Policy": "strict-origin-when-cross-origin"
+        },
+        "body": "{\"provinceId\":1,\"districtId\":null,\"year\":"+date1.getFullYear()+",\"month\":"+(date1.getMonth()+1)+",\"pageSize\":1000000,\"pageIndex\":0}",
+        "method": "POST"
+    });
+    const pttbody = await pttprice.json();
+
+    //console.log(pttbody);
+
+    const pttarr = JSON.parse(pttbody.data[0].priceData);
+    const yesterday = JSON.parse(pttbody.data[1].priceData);
+
+    pttarr.forEach(e => {
+        if (e.OilTypeId == 7) {
+            arr[0][10] = arr[0][9]
+            arr[0][9] = '' + e.Price
+        }
+    });
+
+    yesterday.forEach(e => {
+        if (e.OilTypeId == 7) {
+            arr[1][10] = arr[1][9]
+            arr[1][9] = '' + e.Price
+        }
+    });
+
+    //subtract arr[1] from arr[0]
+    const arr2 = arr[0].map((e, i) => e - arr[1][i]);
+    //console.log(arr2);
 
     var difftime = Math.abs(date2.getTime() - date1.getTime());
     var diffdays = Math.ceil(difftime / (1000 * 3600 * 24));
@@ -76,8 +114,33 @@ async function getData() {
     //add วัน to arr4[0]
     arr4[0] = parseInt(arr4[0]) + ' วัน';
 
+    let now = sparray(tr.text());
+    let old = sparray(tr2.text());
+
+    pttarr.forEach(e => {
+        if (e.OilTypeId == 7) {
+            now[10] = now[9]
+            now[9] = '' + e.Price
+        }
+    });
+
+    yesterday.forEach(e => {
+        if (e.OilTypeId == 7) {
+            old[10] = old[9]
+            old[9] = '' + e.Price
+        }
+    });
+
+    //console.log(pttarr);
+
+    console.log(now);
+    console.log(old);
+
+    //const pttprice = await fetch('https://www.pttor.com/th/oil_price');
+    //const pttbody = await pttprice.text();
+
     //console.log(arr4);
-    return [sparray(tr.text()), sparray(tr2.text()), arr4];
+    return [now, old, arr4];
 }
 
 function sparray(wow) {
@@ -100,7 +163,7 @@ function sparray(wow) {
 
 http.createServer(async function (req, res) {
     if (req.url == '/image') {
-        await new Pageres({ format: 'png', delay: 3, filename: 'oilprice', launchOptions: { args: ['--no-sandbox', '--disable-setuid-sandbox', '--no-first-run', '--disable-extensions'] } })
+        /*await new Pageres({ format: 'png', delay: 3, filename: 'oilprice', launchOptions: { args: ['--no-sandbox', '--disable-setuid-sandbox', '--no-first-run', '--disable-extensions'] } })
             .src('https://boyphongsakorn.github.io/thaioilpriceapi/', ['1000x1000'], { crop: true })
             .dest(__dirname)
             .run();
@@ -108,9 +171,10 @@ http.createServer(async function (req, res) {
         console.log('Finished generating screenshots!');
 
         res.writeHead(200, { 'content-type': 'image/png' });
-        fs.createReadStream('oilprice.png').pipe(res);
+        fs.createReadStream('oilprice.png').pipe(res);*/
     } else {
         let data = await getData();
+        console.log('data', data);
         let newdata = ["", "", "", "", "", "", "", "", "", ""];
 
         let tmrprice = await fetch('https://crmmobile.bangchak.co.th/webservice/oil_price.aspx')
