@@ -2,7 +2,7 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
 const cheerio = require('cheerio');
 var http = require('http');
 var fs = require('fs');
-//const Pageres = require('pageres');
+const Pageres = require('pageres');
 //const Pageres = (...args) => import('pageres');
 const { parse } = require('querystring');
 
@@ -163,7 +163,7 @@ function sparray(wow) {
 
 http.createServer(async function (req, res) {
     if (req.url == '/image') {
-        /*await new Pageres({ format: 'png', delay: 3, filename: 'oilprice', launchOptions: { args: ['--no-sandbox', '--disable-setuid-sandbox', '--no-first-run', '--disable-extensions'] } })
+        await new Pageres({ format: 'png', delay: 3, filename: 'oilprice', launchOptions: { args: ['--no-sandbox', '--disable-setuid-sandbox', '--no-first-run', '--disable-extensions'] } })
             .src('https://boyphongsakorn.github.io/thaioilpriceapi/', ['1000x1000'], { crop: true })
             .dest(__dirname)
             .run();
@@ -171,7 +171,7 @@ http.createServer(async function (req, res) {
         console.log('Finished generating screenshots!');
 
         res.writeHead(200, { 'content-type': 'image/png' });
-        fs.createReadStream('oilprice.png').pipe(res);*/
+        fs.createReadStream('oilprice.png').pipe(res);
     } else {
         let data = await getData();
         console.log('data', data);
