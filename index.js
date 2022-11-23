@@ -319,7 +319,7 @@ http.createServer(async function (req, res) {
         }
 
         if(info === 'true'){
-            data = {
+            data = [{
                 'info': {
                     'lastupdate': date[0][0],
                     'beforeupdate': date[1][0],
@@ -370,7 +370,8 @@ http.createServer(async function (req, res) {
                     'before': data[1][9],
                     'change': data[2][9]
                 }
-            }
+            }]
+
         }
 
         //writehead json
