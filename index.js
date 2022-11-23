@@ -176,7 +176,7 @@ http.createServer(async function (req, res) {
         //get parameter from url
         //const url = new URL(req.url, );
         //const info = url.searchParams.get('info');
-        const info = parse(req.url.replace('/?','')).info;
+        const info = parse('info=true').info;
         let data = await getData();
         console.log('data', data);
         let newdata = ["", "", "", "", "", "", "", "", "", ""];
