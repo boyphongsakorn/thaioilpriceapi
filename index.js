@@ -2,9 +2,9 @@ const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fet
 const cheerio = require('cheerio');
 var http = require('http');
 var fs = require('fs');
-const Pageres = require('pageres');
+//const Pageres = require('pageres');
 //const Pageres = (...args) => import('pageres');
-const querystring = require('querystring');
+//const querystring = require('querystring');
 
 //if process.port is not empty , then set port to 8080
 const port = process.env.PORT || 8080;
@@ -163,7 +163,7 @@ function sparray(wow) {
 
 http.createServer(async function (req, res) {
     if (req.url == '/image') {
-        await new Pageres({ format: 'png', delay: 3, filename: 'oilprice', launchOptions: { args: ['--no-sandbox', '--disable-setuid-sandbox', '--no-first-run', '--disable-extensions'] } })
+        /*await new Pageres({ format: 'png', delay: 3, filename: 'oilprice', launchOptions: { args: ['--no-sandbox', '--disable-setuid-sandbox', '--no-first-run', '--disable-extensions'] } })
             .src('https://boyphongsakorn.github.io/thaioilpriceapi/', ['1000x1000'], { crop: true })
             .dest(__dirname)
             .run();
@@ -171,7 +171,7 @@ http.createServer(async function (req, res) {
         console.log('Finished generating screenshots!');
 
         res.writeHead(200, { 'content-type': 'image/png' });
-        fs.createReadStream('oilprice.png').pipe(res);
+        fs.createReadStream('oilprice.png').pipe(res);*/
     } else {
         //get parameter from url
         const url = new URL(req.url, 'http://localhost:8080');
@@ -318,13 +318,13 @@ http.createServer(async function (req, res) {
             data[2].pop();
         }
 
-        let newway = {};
+        let newway;
 
         if(info === 'true'){
             newway = {
                 'info': {
-                    'lastupdate': date[0][0],
-                    'beforeupdate': date[1][0],
+                    'lastupdate': data[0][0],
+                    'beforeupdate': data[1][0],
                     'diffdays': data[2][0]
                 },
                 'Premium Diesel B7': {
@@ -378,7 +378,7 @@ http.createServer(async function (req, res) {
         //writehead json
         res.writeHead(200, { 'Content-Type': 'application/json' });
         if(info === 'true'){
-            res.write(JSON.stringify([newway]));
+            res.write(JSON.stringify(newway));
         }else{
             res.write(JSON.stringify(data));
         }
