@@ -323,7 +323,7 @@ http.createServer(async function (req, res) {
                 'info': {
                     'lastupdate': date[0][0],
                     'beforeupdate': date[1][0],
-                    'diffdays': data[2][0],
+                    'diffdays': data[2][0]
                 },
                 'Premium Diesel B7': {
                     'latest': data[0][1],
@@ -369,7 +369,7 @@ http.createServer(async function (req, res) {
                     'latest': data[0][9],
                     'before': data[1][9],
                     'change': data[2][9]
-                },
+                }
             }
         }
 
