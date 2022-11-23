@@ -174,9 +174,9 @@ http.createServer(async function (req, res) {
         fs.createReadStream('oilprice.png').pipe(res);
     } else {
         //get parameter from url
-        const url = new URL(req.url, 'http://localhost:8080');
+        //const url = new URL(req.url, );
         //const info = url.searchParams.get('info');
-        const info = parse(url, true).query.info;
+        const info = parse('http://localhost:8080'+req.url, true).query.info;
         let data = await getData();
         console.log('data', data);
         let newdata = ["", "", "", "", "", "", "", "", "", ""];
