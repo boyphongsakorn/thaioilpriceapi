@@ -71,7 +71,7 @@ async function getData() {
             "Referer": "https://www.pttor.com/",
             "Referrer-Policy": "strict-origin-when-cross-origin"
         },
-        "body": "{\"provinceId\":1,\"districtId\":null,\"year\":"+date1.getFullYear()+",\"month\":"+(date1.getMonth()+1)+",\"pageSize\":1000000,\"pageIndex\":0}",
+        "body": "{\"provinceId\":1,\"districtId\":null,\"year\":" + date1.getFullYear() + ",\"month\":" + (date1.getMonth() + 1) + ",\"pageSize\":1000000,\"pageIndex\":0}",
         "method": "POST"
     });
     const pttbody = await pttprice.json();
@@ -185,10 +185,10 @@ http.createServer(async function (req, res) {
             if (fs.existsSync('/tmp/tmrprice.txt')) {
                 //body = fs.readFileSync('tmrprice.txt', 'utf8');
                 body = fs.readFileSync('/tmp/tmrprice.txt', 'utf8');
-            }else{
+            } else {
                 newdata[0] = "ไม่สามารถติดต่อกับระบบได้";
             }
-        }else{
+        } else {
             //write body to tmrprice.txt
             fs.writeFileSync('/tmp/tmrprice.txt', body);
         }
@@ -231,7 +231,44 @@ http.createServer(async function (req, res) {
         newdata[6] = $('item').eq(5).find('tomorrow').text();
         newdata[7] = $('item').eq(6).find('tomorrow').text();
         newdata[8] = $('item').eq(7).find('tomorrow').text();
-        newdata[9] = '-';
+        newdata[10] = '-';
+
+        const fromnew = await fetch('https://www.prachachat.net/feed?tag=%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A1%E0%B8%B1%E0%B8%99');
+        const fromnewbody = await fromnew.text();
+        const $fromnew = cheerio.load(fromnewbody);
+        //arary item
+        const fromnewitem = $fromnew('item');
+        //console each title
+        fromnewitem.each((i, el) => {
+            if ($fromnew(el).find('title').text().includes('พรุ่งนี้')) {
+                //console.log($fromnew(el).find('title').text());
+                //console.log($fromnew(el).find('pubDate').text());
+                //convert from Mon, 21 Nov 2022 10:12:20 +0000 to date
+                //console.log(new Date($fromnew(el).find('pubDate').text()));
+                //if new Date($fromnew(el).find('pubDate').text()) same as today
+                if (new Date($fromnew(el).find('pubDate').text()).getDate() == new Date().getDate() && new Date($fromnew(el).find('pubDate').text()).getMonth() == new Date().getMonth() && new Date($fromnew(el).find('pubDate').text()).getFullYear() == new Date().getFullYear()) {
+                    //if(new Date($fromnew(el).find('pubDate').text()) == new Date()){
+                    console.log('new');
+                    const content = $fromnew(el).find('content\\:encoded').html();
+                    //find ul tag in content
+                    const $content = cheerio.load(content);
+                    const ul = $content('ul');
+                    //console each li tag
+                    ul[0].children.forEach((li) => {
+                        if (li.name === 'li') {
+                            //console.log(li.children[0].data);
+                            if (li.children[0].data.includes('ULG')) {
+                                //console.log(li.children[0].data);
+                                let ulg = li.children[0].data.replace('ULG', '').replace('=', '').replace('บาท', '').trim();
+                                //data[0][9] = ulg;
+                                newdata[9] = ulg;
+                            }
+                        }
+                    });
+                    //console first ul
+                }
+            }
+        })
 
         //log every item tag
 
@@ -258,42 +295,6 @@ http.createServer(async function (req, res) {
         if (count > 1) {
             data[1] = data[0];
             data[0] = newdata;
-
-            const fromnew = await fetch('https://www.prachachat.net/feed?tag=%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A1%E0%B8%B1%E0%B8%99');
-            const fromnewbody = await fromnew.text();
-            const $fromnew = cheerio.load(fromnewbody);
-            //arary item
-            const fromnewitem = $fromnew('item');
-            //console each title
-            fromnewitem.each((i, el) => {
-                if($fromnew(el).find('title').text().includes('พรุ่งนี้')){
-                    //console.log($fromnew(el).find('title').text());
-                    //console.log($fromnew(el).find('pubDate').text());
-                    //convert from Mon, 21 Nov 2022 10:12:20 +0000 to date
-                    //console.log(new Date($fromnew(el).find('pubDate').text()));
-                    //if new Date($fromnew(el).find('pubDate').text()) same as today
-                    if(new Date($fromnew(el).find('pubDate').text()).getDate() == new Date().getDate() && new Date($fromnew(el).find('pubDate').text()).getMonth() == new Date().getMonth() && new Date($fromnew(el).find('pubDate').text()).getFullYear() == new Date().getFullYear()){
-                    //if(new Date($fromnew(el).find('pubDate').text()) == new Date()){
-                        console.log('new');
-                        const content = $fromnew(el).find('content\\:encoded').html();
-                        //find ul tag in content
-                        const $content = cheerio.load(content);
-                        const ul = $content('ul');
-                        //console each li tag
-                        ul[0].children.forEach((li) => {
-                            if(li.name === 'li'){
-                                //console.log(li.children[0].data);
-                                if(li.children[0].data.includes('ULG')){
-                                    //console.log(li.children[0].data);
-                                    let ulg = li.children[0].data.replace('ULG', '').replace('=','').replace('บาท','').trim();
-                                    data[0][9] = ulg;
-                                }
-                            }
-                        });
-                        //console first ul
-                    }
-                }
-            })
 
             //subtract data[1] from data[0] and set to data[2]
             data[2] = data[0].map((e, i) => e - data[1][i]);
