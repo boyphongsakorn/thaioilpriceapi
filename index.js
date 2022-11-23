@@ -4,7 +4,7 @@ var http = require('http');
 var fs = require('fs');
 const Pageres = require('pageres');
 //const Pageres = (...args) => import('pageres');
-const { parse } = require('querystring');
+const querystring = require('querystring');
 
 //if process.port is not empty , then set port to 8080
 const port = process.env.PORT || 8080;
@@ -174,9 +174,9 @@ http.createServer(async function (req, res) {
         fs.createReadStream('oilprice.png').pipe(res);
     } else {
         //get parameter from url
-        //const url = new URL(req.url, );
-        //const info = url.searchParams.get('info');
-        const info = parse('info=true').info;
+        const url = new URL(req.url, 'http://localhost:8080');
+        const info = url.searchParams.get('info');
+        console.log(info);
         let data = await getData();
         console.log('data', data);
         let newdata = ["", "", "", "", "", "", "", "", "", ""];
