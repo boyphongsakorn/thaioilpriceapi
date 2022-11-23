@@ -173,6 +173,9 @@ http.createServer(async function (req, res) {
         res.writeHead(200, { 'content-type': 'image/png' });
         fs.createReadStream('oilprice.png').pipe(res);
     } else {
+        //get parameter from url
+        const url = req.url;
+        const info = url.searchParams.get('info');
         let data = await getData();
         console.log('data', data);
         let newdata = ["", "", "", "", "", "", "", "", "", ""];
@@ -312,6 +315,61 @@ http.createServer(async function (req, res) {
 
             //remove last element of data[2]
             data[2].pop();
+        }
+
+        if(info === 'true'){
+            data = {
+                'info': {
+                    'lastupdate': date[0][0],
+                    'beforeupdate': date[1][0],
+                    'diffdays': data[2][0],
+                },
+                'Premium Diesel B7': {
+                    'latest': data[0][1],
+                    'before': data[1][1],
+                    'change': data[2][1]
+                },
+                'Diesel B10': {
+                    'latest': data[0][2],
+                    'before': data[1][2],
+                    'change': data[2][2]
+                },
+                'Normal Diesel': {
+                    'latest': data[0][3],
+                    'before': data[1][3],
+                    'change': data[2][3]
+                },
+                'Diesel B20': {
+                    'latest': data[0][4],
+                    'before': data[1][4],
+                    'change': data[2][4]
+                },
+                'Gasohol E85': {
+                    'latest': data[0][5],
+                    'before': data[1][5],
+                    'change': data[2][5]
+                },
+                'Gasohol E20': {
+                    'latest': data[0][6],
+                    'before': data[1][6],
+                    'change': data[2][6]
+                },
+                'Gasohol 91': {
+                    'latest': data[0][7],
+                    'before': data[1][7],
+                    'change': data[2][7]
+                },
+                'Gasohol 95': {
+                    'latest': data[0][8],
+                    'before': data[1][8],
+                    'change': data[2][8]
+                },
+                'ULG': {
+                    'latest': data[0][9],
+                    'before': data[1][9],
+                    'change': data[2][9]
+                },
+            }
         }
 
         //writehead json
