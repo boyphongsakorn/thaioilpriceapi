@@ -318,8 +318,10 @@ http.createServer(async function (req, res) {
             data[2].pop();
         }
 
+        let newway = {};
+
         if(info === 'true'){
-            data = [{
+            newway = {
                 'info': {
                     'lastupdate': date[0][0],
                     'beforeupdate': date[1][0],
@@ -370,13 +372,16 @@ http.createServer(async function (req, res) {
                     'before': data[1][9],
                     'change': data[2][9]
                 }
-            }]
-
+            }
         }
 
         //writehead json
         res.writeHead(200, { 'Content-Type': 'application/json' });
-        res.write(JSON.stringify(data));
+        if(info === 'true'){
+            res.end(JSON.stringify(newway));
+        }else{
+            res.write(JSON.stringify(data));
+        }
         res.end();
     }
 }).listen(port);
