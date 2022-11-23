@@ -376,11 +376,7 @@ http.createServer(async function (req, res) {
 
         //writehead json
         res.writeHead(200, { 'Content-Type': 'application/json' });
-        if(info === 'true'){
-            res.write(data);
-        }else{
-            res.write(JSON.stringify(data));
-        }
+        res.write(JSON.stringify(data));
         res.end();
     }
 }).listen(port);
