@@ -269,6 +269,7 @@ http.createServer(async function (req, res) {
         if (count > 2) {
             data[1] = data[0];
             data[0] = newdata;
+            let comefromnew = false;
 
             const fromnew = await fetch('https://www.prachachat.net/feed?tag=%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A1%E0%B8%B1%E0%B8%99');
             const fromnewbody = await fromnew.text();
@@ -297,7 +298,9 @@ http.createServer(async function (req, res) {
                                 if(li.children[0].data.includes('ULG')){
                                     //console.log(li.children[0].data);
                                     let ulg = li.children[0].data.replace('ULG', '').replace('=','').replace('บาท','').trim();
+                                    data[0][10] = data[0][9];
                                     data[0][9] = ulg;
+                                    comefromnew = true;
                                 }
                             }
                         });
@@ -306,10 +309,19 @@ http.createServer(async function (req, res) {
                 }
             })
 
+            if(comefromnew === false){
+                data[0][10] = data[0][9];
+                data[0][9] = parseInt(data[1][9]) + parseInt(data[2][8]);
+            }
+
             //subtract data[1] from data[0] and set to data[2]
             data[2] = data[0].map((e, i) => e - data[1][i]);
             //format number to 2 decimal
             data[2] = data[2].map(e => e.toFixed(2));
+
+            if(comefromnew === false){
+                data[0][9] = '~' + data[0][9];
+            }
 
             var date1 = new Date(data[0][0].substr(3, 2) + '/' + data[0][0].substr(0, 2) + '/' + (parseInt(data[0][0].substr(6, 4)) - 543));
             var date2 = new Date(data[1][0].substr(3, 2) + '/' + data[1][0].substr(0, 2) + '/' + (parseInt(data[1][0].substr(6, 4)) - 543));
