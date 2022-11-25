@@ -163,7 +163,7 @@ function sparray(wow) {
 
 http.createServer(async function (req, res) {
     if (req.url == '/image') {
-        await new Pageres({ format: 'png', delay: 3, filename: 'oilprice', launchOptions: { args: ['--no-sandbox', '--disable-setuid-sandbox', '--no-first-run', '--disable-extensions'] } })
+        /*await new Pageres({ format: 'png', delay: 3, filename: 'oilprice', launchOptions: { args: ['--no-sandbox', '--disable-setuid-sandbox', '--no-first-run', '--disable-extensions'] } })
             .src('https://boyphongsakorn.github.io/thaioilpriceapi/', ['1000x1000'], { crop: true })
             .dest(__dirname)
             .run();
@@ -171,7 +171,14 @@ http.createServer(async function (req, res) {
         console.log('Finished generating screenshots!');
 
         res.writeHead(200, { 'content-type': 'image/png' });
-        fs.createReadStream('oilprice.png').pipe(res);
+        fs.createReadStream('oilprice.png').pipe(res);*/
+
+        const screenshot = await fetch('https://screenshot-xi.vercel.app/api?url=https://boyphongsakorn.github.io/thaioilpriceapi&width=1000&height=1000')
+        const screenshotbody = await screenshot.buffer();
+
+        res.writeHead(200, { 'content-type': 'image/png' });
+        res.end(screenshotbody);
+
     } else {
         //get parameter from url
         const url = new URL(req.url, 'http://localhost:8080');
