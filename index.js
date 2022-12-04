@@ -79,7 +79,33 @@ async function getData() {
     //console.log(pttbody);
 
     const pttarr = JSON.parse(pttbody.data[0].priceData);
-    const yesterday = JSON.parse(pttbody.data[1].priceData);
+    let yesterday
+    
+    if(pttbody.data.length == 1){
+        const backuppttprice = await fetch("https://orapiweb1.pttor.com/api/oilprice/search", {
+            "headers": {
+                "accept": "application/json, text/plain, */*",
+                "accept-language": "th-TH,th;q=0.9,en;q=0.8",
+                "content-type": "application/json",
+                "sec-ch-ua": "\"Google Chrome\";v=\"107\", \"Chromium\";v=\"107\", \"Not=A?Brand\";v=\"24\"",
+                "sec-ch-ua-mobile": "?0",
+                "sec-ch-ua-platform": "\"macOS\"",
+                "sec-fetch-dest": "empty",
+                "sec-fetch-mode": "cors",
+                "sec-fetch-site": "same-site",
+                "Referer": "https://www.pttor.com/",
+                "Referrer-Policy": "strict-origin-when-cross-origin"
+            },
+            "body": "{\"provinceId\":1,\"districtId\":null,\"year\":"+date1.getFullYear()+",\"month\":"+date1.getMonth()+",\"pageSize\":1000000,\"pageIndex\":0}",
+            "method": "POST"
+        });
+        const backuppttbody = await backuppttprice.json();
+        yesterday = JSON.parse(backuppttbody.data[0].priceData);
+    }else{
+        yesterday = JSON.parse(pttbody.data[1].priceData);
+    }
+
+    //const yesterday = JSON.parse(pttbody.data[1].priceData);
 
     pttarr.forEach(e => {
         if (e.OilTypeId == 7) {
