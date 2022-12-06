@@ -337,7 +337,7 @@ http.createServer(async function (req, res) {
 
             if(comefromnew === false){
                 data[0][10] = data[0][9];
-                data[0][9] = parseFloat(data[1][9]).toFixed(2) + parseFloat(data[2][8]).toFixed(2);
+                data[0][9] = parseFloat(data[1][9]) + parseFloat(data[2][8]);
             }
 
             //subtract data[1] from data[0] and set to data[2]
