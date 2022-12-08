@@ -6,6 +6,9 @@ var fs = require('fs');
 //const Pageres = (...args) => import('pageres');
 //const querystring = require('querystring');
 
+//set time zone
+process.env.TZ = 'Asia/Bangkok';
+
 //if process.port is not empty , then set port to 8080
 const port = process.env.PORT || 8080;
 
