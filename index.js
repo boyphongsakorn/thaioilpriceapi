@@ -317,20 +317,39 @@ http.createServer(async function (req, res) {
                         //find ul tag in content
                         const $content = cheerio.load(content);
                         const ul = $content('ul');
-                        //console each li tag
-                        ul[0].children.forEach((li) => {
-                            if(li.name === 'li'){
-                                //console.log(li.children[0].data);
-                                if(li.children[0].data.includes('ULG')){
+                        //count ul
+                        if(ul.length > 1){
+                            //console each li tag
+                            ul[0].children.forEach((li) => {
+                                if(li.name === 'li'){
                                     //console.log(li.children[0].data);
-                                    let ulg = li.children[0].data.replace('ULG', '').replace('=','').replace('บาท','').trim();
+                                    if(li.children[0].data.includes('ULG')){
+                                        console.log('ul')
+                                        //console.log(li.children[0].data);
+                                        let ulg = li.children[0].data.replace('ULG', '').replace('=','').replace('บาท','').trim();
+                                        data[0][10] = data[0][9];
+                                        data[0][9] = ulg;
+                                        comefromnew = true;
+                                    }
+                                }
+                            });
+                        }
+                        //find p tag in content
+                        const p = $content('p').toArray();
+                        //count p
+                        if(p.length > 1){
+                            //loop console each p tag
+                            p.forEach((p) => {
+                                if($content(p).text().includes('ULG')){
+                                    console.log('p')
+                                    //console.log($content(p).text());
+                                    let ptext = $content(p).text().replace('ULG', '').replace('=','').replace('บาท','').replace(',','').trim();
                                     data[0][10] = data[0][9];
-                                    data[0][9] = ulg;
+                                    data[0][9] = ptext;
                                     comefromnew = true;
                                 }
-                            }
-                        });
-                        //console first ul
+                            });
+                        }
                     }
                 }
             })
