@@ -217,89 +217,25 @@ http.createServer(async function (req, res) {
         console.log('data', data);
         let newdata = ["", "", "", "", "", "", "", "", "", ""];
 
-        let tmrprice = await fetch('https://crmmobile.bangchak.co.th/webservice/oil_price.aspx')
-        let body = await tmrprice.text();
-        //if tmrprce is 4xx or 5xx
-        if (tmrprice.status >= 400 && tmrprice.status <= 599) {
-            //if have tmrprice.txt
-            if (fs.existsSync('/tmp/tmrprice.txt')) {
-                //body = fs.readFileSync('tmrprice.txt', 'utf8');
-                body = fs.readFileSync('/tmp/tmrprice.txt', 'utf8');
-            }else{
-                newdata[0] = "ไม่สามารถติดต่อกับระบบได้";
-            }
-        }else{
-            //write body to tmrprice.txt
-            fs.writeFileSync('/tmp/tmrprice.txt', body);
-        }
+        //start timer
+        //let start = new Date().getTime();
+        let end;
 
-        /*await fetch('https://crmmobile.bangchak.co.th/webservice/oil_price.aspx')
+        fetch('https://crmmobile.bangchak.co.th/webservice/oil_price.aspx')
             .then(res => res.text())
-            .then(body => {*/
-        const $ = cheerio.load(body);
+            .then(body => {
+                end = new Date().getTime();
+                console.log('finish');
+            })
+            .catch(err => {
+                end = new Date().getTime();
+                console.log('finish');
+            });
 
-        let arr = $('update_date').text().split('/');
-
-        let year = parseInt(arr[2].substring(0, 4)) - 543;
-
-        let todaydate = new Date(arr[1] + '/' + arr[0] + '/' + year.toString());
-
-        console.log(arr);
-        console.log(todaydate);
-        //console.log(arr[0])
-        //console.log(arr[1])
-        //console.log(arr[2])
-
-        //push date/month/year to newdata[0]
-        let date = new Date();
-
-        //if todaydate is yesterday
-        if (date.getDate() - 1 == todaydate.getDate() && date.getMonth() == todaydate.getMonth() && date.getFullYear() == todaydate.getFullYear()) {
-            console.log('yesterday');
-            newdata[0] = (date.getDate()).toString().padStart(2, '0') + '/' + (date.getMonth() + 1).toString().padStart(2, '0') + '/' + (date.getFullYear() + 543);
-        } else {
-            //tomorrowdate = date + 1 day
-            let tomorrowdate = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
-            newdata[0] = (tomorrowdate.getDate()).toString().padStart(2, '0') + '/' + (tomorrowdate.getMonth() + 1).toString().padStart(2, '0') + '/' + (tomorrowdate.getFullYear() + 543);
-        }
-
-        newdata[1] = $('item').eq(0).find('tomorrow').text();
-        newdata[2] = $('item').eq(1).find('tomorrow').text();
-        newdata[3] = $('item').eq(2).find('tomorrow').text();
-        newdata[4] = $('item').eq(3).find('tomorrow').text();
-        newdata[5] = $('item').eq(4).find('tomorrow').text();
-        newdata[6] = $('item').eq(5).find('tomorrow').text();
-        newdata[7] = $('item').eq(6).find('tomorrow').text();
-        newdata[8] = $('item').eq(7).find('tomorrow').text();
-        newdata[9] = '-';
-
-        //log every item tag
-
-        /*$('item').each(function(i, elem) {
-            console.log($(this).find('type').text());
-            console.log($(this).find('today').text());
-            console.log($(this).find('tomorrow').text());
-            console.log($(this).find('yesterday').text());
-        });*/
-        //});
-
-        console.log(newdata);
-
-        //get count of difference between newdata and data[0]
-        let count = 0;
-        for (let i = 0; i < newdata.length; i++) {
-            if (newdata[i] !== data[0][i]) {
-                count++;
-            }
-        }
-        console.log(count);
-
-        //if count > 1, then set data[1] = data[0] and set data[0] = newdata
-        if (count > 2) {
-            data[1] = data[0];
-            data[0] = newdata;
-            let comefromnew = false;
-
+        await new Promise(resolve => setTimeout(resolve, 500));
+        //if end is not set it mean fetch is not finish
+        if (!end) {
+            console.log('finish but not');
             const fromnew = await fetch('https://www.prachachat.net/feed?tag=%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A1%E0%B8%B1%E0%B8%99');
             const fromnewbody = await fromnew.text();
             const $fromnew = cheerio.load(fromnewbody);
@@ -330,9 +266,55 @@ http.createServer(async function (req, res) {
                                         console.log('ul')
                                         //console.log(li.children[0].data);
                                         let ulg = li.children[0].data.replace('ULG', '').replace('=','').replace('บาท','').trim();
-                                        data[0][10] = data[0][9];
-                                        data[0][9] = ulg;
-                                        comefromnew = true;
+                                        newdata[9] = ulg;
+                                    }
+                                    if(li.children[0].data.includes('GSH95') && newdata[8] == ""){
+                                        console.log('ul')
+                                        //console.log(li.children[0].data);
+                                        let gsh95 = li.children[0].data.replace('GSH95', '').replace('=','').replace('บาท','').trim();
+                                        newdata[8] = gsh95;
+                                    }
+                                    if(li.children[0].data.includes('E20')){
+                                        console.log('ul')
+                                        //console.log(li.children[0].data);
+                                        let e20 = li.children[0].data.replace('E20', '').replace('=','').replace('บาท','').trim();
+                                        newdata[6] = e20;
+                                    }
+                                    if(li.children[0].data.includes('GSH91')){
+                                        console.log('ul')
+                                        //console.log(li.children[0].data);
+                                        let gsh91 = li.children[0].data.replace('GSH91', '').replace('=','').replace('บาท','').trim();
+                                        newdata[7] = gsh91;
+                                    }
+                                    if(li.children[0].data.includes('E85')){
+                                        console.log('ul')
+                                        //console.log(li.children[0].data);
+                                        let e85 = li.children[0].data.replace('E85', '').replace('=','').replace('บาท','').trim();
+                                        newdata[5] = e85;
+                                    }
+                                    if(li.children[0].data.includes('HSD-B7')){
+                                        console.log('ul')
+                                        //console.log(li.children[0].data);
+                                        let hsd = li.children[0].data.replace('HSD-B7', '').replace('=','').replace('บาท','').trim();
+                                        newdata[3] = hsd;
+                                    }
+                                    if(li.children[0].data.includes('HSD-B10')){
+                                        console.log('ul')
+                                        //console.log(li.children[0].data);
+                                        let hsd = li.children[0].data.replace('HSD-B10', '').replace('=','').replace('บาท','').trim();
+                                        newdata[2] = hsd;
+                                    }
+                                    if(li.children[0].data.includes('HSD-B20')){
+                                        console.log('ul')
+                                        //console.log(li.children[0].data);
+                                        let hsd = li.children[0].data.replace('HSD-B20', '').replace('=','').replace('บาท','').trim();
+                                        newdata[4] = hsd;
+                                    }
+                                    if(li.children[0].data.includes('พรีเมี่ยมดีเซล B7')){
+                                        console.log('ul')
+                                        //console.log(li.children[0].data);
+                                        let hsd = li.children[0].data.replace('พรีเมี่ยมดีเซล B7', '').replace('=','').replace('บาท','').trim();
+                                        newdata[1] = hsd;
                                     }
                                 }
                             });
@@ -347,19 +329,221 @@ http.createServer(async function (req, res) {
                                     console.log('p')
                                     //console.log($content(p).text());
                                     let ptext = $content(p).text().replace('ULG', '').replace('=','').replace('บาท','').replace(',','').trim();
-                                    data[0][10] = data[0][9];
-                                    data[0][9] = ptext;
-                                    comefromnew = true;
+                                    newdata[9] = ptext;
+                                }
+                                if($content(p).text().includes('GSH95') && newdata[8] == ""){
+                                    console.log('p')
+                                    //console.log($content(p).text());
+                                    let ptext = $content(p).text().replace('GSH95', '').replace('=','').replace('บาท','').replace(',','').trim();
+                                    newdata[8] = ptext;
+                                }
+                                if($content(p).text().includes('E20')){
+                                    console.log('p')
+                                    //console.log($content(p).text());
+                                    let ptext = $content(p).text().replace('E20', '').replace('=','').replace('บาท','').replace(',','').trim();
+                                    newdata[4] = ptext;
+                                }
+                                if($content(p).text().includes('GSH91')){
+                                    console.log('p')
+                                    //console.log($content(p).text());
+                                    let ptext = $content(p).text().replace('GSH91', '').replace('=','').replace('บาท','').replace(',','').trim();
+                                    newdata[7] = ptext;
+                                }
+                                if($content(p).text().includes('E85')){
+                                    console.log('p')
+                                    //console.log($content(p).text());
+                                    let ptext = $content(p).text().replace('E85', '').replace('=','').replace('บาท','').replace(',','').trim();
+                                    newdata[5] = ptext;
+                                }
+                                if($content(p).text().includes('HSD-B7')){
+                                    console.log('p')
+                                    //console.log($content(p).text());
+                                    let ptext = $content(p).text().replace('HSD-B7', '').replace('=','').replace('บาท','').replace(',','').trim();
+                                    newdata[3] = ptext;
+                                }
+                                if($content(p).text().includes('HSD-B10')){
+                                    console.log('p')
+                                    //console.log($content(p).text());
+                                    let ptext = $content(p).text().replace('HSD-B10', '').replace('=','').replace('บาท','').replace(',','').trim();
+                                    newdata[2] = ptext;
+                                }
+                                if($content(p).text().includes('HSD-B20')){
+                                    console.log('p')
+                                    //console.log($content(p).text());
+                                    let ptext = $content(p).text().replace('HSD-B20', '').replace('=','').replace('บาท','').replace(',','').trim();
+                                    newdata[4] = ptext;
+                                }
+                                if($content(p).text().includes('พรีเมี่ยมดีเซล B7')){
+                                    console.log('p')
+                                    //console.log($content(p).text());
+                                    let ptext = $content(p).text().replace('พรีเมี่ยมดีเซล B7', '').replace('=','').replace('บาท','').replace(',','').trim();
+                                    newdata[1] = ptext;
                                 }
                             });
                         }
                     }
+                    newdata[10] = '-';
+                    let date = new Date();
+                    let tomorrowdate = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
+                    newdata[0] = (tomorrowdate.getDate()).toString().padStart(2, '0') + '/' + (tomorrowdate.getMonth() + 1).toString().padStart(2, '0') + '/' + (tomorrowdate.getFullYear() + 543);
                 }
             })
+        }else{
+            let tmrprice = await fetch('https://crmmobile.bangchak.co.th/webservice/oil_price.aspx')
+            let body = await tmrprice.text();
+            //if tmrprce is 4xx or 5xx
+            if (tmrprice.status >= 400 && tmrprice.status <= 599) {
+                //if have tmrprice.txt
+                if (fs.existsSync('/tmp/tmrprice.txt')) {
+                    //body = fs.readFileSync('tmrprice.txt', 'utf8');
+                    body = fs.readFileSync('/tmp/tmrprice.txt', 'utf8');
+                }else{
+                    newdata[0] = "ไม่สามารถติดต่อกับระบบได้";
+                }
+            }else{
+                //write body to tmrprice.txt
+                fs.writeFileSync('/tmp/tmrprice.txt', body);
+            }
 
-            if(comefromnew === false){
-                data[0][10] = data[0][9];
-                data[0][9] = parseFloat(data[1][9]) + parseFloat(data[2][8]);
+            /*await fetch('https://crmmobile.bangchak.co.th/webservice/oil_price.aspx')
+                .then(res => res.text())
+                .then(body => {*/
+            const $ = cheerio.load(body);
+
+            let arr = $('update_date').text().split('/');
+
+            let year = parseInt(arr[2].substring(0, 4)) - 543;
+
+            let todaydate = new Date(arr[1] + '/' + arr[0] + '/' + year.toString());
+
+            console.log(arr);
+            console.log(todaydate);
+            //console.log(arr[0])
+            //console.log(arr[1])
+            //console.log(arr[2])
+
+            //push date/month/year to newdata[0]
+            let date = new Date();
+
+            //if todaydate is yesterday
+            if (date.getDate() - 1 == todaydate.getDate() && date.getMonth() == todaydate.getMonth() && date.getFullYear() == todaydate.getFullYear()) {
+                console.log('yesterday');
+                newdata[0] = (date.getDate()).toString().padStart(2, '0') + '/' + (date.getMonth() + 1).toString().padStart(2, '0') + '/' + (date.getFullYear() + 543);
+            } else {
+                //tomorrowdate = date + 1 day
+                let tomorrowdate = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
+                newdata[0] = (tomorrowdate.getDate()).toString().padStart(2, '0') + '/' + (tomorrowdate.getMonth() + 1).toString().padStart(2, '0') + '/' + (tomorrowdate.getFullYear() + 543);
+            }
+
+            newdata[1] = $('item').eq(0).find('tomorrow').text();
+            newdata[2] = $('item').eq(1).find('tomorrow').text();
+            newdata[3] = $('item').eq(2).find('tomorrow').text();
+            newdata[4] = $('item').eq(3).find('tomorrow').text();
+            newdata[5] = $('item').eq(4).find('tomorrow').text();
+            newdata[6] = $('item').eq(5).find('tomorrow').text();
+            newdata[7] = $('item').eq(6).find('tomorrow').text();
+            newdata[8] = $('item').eq(7).find('tomorrow').text();
+            newdata[9] = '-';
+        }
+        
+        //get time in ms
+        //let time = end - start;
+        //console time
+        //console.log('time', time);
+        //console time in second
+        //console.log('time', time / 1000);
+
+        //log every item tag
+
+        /*$('item').each(function(i, elem) {
+            console.log($(this).find('type').text());
+            console.log($(this).find('today').text());
+            console.log($(this).find('tomorrow').text());
+            console.log($(this).find('yesterday').text());
+        });*/
+        //});
+
+        console.log(newdata);
+
+        //get count of difference between newdata and data[0]
+        let count = 0;
+        for (let i = 0; i < newdata.length; i++) {
+            if (newdata[i] !== data[0][i]) {
+                count++;
+            }
+        }
+        console.log(count);
+
+        //if count > 1, then set data[1] = data[0] and set data[0] = newdata
+        if (count > 2) {
+            data[1] = data[0];
+            data[0] = newdata;
+            let comefromnew = false;
+
+            if(data[0][9] == '-'){
+                const fromnew = await fetch('https://www.prachachat.net/feed?tag=%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A1%E0%B8%B1%E0%B8%99');
+                const fromnewbody = await fromnew.text();
+                const $fromnew = cheerio.load(fromnewbody);
+                //arary item
+                const fromnewitem = $fromnew('item');
+                //console each title
+                fromnewitem.each((i, el) => {
+                    if($fromnew(el).find('title').text().includes('พรุ่งนี้')){
+                        //console.log($fromnew(el).find('title').text());
+                        //console.log($fromnew(el).find('pubDate').text());
+                        //convert from Mon, 21 Nov 2022 10:12:20 +0000 to date
+                        //console.log(new Date($fromnew(el).find('pubDate').text()));
+                        //if new Date($fromnew(el).find('pubDate').text()) same as today
+                        if(new Date($fromnew(el).find('pubDate').text().replace('+0000','+0700')).getDate() == new Date().getDate() && new Date($fromnew(el).find('pubDate').text().replace('+0000','+0700')).getMonth() == new Date().getMonth() && new Date($fromnew(el).find('pubDate').text().replace('+0000','+0700')).getFullYear() == new Date().getFullYear()){
+                        //if(new Date($fromnew(el).find('pubDate').text()) == new Date()){
+                            console.log('new');
+                            const content = $fromnew(el).find('content\\:encoded').html();
+                            //find ul tag in content
+                            const $content = cheerio.load(content);
+                            const ul = $content('ul');
+                            //count ul
+                            if(ul.length > 1){
+                                //console each li tag
+                                ul[0].children.forEach((li) => {
+                                    if(li.name === 'li'){
+                                        //console.log(li.children[0].data);
+                                        if(li.children[0].data.includes('ULG')){
+                                            console.log('ul')
+                                            //console.log(li.children[0].data);
+                                            let ulg = li.children[0].data.replace('ULG', '').replace('=','').replace('บาท','').trim();
+                                            data[0][10] = data[0][9];
+                                            data[0][9] = ulg;
+                                            comefromnew = true;
+                                        }
+                                    }
+                                });
+                            }
+                            //find p tag in content
+                            const p = $content('p').toArray();
+                            //count p
+                            if(p.length > 1){
+                                //loop console each p tag
+                                p.forEach((p) => {
+                                    if($content(p).text().includes('ULG')){
+                                        console.log('p')
+                                        //console.log($content(p).text());
+                                        let ptext = $content(p).text().replace('ULG', '').replace('=','').replace('บาท','').replace(',','').trim();
+                                        data[0][10] = data[0][9];
+                                        data[0][9] = ptext;
+                                        comefromnew = true;
+                                    }
+                                });
+                            }
+                        }
+                    }
+                })
+
+                if(comefromnew === false){
+                    data[0][10] = data[0][9];
+                    data[0][9] = parseFloat(data[1][9]) + parseFloat(data[2][8]);
+                }
+            }else{
+                comefromnew = true;
             }
 
             //subtract data[1] from data[0] and set to data[2]
