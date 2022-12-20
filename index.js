@@ -945,7 +945,7 @@ fastify.get('/', async (request, reply) => {
     console.log(count);
 
     //if count > 1, then set data[1] = data[0] and set data[0] = newdata
-    if (count > 9) {
+    if (count > 2) {
         data[1] = data[0];
         data[0] = newdata;
         let comefromnew = false;
