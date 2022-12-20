@@ -1036,7 +1036,7 @@ fastify.get('/', async (request, reply) => {
         data[2][0] = diffdays + ' วัน';
 
         //remove last element of data[2]
-        data[2].pop();
+        //data[2].pop();
     }
 
     let newway;
