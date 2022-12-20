@@ -983,7 +983,7 @@ fastify.get('/', async (request, reply) => {
                                         let ulg = li.children[0].data.replace('ULG', '').replace('=','').replace('บาท','').trim();
                                         //data[0][10] = data[0][9];
                                         //data[0][9] = ulg;
-                                        data[0][10] = ulg;
+                                        data[0][11] = ulg;
                                         comefromnew = true;
                                     }
                                 }
@@ -1001,7 +1001,7 @@ fastify.get('/', async (request, reply) => {
                                     let ptext = $content(p).text().replace('ULG', '').replace('=','').replace('บาท','').replace(',','').trim();
                                     //data[0][10] = data[0][9];
                                     //data[0][9] = ptext;
-                                    data[0][10] = ulg;
+                                    data[0][11] = ulg;
                                     comefromnew = true;
                                 }
                             });
