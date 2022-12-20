@@ -950,7 +950,7 @@ fastify.get('/', async (request, reply) => {
         data[0] = newdata;
         let comefromnew = false;
 
-        if(data[0][9] == '-'){
+        //if(data[0][9] == '-'){
             const fromnew = await fetch('https://www.prachachat.net/feed?tag=%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A1%E0%B8%B1%E0%B8%99');
             const fromnewbody = await fromnew.text();
             const $fromnew = cheerio.load(fromnewbody);
@@ -1012,9 +1012,9 @@ fastify.get('/', async (request, reply) => {
                 data[0][10] = data[0][9];
                 data[0][9] = parseFloat(data[1][9]) + parseFloat(data[2][8]);
             }
-        }else{
-            comefromnew = true;
-        }
+        //}else{
+        //    comefromnew = true;
+        //}
 
         //subtract data[1] from data[0] and set to data[2]
         data[2] = data[0].map((e, i) => e - data[1][i]);
