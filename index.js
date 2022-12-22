@@ -126,20 +126,34 @@ async function getData() {
     }
 
     //const yesterday = JSON.parse(pttbody.data[1].priceData);
+    const pttdate = new Date(pttbody.data[0].priceDate);
+    console.log('pttdate',pttdate);
 
-    pttarr.forEach(e => {
-        if (e.OilTypeId == 7) {
-            arr[0][10] = arr[0][9]
-            arr[0][9] = '' + e.Price
-        }
-    });
+    //if date1 is not same date as pttdate, get yesterday
+    if (date1.getDate() != pttdate.getDate()) {
+        yesterday.forEach(e => {
+            if (e.OilTypeId == 7) {
+                arr[1][10] = arr[1][9]
+                arr[1][9] = '' + e.Price
+                arr[0][10] = arr[0][9]
+                arr[0][9] = '' + e.Price
+            }
+        });
+    }else{
+        pttarr.forEach(e => {
+            if (e.OilTypeId == 7) {
+                arr[0][10] = arr[0][9]
+                arr[0][9] = '' + e.Price
+            }
+        });
 
-    yesterday.forEach(e => {
-        if (e.OilTypeId == 7) {
-            arr[1][10] = arr[1][9]
-            arr[1][9] = '' + e.Price
-        }
-    });
+        yesterday.forEach(e => {
+            if (e.OilTypeId == 7) {
+                arr[1][10] = arr[1][9]
+                arr[1][9] = '' + e.Price
+            }
+        });
+    }
 
     //subtract arr[1] from arr[0]
     const arr2 = arr[0].map((e, i) => e - arr[1][i]);
