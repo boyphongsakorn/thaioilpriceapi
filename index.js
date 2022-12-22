@@ -13,19 +13,17 @@ process.env.TZ = 'Asia/Bangkok';
 //if process.port is not empty , then set port to 8080
 const port = process.env.PORT || 8080;
 
+let historical = "";
+
 async function getData() {
     let body
     try {
         const response = await fetch('https://www.bangchak.co.th/th/oilprice/historical');
         body = await response.text();
-        //write to file
-        fs.writeFile('historical.txt', body, function (err) {
-            if (err) throw err;
-            console.log('Saved!');
-        })
+        //write to historical
+        historical = body;
     } catch (error) {
-        //read from file
-        body = fs.readFileSync('historical.txt', 'utf8');
+        body = historical;
     }
 
     //console.log(body);
