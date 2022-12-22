@@ -14,8 +14,19 @@ process.env.TZ = 'Asia/Bangkok';
 const port = process.env.PORT || 8080;
 
 async function getData() {
-    const response = await fetch('https://www.bangchak.co.th/th/oilprice/historical');
-    const body = await response.text();
+    let body
+    try {
+        const response = await fetch('https://www.bangchak.co.th/th/oilprice/historical');
+        body = await response.text();
+        //write to file
+        fs.writeFile('historical.txt', body, function (err) {
+            if (err) throw err;
+            console.log('Saved!');
+        })
+    } catch (error) {
+        //read from file
+        body = fs.readFileSync('historical.txt', 'utf8');
+    }
 
     //console.log(body);
     const $ = cheerio.load(body);
