@@ -13,18 +13,17 @@ process.env.TZ = 'Asia/Bangkok';
 //if process.port is not empty , then set port to 8080
 const port = process.env.PORT || 8080;
 
-let historical = "";
+let historical = [];
 
 async function getData() {
-    let body
+    let body = "";
     try {
         const response = await fetch('https://www.bangchak.co.th/th/oilprice/historical');
         body = await response.text();
-        //write to historical
-        historical = body;
     } catch (error) {
-        body = historical;
+        return historical;
     }
+    
 
     //console.log(body);
     const $ = cheerio.load(body);
@@ -224,6 +223,7 @@ async function getData() {
     //const pttbody = await pttprice.text();
 
     //console.log(arr4);
+    historical = [now, old, arr4];
     return [now, old, arr4];
 }
 
