@@ -84,9 +84,6 @@ async function getData() {
     var date2 = new Date(arr[1][0].substr(3, 2) + '/' + arr[1][0].substr(0, 2) + '/' + (parseInt(arr[1][0].substr(6, 4)) - 543));
     console.log(date1);
     console.log(date2);
-    //plus 1 day to date1 and date2
-    date1.setDate(date1.getDate() + 1);
-    date2.setDate(date2.getDate() + 1);
 
     const pttprice = await fetch("https://orapiweb1.pttor.com/api/oilprice/search", {
         "headers": {
@@ -189,6 +186,10 @@ async function getData() {
     //let old = sparray(tr2.text());
     let now = arr[0];
     let old = arr[1];
+
+    //plus 1 in arr[0][0].substr(0, 2) and arr[1][0].substr(0, 2)
+    now[0][1].replaceAt(0, parseInt(now[0][1].substr(0, 2)) + 1);
+    old[0][1].replaceAt(0, parseInt(old[0][1].substr(0, 2)) + 1);
 
     // pttarr.forEach(e => {
     //     if (e.OilTypeId == 7) {
