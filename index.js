@@ -188,8 +188,8 @@ async function getData() {
     let old = arr[1];
 
     //plus 1 in arr[0][0].substr(0, 2) and arr[1][0].substr(0, 2)
-    now[0][1] = now[0][1].toString().replaceAt(0, parseInt(now[0][1].substr(0, 2)) + 1);
-    old[0][1] = old[0][1].toString().replaceAt(0, parseInt(old[0][1].substr(0, 2)) + 1);
+    now[0] = now[0].toString().replaceAt(0, parseInt(now[0].substr(0, 2)) + 1);
+    old[0] = old[0].toString().replaceAt(0, parseInt(old[0].substr(0, 2)) + 1);
 
     // pttarr.forEach(e => {
     //     if (e.OilTypeId == 7) {
