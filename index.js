@@ -1157,8 +1157,9 @@ fastify.get('/image', async (req, res) => {
         const screenshot = await fetch('https://screenshot-xi.vercel.app/api?url=https://boyphongsakorn.github.io/thaioilpriceapi&width=1000&height=1000')
         const screenshotbody = await screenshot.buffer();
 
-        res.writeHead(200, { 'content-type': 'image/png' });
-        res.end(screenshotbody);
+        //res.writeHead(200, { 'content-type': 'image/png' });
+        //res.end(screenshotbody);
+        return screenshotbody;
 })
 
 const start = async () => {
