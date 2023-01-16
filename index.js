@@ -138,8 +138,21 @@ async function getData() {
     console.log('pttdate',pttdate);
 
     //if date1 is not same date as pttdate, get yesterday
-    if (date1.getDate() != pttdate.getDate()) {
+    //if (date1.getDate() != pttdate.getDate()) {
+        pttarr.forEach(e => {
+            if (e.OilTypeId == 7) {
+                arr[0][10] = arr[0][9]
+                arr[0][9] = '' + e.Price
+            }
+        });
+
         yesterday.forEach(e => {
+            if (e.OilTypeId == 7) {
+                arr[1][10] = arr[1][9]
+                arr[1][9] = '' + e.Price
+            }
+        });
+        /*yesterday.forEach(e => {
             if (e.OilTypeId == 7) {
                 arr[1][10] = arr[1][9]
                 arr[1][9] = '' + e.Price
@@ -161,7 +174,7 @@ async function getData() {
                 arr[1][9] = '' + e.Price
             }
         });
-    }
+    }*/
 
     //subtract arr[1] from arr[0]
     const arr2 = arr[0].map((e, i) => e - arr[1][i]);
@@ -888,34 +901,93 @@ fastify.get('/', async (request, reply) => {
             }
         })
     }else{
-        let tmrprice = await fetch('https://crmmobile.bangchak.co.th/webservice/oil_price.aspx')
-        let body = await tmrprice.text();
+        //let tmrprice = await fetch('https://crmmobile.bangchak.co.th/webservice/oil_price.aspx')
+        //let body = await tmrprice.text();
+        let tmrprice = await fetch('https://www.bangchak.co.th/api/oilprice')
+        let body = await tmrprice.json();
+        console.log(tmrprice.status)
         //if tmrprce is 4xx or 5xx
-        if (tmrprice.status >= 400 && tmrprice.status <= 599) {
+        /*if (tmrprice.status >= 400 && tmrprice.status <= 599) {
             //if have tmrprice.txt
             if (fs.existsSync('/tmp/tmrprice.txt')) {
                 //body = fs.readFileSync('tmrprice.txt', 'utf8');
-                body = fs.readFileSync('/tmp/tmrprice.txt', 'utf8');
+                body = JSON.parse(fs.readFileSync('/tmp/tmrprice.txt', 'utf8'));
             }else{
                 newdata[0] = "ไม่สามารถติดต่อกับระบบได้";
             }
         }else{
             //write body to tmrprice.txt
-            fs.writeFileSync('/tmp/tmrprice.txt', body);
-        }
+            fs.writeFileSync('/tmp/tmrprice.txt', JSON.stringify(body));
+        }*/
 
         /*await fetch('https://crmmobile.bangchak.co.th/webservice/oil_price.aspx')
             .then(res => res.text())
             .then(body => {*/
-        const $ = cheerio.load(body);
+        //const $ = cheerio.load(body);
 
-        let arr = $('update_date').text().split('/');
+        //let arr = $('update_date').text().split('/');
+        console.log('from json')
+        console.log(body);
+        console.log(body.data.remark_en);
 
-        let year = parseInt(arr[2].substring(0, 4)) - 543;
+        //find all text month in body.data.remark_en
+        let month = body.data.remark_en.match(/January|February|March|April|May|June|July|August|September|October|November|December/g);
+        console.log(month);
+        //split body.data.remark_en by space
+        let arr = body.data.remark_en.split(' ');
+        //find index of month in arr
+        let index = arr.indexOf(month[0]);
+        //get before index of month and after index of month
+        let before = arr[index - 1];
+        let after = arr[index + 1];
+        //change month to number
+        let monthnum = '';
+        switch (month[0]) {
+            case 'January':
+                monthnum = '01';
+                break;
+            case 'February':
+                monthnum = '02';
+                break;
+            case 'March':
+                monthnum = '03';
+                break;
+            case 'April':
+                monthnum = '04';
+                break;
+            case 'May':
+                monthnum = '05';
+                break;
+            case 'June':
+                monthnum = '06';
+                break;
+            case 'July':
+                monthnum = '07';
+                break;
+            case 'August':
+                monthnum = '08';
+                break;
+            case 'September':
+                monthnum = '09';
+                break;
+            case 'October':
+                monthnum = '10';
+                break;
+            case 'November':
+                monthnum = '11';
+                break;
+            case 'December':
+                monthnum = '12';
+                break;
+        }
 
-        let todaydate = new Date(arr[1] + '/' + arr[0] + '/' + year.toString());
+        //let year = parseInt(arr[2].substring(0, 4)) - 543;
+        let year = parseInt(after);
 
-        console.log(arr);
+        //let todaydate = new Date(arr[1] + '/' + arr[0] + '/' + year.toString());
+        let todaydate = new Date(monthnum + '/' + before + '/' + year.toString());
+
+        //console.log(arr);
         console.log(todaydate);
         //console.log(arr[0])
         //console.log(arr[1])
@@ -934,7 +1006,7 @@ fastify.get('/', async (request, reply) => {
             newdata[0] = (tomorrowdate.getDate()).toString().padStart(2, '0') + '/' + (tomorrowdate.getMonth() + 1).toString().padStart(2, '0') + '/' + (tomorrowdate.getFullYear() + 543);
         }
 
-        newdata[1] = $('item').eq(0).find('tomorrow').text();
+        /*newdata[1] = $('item').eq(0).find('tomorrow').text();
         newdata[2] = $('item').eq(1).find('tomorrow').text();
         newdata[3] = $('item').eq(2).find('tomorrow').text();
         newdata[4] = $('item').eq(3).find('tomorrow').text();
@@ -943,7 +1015,16 @@ fastify.get('/', async (request, reply) => {
         newdata[7] = $('item').eq(7).find('tomorrow').text();
         newdata[8] = $('item').eq(8).find('tomorrow').text();
         //newdata[9] = '-';
-        newdata[9] = $('item').eq(4).find('tomorrow').text();
+        newdata[9] = $('item').eq(4).find('tomorrow').text();*/
+        newdata[1] = body.data.items[0].PriceTomorrow.toString();
+        newdata[2] = body.data.items[1].PriceTomorrow.toString();
+        newdata[3] = body.data.items[2].PriceTomorrow.toString();
+        newdata[4] = body.data.items[3].PriceTomorrow.toString();
+        newdata[5] = body.data.items[5].PriceTomorrow.toString();
+        newdata[6] = body.data.items[6].PriceTomorrow.toString();
+        newdata[7] = body.data.items[7].PriceTomorrow.toString();
+        newdata[8] = body.data.items[8].PriceTomorrow.toString();
+        newdata[9] = body.data.items[4].PriceTomorrow.toString();
     }
     
     //get time in ms
