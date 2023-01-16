@@ -733,8 +733,10 @@ fastify.get('/', async (request, reply) => {
     //let start = new Date().getTime();
     let end;
 
-    fetch('https://crmmobile.bangchak.co.th/webservice/oil_price.aspx')
-        .then(res => res.text())
+    //fetch('https://crmmobile.bangchak.co.th/webservice/oil_price.aspx')
+    fetch('https://www.bangchak.co.th/api/oilprice')
+        //.then(res => res.text())
+        .then(res => res.json())
         .then(body => {
             end = new Date().getTime();
             console.log('finish');
