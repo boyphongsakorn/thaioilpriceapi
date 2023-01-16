@@ -97,8 +97,8 @@
         .then(response => response.json())
         .then(result => {
 
-            document.getElementById("olddate").innerHTML = result[1][0].substring(0,2) + " " + monthtotext(result[1][0].substring(3,5));
-            document.getElementById("date").innerHTML = result[0][0].substring(0,2) + " " + monthtotext(result[0][0].substring(3,5));
+            document.getElementById("olddate").innerHTML = parseInt(result[1][0].substring(0,2)) + " " + monthtotext(result[1][0].substring(3,5));
+            document.getElementById("date").innerHTML = parseInt(result[0][0].substring(0,2)) + " " + monthtotext(result[0][0].substring(3,5));
 
             let today = new Date();
 
