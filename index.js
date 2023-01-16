@@ -1121,7 +1121,7 @@ fastify.get('/', async (request, reply) => {
 
             if(comefromnew === false){
                 data[0][10] = data[0][9];
-                data[0][9] = parseFloat(data[1][9]) + parseFloat(data[2][8]);
+                data[0][9] = parseFloat(data[1][9]) + parseFloat(data[2][7]);
             }
         //}else{
         //    comefromnew = true;
