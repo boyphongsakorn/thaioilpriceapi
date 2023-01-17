@@ -746,7 +746,7 @@ fastify.get('/', async (request, reply) => {
             console.log('finish');
         });
 
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 500));
     //if end is not set it mean fetch is not finish
     if (!end) {
         console.log('finish but not');
