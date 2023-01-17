@@ -1027,6 +1027,13 @@ fastify.get('/', async (request, reply) => {
         newdata[7] = body.data.items[7].PriceTomorrow.toString();
         newdata[8] = body.data.items[8].PriceTomorrow.toString();
         newdata[9] = body.data.items[4].PriceTomorrow.toString();
+
+        //if todaydate < real today
+        if (todaydate < date) {
+            console.log('wrong date');
+            //set newdata to data[0]
+            newdata = data[0];
+        }
     }
     
     //get time in ms
