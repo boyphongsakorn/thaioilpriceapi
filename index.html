@@ -110,6 +110,12 @@
             <td id="tomor10" style="font-size: 1cm;border-radius: 20px;color: black;background-color: white;border-style: solid;border-color: black;"></td>
             <td id="diff10" style="font-size: 0.75cm;border-radius: 20px;color: black;background-color: white;border-style: solid;border-color: black;">-</td>
         </tr>
+        <tr id="oil11">
+            <td style="background: url('https://orapiweb.pttor.com/uploads/images/20220228_212905_1792.jpg');border-radius: 20px;background-size: 100% 100%;"></td>
+            <td id="today11" style="font-size: 0.75cm;border-radius: 20px;color: black;background-color: white;border-style: solid;border-color: black;"></td>
+            <td id="tomor11" style="font-size: 1cm;border-radius: 20px;color: black;background-color: white;border-style: solid;border-color: black;"></td>
+            <td id="diff11" style="font-size: 0.75cm;border-radius: 20px;color: black;background-color: white;border-style: solid;border-color: black;">-</td>
+        </tr>
     </table>
     <script>
         function monthtotext(month) {
@@ -161,7 +167,8 @@
             redirect: 'follow'
         };
 
-        fetch("https://thaioilpriceapi-vercel.vercel.app", requestOptions)
+        //fetch("https://thaioilpriceapi-vercel.vercel.app", requestOptions)
+        fetch("http://localhost:8080", requestOptions)
         .then(response => response.json())
         .then(result => {
 
@@ -198,6 +205,8 @@
             document.getElementById("today8").innerText = result[1][8];
             document.getElementById("today9").innerText = result[1][9];
             document.getElementById("today10").innerText = result[1][10];
+            document.getElementById("today11").innerText = result[1][11];
+            //document.getElementById("today12").innerText = result[1][12];
             document.getElementById("tomor1").innerText = result[0][1];
             document.getElementById("tomor2").innerText = result[0][2];
             document.getElementById("tomor3").innerText = result[0][3];
@@ -208,22 +217,28 @@
             document.getElementById("tomor8").innerText = result[0][8];
             document.getElementById("tomor9").innerText = result[0][9];
             document.getElementById("tomor10").innerText = result[0][10];
-            var listresult = ["1","2","3","4","5","6","7","8","9","10"];
+            document.getElementById("tomor11").innerText = result[0][11];
+           // document.getElementById("tomor12").innerText = result[0][12];
+            var listresult = ["1","2","3","4","5","6","7","8","9","10","11"];
             //loop result
             for(var i = 0; i < listresult.length; i++){
                 if(result[2][i+1] == 0){
                     document.getElementById("diff"+listresult[i]).innerHTML = "-";
                     //set tr height to 15px
                     document.getElementById("oil"+listresult[i]).style.height = "15px";
+                    //set font size cut a hlaf
+                    document.getElementById("today"+listresult[i]).style.fontSize = parseFloat(document.getElementById("today"+listresult[i]).style.fontSize) / 2 + "cm";
+                    document.getElementById("tomor"+listresult[i]).style.fontSize = parseFloat(document.getElementById("tomor"+listresult[i]).style.fontSize) / 2 + "cm";
+                    document.getElementById("diff"+listresult[i]).style.fontSize = parseFloat(document.getElementById("diff"+listresult[i]).style.fontSize) / 2 + "cm";
                 }else{
                     if(result[2][i+1] > 0){
                         //document.getElementById("diff"+listresult[i]).innerHTML = "+" + result[2][i+1];
-                        document.getElementById("today"+listresult[i]).innerHTML = "<h1 style='font-size: 1cm;margin-top: 0px;margin-bottom: 0px;line-height: 10px;'>" + result[1][i+1] + "</h1>";
-                        document.getElementById("diff"+listresult[i]).innerHTML = "<h1 style='font-size: 1cm;margin-top: 0px;margin-bottom: 0px;line-height: 10px;'>" + "+" + result[2][i+1] + "</h1>";
+                        document.getElementById("today"+listresult[i]).innerHTML = "<h1 style='font-size: 1cm;margin-top: 0px;margin-bottom: 0px;line-height: 45px;'>" + result[1][i+1] + "</h1>";
+                        document.getElementById("diff"+listresult[i]).innerHTML = "<h1 style='font-size: 1cm;margin-top: 0px;margin-bottom: 0px;line-height: 45px;'>" + "+" + result[2][i+1] + "</h1>";
                         document.getElementById("diff"+listresult[i]).style.color = "red";
                         document.getElementById("diff"+listresult[i]).style.fontWeight = "bold";
                         document.getElementById("diff"+listresult[i]).style.borderColor = "red";
-                        document.getElementById("tomor"+listresult[i]).innerHTML = "<h1 style='font-size: 1.5cm;margin-top: 0px;margin-bottom: 0px;line-height: 10px;'>" + result[0][i+1] + "</h1>";
+                        document.getElementById("tomor"+listresult[i]).innerHTML = "<h1 style='font-size: 1.5cm;margin-top: 0px;margin-bottom: 0px;line-height: 45px;'>" + result[0][i+1] + "</h1>";
                         document.getElementById("tomor"+listresult[i]).style.fontSize = "none";
                         document.getElementById("tomor"+listresult[i]).style.color = "red";
                         document.getElementById("tomor"+listresult[i]).style.fontWeight = "bold";

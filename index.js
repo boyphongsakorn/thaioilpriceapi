@@ -144,12 +144,26 @@ async function getData() {
                 arr[0][10] = arr[0][9]
                 arr[0][9] = '' + e.Price
             }
+            /*if (e.OilTypeId == 1) {
+                arr[0][11] = '' + e.Price
+            }*/
+            if (e.OilTypeId == 22) {
+                //arr[0][12] = '' + e.Price
+                arr[0][11] = '' + e.Price
+            }
         });
 
         yesterday.forEach(e => {
             if (e.OilTypeId == 7) {
                 arr[1][10] = arr[1][9]
                 arr[1][9] = '' + e.Price
+            }
+            /*if (e.OilTypeId == 1) {
+                arr[1][11] = '' + e.Price
+            }*/
+            if (e.OilTypeId == 22) {
+                //arr[1][12] = '' + e.Price
+                arr[1][11] = '' + e.Price
             }
         });
         /*yesterday.forEach(e => {
@@ -727,7 +741,7 @@ fastify.get('/', async (request, reply) => {
     console.log(info);
     let data = await getData();
     console.log('data', data);
-    let newdata = ["", "", "", "", "", "", "", "", "", ""];
+    let newdata = ["", "", "", "", "", "", "", "", "", "", "", "", ""];
 
     //start timer
     //let start = new Date().getTime();
@@ -830,6 +844,12 @@ fastify.get('/', async (request, reply) => {
                                     let hsd = li.children[0].data.replace('พรีเมี่ยมดีเซล B7', '').replace('=','').replace('บาท','').trim();
                                     newdata[1] = hsd;
                                 }
+                                if(li.children[0].data.includes('พรีเมี่ยม GSH95')){
+                                    console.log('ul')
+                                    //console.log(li.children[0].data);
+                                    let hsd = li.children[0].data.replace('พรีเมี่ยม GSH95', '').replace('=','').replace('บาท','').trim();
+                                    newdata[11] = hsd;
+                                }
                             }
                         });
                     }
@@ -892,6 +912,12 @@ fastify.get('/', async (request, reply) => {
                                 //console.log($content(p).text());
                                 let ptext = $content(p).text().replace('พรีเมี่ยมดีเซล B7', '').replace('=','').replace('บาท','').replace(',','').trim();
                                 newdata[1] = ptext;
+                            }
+                            if($content(p).text().includes('พรีเมี่ยม GSH95')){
+                                console.log('p')
+                                //console.log($content(p).text());
+                                let ptext = $content(p).text().replace('พรีเมี่ยม GSH95', '').replace('=','').replace('บาท','').replace(',','').trim();
+                                newdata[11] = ptext;
                             }
                         });
                     }
@@ -1105,6 +1131,13 @@ fastify.get('/', async (request, reply) => {
                                         data[0][9] = ulg;
                                         comefromnew = true;
                                     }
+                                    if(li.children[0].data.includes('พรีเมี่ยม GSH95')){
+                                        console.log('ul')
+                                        //console.log(li.children[0].data);
+                                        let gsh95 = li.children[0].data.replace('พรีเมี่ยม GSH95', '').replace('=','').replace('บาท','').trim();
+                                        data[0][11] = gsh95;
+                                        comefromnew = true;
+                                    }
                                 }
                             });
                         }
@@ -1122,6 +1155,13 @@ fastify.get('/', async (request, reply) => {
                                     data[0][9] = ptext;
                                     comefromnew = true;
                                 }
+                                if($content(p).text().includes('พรีเมี่ยม GSH95')){
+                                    console.log('p')
+                                    //console.log($content(p).text());
+                                    let ptext = $content(p).text().replace('พรีเมี่ยม GSH95', '').replace('=','').replace('บาท','').replace(',','').trim();
+                                    data[0][11] = ptext;
+                                    comefromnew = true;
+                                }
                             });
                         }
                     }
@@ -1131,6 +1171,7 @@ fastify.get('/', async (request, reply) => {
             if(comefromnew === false){
                 data[0][10] = data[0][9];
                 data[0][9] = parseFloat(data[1][9]) + parseFloat(data[2][6]);
+                data[0][11] = parseFloat(data[1][11]) + parseFloat(data[2][6]);
             }
         //}else{
         //    comefromnew = true;
@@ -1143,6 +1184,7 @@ fastify.get('/', async (request, reply) => {
 
         if(comefromnew === false){
             data[0][9] = '~' + data[0][9];
+            data[0][11] = '~' + data[0][11];
         }
 
         var date1 = new Date(data[0][0].substr(3, 2) + '/' + data[0][0].substr(0, 2) + '/' + (parseInt(data[0][0].substr(6, 4)) - 543));
@@ -1217,12 +1259,27 @@ fastify.get('/', async (request, reply) => {
                 'latest': data[0][10],
                 'before': data[1][10],
                 'change': data[2][10]
+            },
+            /*'Super Power Diesel B7': {
+                'latest': data[0][11],
+                'before': data[1][11],
+                'change': data[2][11]
+            },*/
+            'Super Power Gasohol 95': {
+                //'latest': data[0][12],
+                //'before': data[1][12],
+                //'change': data[2][12]
+                'latest': data[0][11],
+                'before': data[1][11],
+                'change': data[2][11]
             }
         }
     }
 
     //reply header accept only boyphongsakorn.github.io
-    reply.header('Access-Control-Allow-Origin', 'https://boyphongsakorn.github.io');
+    //reply.header('Access-Control-Allow-Origin', 'https://boyphongsakorn.github.io');
+    //for test
+    reply.header('Access-Control-Allow-Origin', '*');
     //writehead json
     //res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
     if(info === 'true'){
