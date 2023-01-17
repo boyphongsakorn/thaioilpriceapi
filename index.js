@@ -1221,6 +1221,8 @@ fastify.get('/', async (request, reply) => {
         }
     }
 
+    //reply header accept only boyphongsakorn.github.io
+    reply.header('Access-Control-Allow-Origin', 'https://boyphongsakorn.github.io');
     //writehead json
     //res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
     if(info === 'true'){
