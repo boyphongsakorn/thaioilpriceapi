@@ -1305,7 +1305,7 @@ fastify.get('/image', async (req, res) => {
 
         let location
 
-        const check = await fetch('https://anywhere.pwisetthon.com/https://thaioilpriceapi-vercel.vercel.app');
+        const check = await fetch('https://anywhere.pwisetthon.com/https://thaioilpriceapi-vercel.vercel.app?info=true');
         const checkbody = await check.json();
         //write info.lastupdate to file
         try {
