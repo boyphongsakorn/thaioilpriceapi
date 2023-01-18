@@ -1303,18 +1303,22 @@ fastify.get('/image', async (req, res) => {
         res.writeHead(200, { 'content-type': 'image/png' });
         fs.createReadStream('oilprice.png').pipe(res);*/
 
+        let location
+
         const check = await fetch('https://anywhere.pwisetthon.com/https://thaioilpriceapi-vercel.vercel.app');
         const checkbody = await check.json();
         //write info.lastupdate to file
         try {
             fs.writeFileSync('lastupdate.txt', checkbody.info.lastupdate);
+            location = ''
         } catch (error) {
             fs.writeFileSync('/tmp/lastupdate.txt', checkbody.info.lastupdate);
+            location = '/tmp/'
         }
         //check if have a image file
         let imageexist = false;
         try {
-            if (fs.existsSync('oilprice.png') || fs.existsSync('/tmp/oilprice.png')) {
+            if (fs.existsSync(location+'oilprice.png')) {
                 //file exists
                 imageexist = true;
             } else {
@@ -1328,7 +1332,7 @@ fastify.get('/image', async (req, res) => {
         const screenshot = await fetch('https://screenshot-xi.vercel.app/api?url=https://boyphongsakorn.github.io/thaioilpriceapi&width=1000&height=1000')
         const screenshotbody = await screenshot.buffer();
 
-        if(imageexist && checkbody.info.lastupdate === fs.readFileSync('lastupdate.txt', 'utf8')){
+        if(imageexist && checkbody.info.lastupdate === fs.readFileSync(location+'lastupdate.txt', 'utf8')){
             //read image file and send
             res.writeHead(200, { 'content-type': 'image/png' });
             try {
