@@ -1329,9 +1329,6 @@ fastify.get('/image', async (req, res) => {
             console.log(err)
         }
 
-        const screenshot = await fetch('https://screenshot-xi.vercel.app/api?url=https://boyphongsakorn.github.io/thaioilpriceapi&width=1000&height=1000')
-        const screenshotbody = await screenshot.buffer();
-
         if(imageexist && checkbody.info.lastupdate === fs.readFileSync(location+'lastupdate.txt', 'utf8')){
             //read image file and send
             res.header('content-type', 'image/png');
@@ -1341,6 +1338,8 @@ fastify.get('/image', async (req, res) => {
                 fs.createReadStream('/tmp/oilprice.png').pipe(res);
             }
         }else{
+            const screenshot = await fetch('https://screenshot-xi.vercel.app/api?url=https://boyphongsakorn.github.io/thaioilpriceapi&width=1000&height=1000')
+            const screenshotbody = await screenshot.buffer();
             //write image file
             try {
                 fs.writeFileSync('oilprice.png', screenshotbody);
