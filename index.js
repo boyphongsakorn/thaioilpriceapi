@@ -1327,6 +1327,7 @@ fastify.get('/image', async (req, res) => {
             }
         } catch(err) {
             console.log(err)
+            imageexist = false;
         }
 
         if(imageexist && checkbody.info.lastupdate === fs.readFileSync(location+'lastupdate.txt', 'utf8')){
