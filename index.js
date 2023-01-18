@@ -1349,7 +1349,7 @@ fastify.get('/image', async (req, res) => {
             }
             //send image
             res.header('content-type', 'image/png');
-            res.end(screenshotbody);
+            return screenshotbody;
         }
 
         //res.writeHead(200, { 'content-type': 'image/png' });
