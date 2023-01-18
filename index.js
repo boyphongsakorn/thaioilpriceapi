@@ -1334,7 +1334,7 @@ fastify.get('/image', async (req, res) => {
 
         if(imageexist && checkbody.info.lastupdate === fs.readFileSync(location+'lastupdate.txt', 'utf8')){
             //read image file and send
-            res.writeHead(200, { 'content-type': 'image/png' });
+            res.header('content-type', 'image/png');
             try {
                 fs.createReadStream('oilprice.png').pipe(res);
             } catch (error) {
@@ -1348,7 +1348,7 @@ fastify.get('/image', async (req, res) => {
                 fs.writeFileSync('/tmp/oilprice.png', screenshotbody);
             }
             //send image
-            res.writeHead(200, { 'content-type': 'image/png' });
+            res.header('content-type', 'image/png');
             res.end(screenshotbody);
         }
 
