@@ -742,13 +742,14 @@ fastify.get('/', async (request, reply) => {
     let data = await getData();
     console.log('data', data);
     let newdata = ["", "", "", "", "", "", "", "", "", "", "", "", ""];
+    let newdata2 = ["", "", "", "", "", "", "", "", "", "", "", "", ""];
 
     //start timer
     //let start = new Date().getTime();
     let end;
 
     //fetch('https://crmmobile.bangchak.co.th/webservice/oil_price.aspx')
-    await fetch('https://www.bangchak.co.th/api/oilprice')
+    /*await fetch('https://www.bangchak.co.th/api/oilprice')
         //.then(res => res.text())
         .then(res => res.json())
         .then(body => {
@@ -758,12 +759,12 @@ fastify.get('/', async (request, reply) => {
         .catch(err => {
             end = new Date().getTime();
             console.log('finish');
-        });
+        });*/
 
     //await new Promise(resolve => setTimeout(resolve, 500));
     //if end is not set it mean fetch is not finish
-    if (!end) {
-        console.log('finish but not');
+    //if (!end) {
+        //console.log('finish but not');
         const fromnew = await fetch('https://www.prachachat.net/feed?tag=%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A1%E0%B8%B1%E0%B8%99');
         const fromnewbody = await fromnew.text();
         const $fromnew = cheerio.load(fromnewbody);
@@ -794,61 +795,71 @@ fastify.get('/', async (request, reply) => {
                                     console.log('ul')
                                     //console.log(li.children[0].data);
                                     let ulg = li.children[0].data.replace('ULG', '').replace('=','').replace('บาท','').trim();
-                                    newdata[9] = ulg;
+                                    //newdata[9] = ulg;
+                                    newdata2[9] = ulg;
                                 }
                                 if(li.children[0].data.includes('GSH95') && newdata[8] == ""){
                                     console.log('ul')
                                     //console.log(li.children[0].data);
                                     let gsh95 = li.children[0].data.replace('GSH95', '').replace('=','').replace('บาท','').trim();
-                                    newdata[8] = gsh95;
+                                    //newdata[8] = gsh95;
+                                    newdata2[8] = gsh95;
                                 }
                                 if(li.children[0].data.includes('E20')){
                                     console.log('ul')
                                     //console.log(li.children[0].data);
                                     let e20 = li.children[0].data.replace('E20', '').replace('=','').replace('บาท','').trim();
-                                    newdata[6] = e20;
+                                    //newdata[6] = e20;
+                                    newdata2[6] = e20;
                                 }
                                 if(li.children[0].data.includes('GSH91')){
                                     console.log('ul')
                                     //console.log(li.children[0].data);
                                     let gsh91 = li.children[0].data.replace('GSH91', '').replace('=','').replace('บาท','').trim();
-                                    newdata[7] = gsh91;
+                                    //newdata[7] = gsh91;
+                                    newdata2[7] = gsh91;
                                 }
                                 if(li.children[0].data.includes('E85')){
                                     console.log('ul')
                                     //console.log(li.children[0].data);
                                     let e85 = li.children[0].data.replace('E85', '').replace('=','').replace('บาท','').trim();
-                                    newdata[5] = e85;
+                                    //newdata[5] = e85;
+                                    newdata2[5] = e85;
                                 }
                                 if(li.children[0].data.includes('HSD-B7')){
                                     console.log('ul')
                                     //console.log(li.children[0].data);
                                     let hsd = li.children[0].data.replace('HSD-B7', '').replace('=','').replace('บาท','').trim();
-                                    newdata[3] = hsd;
+                                    //newdata[3] = hsd;
+                                    newdata2[3] = hsd;
                                 }
                                 if(li.children[0].data.includes('HSD-B10')){
                                     console.log('ul')
                                     //console.log(li.children[0].data);
                                     let hsd = li.children[0].data.replace('HSD-B10', '').replace('=','').replace('บาท','').trim();
-                                    newdata[2] = hsd;
+                                    //newdata[2] = hsd;
+                                    newdata2[2] = hsd;
                                 }
                                 if(li.children[0].data.includes('HSD-B20')){
                                     console.log('ul')
                                     //console.log(li.children[0].data);
                                     let hsd = li.children[0].data.replace('HSD-B20', '').replace('=','').replace('บาท','').trim();
-                                    newdata[4] = hsd;
+                                    //newdata[4] = hsd;
+                                    newdata2[4] = hsd;
                                 }
                                 if(li.children[0].data.includes('พรีเมี่ยมดีเซล B7')){
                                     console.log('ul')
                                     //console.log(li.children[0].data);
                                     let hsd = li.children[0].data.replace('พรีเมี่ยมดีเซล B7', '').replace('=','').replace('บาท','').trim();
-                                    newdata[1] = hsd;
+                                    //newdata[1] = hsd;
+                                    newdata2[1] = hsd;
                                 }
                                 if(li.children[0].data.includes('พรีเมี่ยม GSH95')){
                                     console.log('ul')
                                     //console.log(li.children[0].data);
                                     let hsd = li.children[0].data.replace('พรีเมี่ยม GSH95', '').replace('=','').replace('บาท','').trim();
-                                    newdata[11] = hsd;
+                                    //newdata[11] = hsd;
+                                    newdata2[11] = hsd;
                                 }
                             }
                         });
@@ -863,72 +874,84 @@ fastify.get('/', async (request, reply) => {
                                 console.log('p')
                                 //console.log($content(p).text());
                                 let ptext = $content(p).text().replace('ULG', '').replace('=','').replace('บาท','').replace(',','').trim();
-                                newdata[9] = ptext;
+                                //newdata[9] = ptext;
+                                newdata2[9] = ptext;
                             }
                             if($content(p).text().includes('GSH95') && newdata[8] == ""){
                                 console.log('p')
                                 //console.log($content(p).text());
                                 let ptext = $content(p).text().replace('GSH95', '').replace('=','').replace('บาท','').replace(',','').trim();
-                                newdata[8] = ptext;
+                                //newdata[8] = ptext;
+                                newdata2[8] = ptext;
                             }
                             if($content(p).text().includes('E20')){
                                 console.log('p')
                                 //console.log($content(p).text());
                                 let ptext = $content(p).text().replace('E20', '').replace('=','').replace('บาท','').replace(',','').trim();
-                                newdata[4] = ptext;
+                                //newdata[4] = ptext;
+                                newdata2[4] = ptext;
                             }
                             if($content(p).text().includes('GSH91')){
                                 console.log('p')
                                 //console.log($content(p).text());
                                 let ptext = $content(p).text().replace('GSH91', '').replace('=','').replace('บาท','').replace(',','').trim();
-                                newdata[7] = ptext;
+                                //newdata[7] = ptext;
+                                newdata2[7] = ptext;
                             }
                             if($content(p).text().includes('E85')){
                                 console.log('p')
                                 //console.log($content(p).text());
                                 let ptext = $content(p).text().replace('E85', '').replace('=','').replace('บาท','').replace(',','').trim();
-                                newdata[5] = ptext;
+                                //newdata[5] = ptext;
+                                newdata2[5] = ptext;
                             }
                             if($content(p).text().includes('HSD-B7')){
                                 console.log('p')
                                 //console.log($content(p).text());
                                 let ptext = $content(p).text().replace('HSD-B7', '').replace('=','').replace('บาท','').replace(',','').trim();
-                                newdata[3] = ptext;
+                                //newdata[3] = ptext;
+                                newdata2[3] = ptext;
                             }
                             if($content(p).text().includes('HSD-B10')){
                                 console.log('p')
                                 //console.log($content(p).text());
                                 let ptext = $content(p).text().replace('HSD-B10', '').replace('=','').replace('บาท','').replace(',','').trim();
-                                newdata[2] = ptext;
+                                //newdata[2] = ptext;
+                                newdata2[2] = ptext;
                             }
                             if($content(p).text().includes('HSD-B20')){
                                 console.log('p')
                                 //console.log($content(p).text());
                                 let ptext = $content(p).text().replace('HSD-B20', '').replace('=','').replace('บาท','').replace(',','').trim();
-                                newdata[4] = ptext;
+                                //newdata[4] = ptext;
+                                newdata2[4] = ptext;
                             }
                             if($content(p).text().includes('พรีเมี่ยมดีเซล B7')){
                                 console.log('p')
                                 //console.log($content(p).text());
                                 let ptext = $content(p).text().replace('พรีเมี่ยมดีเซล B7', '').replace('=','').replace('บาท','').replace(',','').trim();
-                                newdata[1] = ptext;
+                                //newdata[1] = ptext;
+                                newdata2[1] = ptext;
                             }
                             if($content(p).text().includes('พรีเมี่ยม GSH95')){
                                 console.log('p')
                                 //console.log($content(p).text());
                                 let ptext = $content(p).text().replace('พรีเมี่ยม GSH95', '').replace('=','').replace('บาท','').replace(',','').trim();
-                                newdata[11] = ptext;
+                                //newdata[11] = ptext;
+                                newdata2[11] = ptext;
                             }
                         });
                     }
                 }
-                newdata[10] = '-';
+                //newdata[10] = '-';
+                newdata2[10] = '-';
                 let date = new Date();
                 let tomorrowdate = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
-                newdata[0] = (tomorrowdate.getDate()).toString().padStart(2, '0') + '/' + (tomorrowdate.getMonth() + 1).toString().padStart(2, '0') + '/' + (tomorrowdate.getFullYear() + 543);
+                //newdata[0] = (tomorrowdate.getDate()).toString().padStart(2, '0') + '/' + (tomorrowdate.getMonth() + 1).toString().padStart(2, '0') + '/' + (tomorrowdate.getFullYear() + 543);
+                newdata2[0] = (tomorrowdate.getDate()).toString().padStart(2, '0') + '/' + (tomorrowdate.getMonth() + 1).toString().padStart(2, '0') + '/' + (tomorrowdate.getFullYear() + 543);
             }
         })
-    }else{
+    //}else{
         //let tmrprice = await fetch('https://crmmobile.bangchak.co.th/webservice/oil_price.aspx')
         //let body = await tmrprice.text();
         let tmrprice = await fetch('https://www.bangchak.co.th/api/oilprice')
@@ -1060,6 +1083,18 @@ fastify.get('/', async (request, reply) => {
             //set newdata to data[0]
             newdata = data[0];
         }
+    //}
+
+    //convert text newdata2[0] and newdata[0] to date
+    let newdate1 = newdata2[0].split('/');
+    let newdate1date = new Date(newdate1[2] - 543, newdate1[1] - 1, newdate1[0]);
+    let newdate2 = newdata[0].split('/');
+    let newdate2date = new Date(newdate2[2] - 543, newdate2[1] - 1, newdate2[0]);
+    //if newdate1date > newdate2date
+    if (newdate1date > newdate2date) {
+        //set newdata2 to newdata
+        newdata = newdata2;
+        console.log('newdata2');
     }
     
     //get time in ms
@@ -1199,6 +1234,16 @@ fastify.get('/', async (request, reply) => {
 
         //remove last element of data[2]
         //data[2].pop();
+    }
+
+    //if data[0] length > 12 then remove after 12
+    if(data[0].length > 12){
+        data[0].splice(12, data[0].length - 12);
+        data[2].splice(12, data[2].length - 12);
+    }
+    if(data[1].length > 12){
+        data[1].splice(12, data[1].length - 12);
+        data[2].splice(12, data[2].length - 12);
     }
 
     let newway;
