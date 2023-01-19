@@ -748,7 +748,7 @@ fastify.get('/', async (request, reply) => {
     let end;
 
     //fetch('https://crmmobile.bangchak.co.th/webservice/oil_price.aspx')
-    fetch('https://www.bangchak.co.th/api/oilprice')
+    await fetch('https://www.bangchak.co.th/api/oilprice')
         //.then(res => res.text())
         .then(res => res.json())
         .then(body => {
@@ -760,7 +760,7 @@ fastify.get('/', async (request, reply) => {
             console.log('finish');
         });
 
-    await new Promise(resolve => setTimeout(resolve, 500));
+    //await new Promise(resolve => setTimeout(resolve, 500));
     //if end is not set it mean fetch is not finish
     if (!end) {
         console.log('finish but not');
