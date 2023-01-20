@@ -1092,13 +1092,15 @@ fastify.get('/', async (request, reply) => {
     let newdate2date = new Date(newdate2[2] - 543, newdate2[1] - 1, newdate2[0]);
     //if newdate1date > newdate2date
     let comefromnew = false;
-    if (newdate1date > newdate2date) {
-        //set newdata2 to newdata
-        console.log(newdate1date);
-        console.log(newdate2date);
-        newdata = newdata2;
-        console.log('newdata2');
-        comefromnew = true;
+    if (newdate2date != newdate1date) {
+        if (newdate1date > newdate2date) {
+            //set newdata2 to newdata
+            console.log(newdate1date);
+            console.log(newdate2date);
+            newdata = newdata2;
+            console.log('newdata2');
+            comefromnew = true;
+        }
     }
     
     //get time in ms
