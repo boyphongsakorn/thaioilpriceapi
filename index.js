@@ -1091,12 +1091,14 @@ fastify.get('/', async (request, reply) => {
     let newdate2 = newdata[0].split('/');
     let newdate2date = new Date(newdate2[2] - 543, newdate2[1] - 1, newdate2[0]);
     //if newdate1date > newdate2date
+    let comefromnew = false;
     if (newdate1date > newdate2date) {
         //set newdata2 to newdata
         console.log(newdate1date);
         console.log(newdate2date);
         newdata = newdata2;
         console.log('newdata2');
+        comefromnew = true;
     }
     
     //get time in ms
@@ -1131,9 +1133,9 @@ fastify.get('/', async (request, reply) => {
     if (count > 2) {
         data[1] = data[0];
         data[0] = newdata;
-        let comefromnew = false;
 
         //if(data[0][9] == '-'){
+        if(comefromnew === false){
             const fromnew = await fetch('https://www.prachachat.net/feed?tag=%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A1%E0%B8%B1%E0%B8%99');
             const fromnewbody = await fromnew.text();
             const $fromnew = cheerio.load(fromnewbody);
@@ -1205,11 +1207,15 @@ fastify.get('/', async (request, reply) => {
                 }
             })
 
-            if(comefromnew === false){
+            //if(comefromnew === false){
                 data[0][10] = data[0][9];
                 data[0][9] = parseFloat(data[1][9]) + parseFloat(data[2][6]);
                 data[0][11] = parseFloat(data[1][11]) + parseFloat(data[2][6]);
-            }
+                //get only 2 decimal
+                data[0][9] = data[0][9].toFixed(2);
+                data[0][11] = data[0][11].toFixed(2);
+            //}
+        }
         //}else{
         //    comefromnew = true;
         //}
