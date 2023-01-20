@@ -945,7 +945,7 @@ fastify.get('/', async (request, reply) => {
                 }
                 //newdata[10] = '-';
                 newdata2[10] = '-';
-                let date = new Date();
+                let date = new Date($fromnew(el).find('pubDate').text());
                 let tomorrowdate = new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
                 //newdata[0] = (tomorrowdate.getDate()).toString().padStart(2, '0') + '/' + (tomorrowdate.getMonth() + 1).toString().padStart(2, '0') + '/' + (tomorrowdate.getFullYear() + 543);
                 newdata2[0] = (tomorrowdate.getDate()).toString().padStart(2, '0') + '/' + (tomorrowdate.getMonth() + 1).toString().padStart(2, '0') + '/' + (tomorrowdate.getFullYear() + 543);
@@ -1093,6 +1093,8 @@ fastify.get('/', async (request, reply) => {
     //if newdate1date > newdate2date
     if (newdate1date > newdate2date) {
         //set newdata2 to newdata
+        console.log(newdate1date);
+        console.log(newdate2date);
         newdata = newdata2;
         console.log('newdata2');
     }
