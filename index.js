@@ -1208,7 +1208,7 @@ fastify.get('/', async (request, reply) => {
             })
 
             //if(comefromnew === false){
-                data[0][10] = data[0][9];
+                //data[0][10] = data[0][9];
                 data[0][9] = parseFloat(data[1][9]) + parseFloat(data[2][6]);
                 data[0][11] = parseFloat(data[1][11]) + parseFloat(data[2][6]);
                 //get only 2 decimal
