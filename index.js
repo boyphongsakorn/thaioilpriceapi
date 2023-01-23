@@ -798,7 +798,7 @@ fastify.get('/', async (request, reply) => {
                                 //newdata[9] = ulg;
                                 newdata2[9] = ulg;
                             }
-                            if (li.children[0].data.includes('GSH95') && newdata[8] == "") {
+                            if (li.children[0].data.includes('GSH95') && newdata[8] == "" && li.children[0].data.includes('พรีเมี่ยม GSH95') == false) {
                                 console.log('ul')
                                 //console.log(li.children[0].data);
                                 let gsh95 = li.children[0].data.replace('GSH95', '').replace('=', '').replace('บาท', '').trim();
@@ -863,6 +863,17 @@ fastify.get('/', async (request, reply) => {
                             }
                         }
                     });
+                    ul[1].children.forEach((li) => {
+                        if (li.name === 'li') {
+                            if (li.children[0].data.includes('Hi Premium 97 (GSH95++)')) {
+                                console.log('ul')
+                                //console.log(li.children[0].data);
+                                let gsh95 = li.children[0].data.replace('Hi Premium 97 (GSH95++)', '').replace('=', '').replace('บาท', '').trim();
+                                //newdata[8] = gsh95;
+                                newdata2[10] = gsh95;
+                            }
+                        }
+                    });
                 }
                 //find p tag in content
                 const p = $content('p').toArray();
@@ -889,7 +900,8 @@ fastify.get('/', async (request, reply) => {
                             //console.log($content(p).text());
                             let ptext = $content(p).text().replace('E20', '').replace('=', '').replace('บาท', '').replace(',', '').trim();
                             //newdata[4] = ptext;
-                            newdata2[4] = ptext;
+                            //newdata2[4] = ptext;
+                            newdata2[6] = ptext;
                         }
                         if ($content(p).text().includes('GSH91')) {
                             console.log('p')
@@ -940,6 +952,13 @@ fastify.get('/', async (request, reply) => {
                             //newdata[11] = ptext;
                             newdata2[11] = ptext;
                         }
+                        if ($content(p).text().includes('Hi Premium 97 (GSH95++)')) {
+                            console.log('p')
+                            //console.log($content(p).text());
+                            let ptext = $content(p).text().replace('Hi Premium 97 (GSH95++)', '').replace('=', '').replace('บาท', '').replace(',', '').trim();
+                            //newdata[8] = ptext;
+                            newdata2[10] = ptext;
+                        }
                     });
                 }
                 let date = new Date($fromnew(el).find('pubDate').text());
@@ -948,7 +967,7 @@ fastify.get('/', async (request, reply) => {
                 newdata2[0] = (tomorrowdate.getDate()).toString().padStart(2, '0') + '/' + (tomorrowdate.getMonth() + 1).toString().padStart(2, '0') + '/' + (tomorrowdate.getFullYear() + 543);
             }
             //newdata[10] = '-';
-            newdata2[10] = '-';
+            //newdata2[10] = '-';
         }
     })
     //}else{
@@ -1093,8 +1112,6 @@ fastify.get('/', async (request, reply) => {
     let newdate2date = new Date(newdate2[2] - 543, newdate2[1] - 1, newdate2[0]);
     //if newdate1date > newdate2date
     let comefromnew = false;
-    console.log(newdate1);
-    console.log(newdate1date);
     if (newdate2date != newdate1date) {
         if (newdate1date > newdate2date) {
             //set newdata2 to newdata
