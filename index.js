@@ -1248,6 +1248,12 @@ fastify.get('/', async (request, reply) => {
         data[2] = data[2].map(e => e.toFixed(2));
 
         if (comefromnew === false) {
+            data[0][9] = parseFloat(data[1][9]) + parseFloat(data[2][6]);
+            data[0][11] = parseFloat(data[1][11]) + parseFloat(data[2][6]);
+
+            data[0][9] = data[0][9].toFixed(2);
+            data[0][11] = data[0][11].toFixed(2);
+            
             data[0][9] = '~' + data[0][9];
             data[0][11] = '~' + data[0][11];
         }
