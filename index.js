@@ -1254,13 +1254,13 @@ fastify.get('/', async (request, reply) => {
             data[0][9] = data[0][9].toFixed(2);
             data[0][11] = data[0][11].toFixed(2);
 
-            data[0][9] = '~' + data[0][9];
-            data[0][11] = '~' + data[0][11];
-
             //reroll data[2]
             data[2] = data[0].map((e, i) => e - data[1][i]);
             //format number to 2 decimal
             data[2] = data[2].map(e => e.toFixed(2));
+
+            data[0][9] = '~' + data[0][9];
+            data[0][11] = '~' + data[0][11];
         }
 
         var date1 = new Date(data[0][0].substr(3, 2) + '/' + data[0][0].substr(0, 2) + '/' + (parseInt(data[0][0].substr(6, 4)) - 543));
