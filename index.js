@@ -1401,15 +1401,17 @@ fastify.get('/image', async (req, res) => {
         fs.writeFileSync('/tmp/test.txt', checkbody.info.lastupdate);
         location = '/tmp/'
     }
-    if(checkbody.info.lastupdate !== fs.readFileSync(location + 'lastupdate.txt', 'utf8')) {
-        fs.writeFileSync('lastupdate.txt', checkbody.info.beforeupdate);
-    }else{
+    if(fs.existsSync(location + 'lastupdate.txt') === false){
         try {
             fs.writeFileSync('lastupdate.txt', checkbody.info.lastupdate);
             location = ''
         } catch (error) {
             fs.writeFileSync('/tmp/lastupdate.txt', checkbody.info.lastupdate);
             location = '/tmp/'
+        }
+    } else {
+        if(checkbody.info.lastupdate !== fs.readFileSync(location + 'lastupdate.txt', 'utf8')) {
+            fs.writeFileSync('lastupdate.txt', checkbody.info.beforeupdate);
         }
     }
     //check if have a image file
