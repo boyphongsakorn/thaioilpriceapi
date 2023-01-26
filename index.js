@@ -36,6 +36,10 @@ async function getData() {
 
     //console second tr inside tbody
     let tr2 = $('tbody tr').eq(1);
+    //get last tbody tr
+    tr = $('tbody tr').last();
+    //get before last tbody tr
+    tr2 = $('tbody tr').eq($('tbody tr').length - 2);
     //console.log(tr2.text());
 
     //console.log(sparray(tr2.text()));
@@ -218,8 +222,8 @@ async function getData() {
     console.log(now[0]);
 
     //plus 1 in arr[0][0].substr(0, 2) and arr[1][0].substr(0, 2)
-    now[0] = now[0].replace(now[0].substr(0, 2), String(parseInt(now[0].substr(0, 2)) + 1).padStart(2, '0'));
-    old[0] = old[0].replace(old[0].substr(0, 2), String(parseInt(old[0].substr(0, 2)) + 1).padStart(2, '0'));
+    //now[0] = now[0].replace(now[0].substr(0, 2), String(parseInt(now[0].substr(0, 2)) + 1).padStart(2, '0'));
+    //old[0] = old[0].replace(old[0].substr(0, 2), String(parseInt(old[0].substr(0, 2)) + 1).padStart(2, '0'));
 
     // pttarr.forEach(e => {
     //     if (e.OilTypeId == 7) {
