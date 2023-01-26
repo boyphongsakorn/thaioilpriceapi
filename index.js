@@ -1395,14 +1395,22 @@ fastify.get('/image', async (req, res) => {
     const checkbody = await check.json();
     //write info.lastupdate to file
     try {
-        fs.writeFileSync('lastupdate.txt', checkbody.info.lastupdate);
+        fs.writeFileSync('test.txt', checkbody.info.lastupdate);
         location = ''
     } catch (error) {
-        fs.writeFileSync('/tmp/lastupdate.txt', checkbody.info.lastupdate);
+        fs.writeFileSync('/tmp/test.txt', checkbody.info.lastupdate);
         location = '/tmp/'
     }
     if(checkbody.info.lastupdate !== fs.readFileSync(location + 'lastupdate.txt', 'utf8')) {
         fs.writeFileSync('lastupdate.txt', checkbody.info.beforeupdate);
+    }else{
+        try {
+            fs.writeFileSync('lastupdate.txt', checkbody.info.lastupdate);
+            location = ''
+        } catch (error) {
+            fs.writeFileSync('/tmp/lastupdate.txt', checkbody.info.lastupdate);
+            location = '/tmp/'
+        }
     }
     //check if have a image file
     let imageexist = false;
