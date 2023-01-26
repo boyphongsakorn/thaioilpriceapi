@@ -1395,8 +1395,10 @@ fastify.get('/image', async (req, res) => {
     const checkbody = await check.json();
     //write info.lastupdate to file
     try {
-        fs.writeFileSync('lastupdate.txt', checkbody.info.lastupdate);
-        location = ''
+        if(checkbody.info.lastupdate !== fs.readFileSync(location + 'lastupdate.txt', 'utf8')) {
+            fs.writeFileSync('lastupdate.txt', checkbody.info.lastupdate);
+            location = ''
+        }
     } catch (error) {
         fs.writeFileSync('/tmp/lastupdate.txt', checkbody.info.lastupdate);
         location = '/tmp/'
