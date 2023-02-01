@@ -37,9 +37,9 @@ async function getData() {
     //console second tr inside tbody
     let tr2 = $('tbody tr').eq(1);
     //get last tbody tr
-    tr = $('tbody tr').last();
+    //tr = $('tbody tr').last();
     //get before last tbody tr
-    tr2 = $('tbody tr').eq($('tbody tr').length - 2);
+    //tr2 = $('tbody tr').eq($('tbody tr').length - 2);
     //console.log(tr2.text());
 
     //console.log(sparray(tr2.text()));
