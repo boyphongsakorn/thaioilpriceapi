@@ -1465,14 +1465,18 @@ fastify.get('/image', async (req, res) => {
         //read file and return
         return fs.readFileSync(location + 'oilprice.png')
     } else {
-        const screenshot = await fetch('https://screenshot-xi.vercel.app/api?url=https://boyphongsakorn.github.io/thaioilpriceapi&width=1000&height=1000')
-        const screenshotbody = await screenshot.buffer();
-        //write image file
-        if(screenshotbody.length > 1000){
-            try {
-                fs.writeFileSync('oilprice.png', screenshotbody);
-            } catch (error) {
-                fs.writeFileSync('/tmp/oilprice.png', screenshotbody);
+        let finish = false;
+        while (finish === false) {
+            const screenshot = await fetch('https://screenshot-xi.vercel.app/api?url=https://boyphongsakorn.github.io/thaioilpriceapi&width=1000&height=1000')
+            const screenshotbody = await screenshot.buffer();
+            //write image file
+            if(screenshotbody.length > 1000){
+                try {
+                    fs.writeFileSync('oilprice.png', screenshotbody);
+                } catch (error) {
+                    fs.writeFileSync('/tmp/oilprice.png', screenshotbody);
+                }
+                finish = true;
             }
         }
         //send image
