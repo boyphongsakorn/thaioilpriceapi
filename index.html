@@ -269,7 +269,7 @@
                 document.getElementById("olddate").innerText = parseInt(result[1][0].substring(0, 2)) + " " + monthtotext(result[1][0].substring(3, 5));
                 document.getElementById("date").innerText = parseInt(result[0][0].substring(0, 2)) + " " + monthtotext(result[0][0].substring(3, 5));
 
-                let today = new Date().toLocaleString('en-US', { timeZone: 'Asia/Bangkok' });
+                let today = new Date();
 
                 if (result[1][0] == today.getDate().toString().padStart(2, '0') + '/' + (today.getMonth() + 1).toString().padStart(2, '0') + '/' + (today.getFullYear() + 543)) {
                     document.getElementById("olddate").innerText = "วันนี้";
