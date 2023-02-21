@@ -4,3 +4,5 @@ oilbg.png
 index.html
 package-lock.json
 .github
+vercel.json
+test.js
