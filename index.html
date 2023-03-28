@@ -48,7 +48,7 @@
     <p id="diff9" style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 470px;text-align: center;width: 100px;">-</p>
     <p id="diff10" style="font-size: 1cm;font-style: italic;position: absolute;left: 775px;top: 850px;text-align: center;width: 100px;">-</p-->
     <table
-        style="position: absolute;top: 130px;left: 80px;color: black;width: 835px;text-align: center;background-color: transparent;max-height: 820px;height: 820px;">
+        style="position: absolute;top: 130px;left: 80px;color: black;width: 835px;text-align: center;background-color: transparent;max-height: 600px;height: 600px;">
         <tr>
             <th style="width: 190px;height: 55px;font-size: 0.75cm;color: white;">ชื่อ/ชนิด</th>
             <th id="olddate" style="background-color: transparent;color: white;width: 180px;font-size: 0.75cm;">วันนี้
@@ -114,7 +114,7 @@
         </tr>
         <tr id="oil9">
             <td
-                style="background: url('https://orapiweb.pttor.com/uploads/images/20220228_235820_5403.jpg');background-size: 100% 100%;border-radius: 20px;">
+                style="background: url('https://orapiweb.pttor.com/uploads/images/20220228_235820_5403.jpg');background-size: 100% auto;border-radius: 20px;background-repeat: repeat;background-position: center center;">
             </td>
             <td id="today9"
                 style="font-size: 0.75cm;border-radius: 20px;color: black;background-color: white;border-style: solid;border-color: black;">
@@ -198,7 +198,7 @@
         </tr>
         <tr id="oil11">
             <td
-                style="background: url('https://orapiweb.pttor.com/uploads/images/20220228_212905_1792.jpg');border-radius: 20px;background-size: 100% 100%;">
+                style="background: url('https://orapiweb.pttor.com/uploads/images/20220228_212905_1792.jpg');background-size: 100% auto;border-radius: 20px;background-repeat: repeat;background-position: center center;">
             </td>
             <td id="today11"
                 style="font-size: 0.75cm;border-radius: 20px;color: black;background-color: white;border-style: solid;border-color: black;">
@@ -211,6 +211,7 @@
                 -</td>
         </tr>
     </table>
+    <img src="banner.png" style="position: fixed;bottom: 0;right: 0;z-index: 9999;width: 920px;">
     <script>
         function monthtotext(month) {
             //convert month to number
@@ -332,12 +333,12 @@
                             simbol = "";
                         }
                         //document.getElementById("diff"+listresult[i]).innerHTML = "+" + result[2][i+1];
-                        document.getElementById("today" + listresult[i]).innerHTML = "<h1 style='font-size: 1cm;margin-top: 0px;margin-bottom: 0px;line-height: 45px;'>" + result[1][i + 1] + "</h1>";
-                        document.getElementById("diff" + listresult[i]).innerHTML = "<h1 style='font-size: 1cm;margin-top: 0px;margin-bottom: 0px;line-height: 45px;'>" + simbol + result[2][i + 1] + "</h1>";
+                        document.getElementById("today" + listresult[i]).innerHTML = "<h1 style='font-size: 0.7cm;margin-top: 0px;margin-bottom: 0px;line-height: 45px;'>" + result[1][i + 1] + "</h1>";
+                        document.getElementById("diff" + listresult[i]).innerHTML = "<h1 style='font-size: 0.7cm;margin-top: 0px;margin-bottom: 0px;line-height: 45px;'>" + simbol + result[2][i + 1] + "</h1>";
                         document.getElementById("diff" + listresult[i]).style.color = color;
                         document.getElementById("diff" + listresult[i]).style.fontWeight = "bold";
                         document.getElementById("diff" + listresult[i]).style.borderColor = color;
-                        document.getElementById("tomor" + listresult[i]).innerHTML = "<h1 style='font-size: 1.5cm;margin-top: 0px;margin-bottom: 0px;line-height: 45px;'>" + result[0][i + 1] + "</h1>";
+                        document.getElementById("tomor" + listresult[i]).innerHTML = "<h1 style='font-size: 1cm;margin-top: 0px;margin-bottom: 0px;line-height: 45px;'>" + result[0][i + 1] + "</h1>";
                         document.getElementById("tomor" + listresult[i]).style.fontSize = "none";
                         document.getElementById("tomor" + listresult[i]).style.color = color;
                         document.getElementById("tomor" + listresult[i]).style.fontWeight = "bold";
