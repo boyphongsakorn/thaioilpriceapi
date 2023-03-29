@@ -15,7 +15,7 @@ ENV TZ=Asia/Bangkok
 RUN npm install -g pnpm
 COPY package*.json ./
 COPY pnpm-*.yaml ./
-RUN pnpm fetch --prod
+RUN pnpm fetch --prod --no-frozen-lockfile
 ADD . ./
 RUN pnpm install -r --offline --prod
 
