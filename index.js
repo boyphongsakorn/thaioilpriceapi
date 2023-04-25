@@ -768,6 +768,7 @@ fastify.get('/', async (request, reply) => {
     console.log('data', data);
     let newdata = ["", "", "", "", "", "", "", "", "", "", "", "", ""];
     let newdata2 = ["", "", "", "", "", "", "", "", "", "", "", "", ""];
+    let newdata3 = ["", "", "", "", "", "", "", "", "", "", "", "", ""];
 
     //start timer
     //let start = new Date().getTime();
@@ -1122,6 +1123,31 @@ fastify.get('/', async (request, reply) => {
     //newdata[9] = body.data.items[4].PriceTomorrow.toString();
     newdata[10] = body.data.items[4].PriceTomorrow.toString();
 
+    let anothertmrprice = await fetch('https://crmmobile.bangchak.co.th/webservice/oil_price.aspx')
+    let anotherbody = await anothertmrprice.text();
+    //get price from xml
+    const $another = cheerio.load(anotherbody);
+
+    let anotherarr = $another('update_date').text().split('/');
+    let anotherdate = new Date(anotherarr[2] - 543, anotherarr[1] - 1, anotherarr[0]);
+
+    newdata3[1] = $another('item').eq(0).find('tomorrow').text();
+    newdata3[2] = $another('item').eq(1).find('tomorrow').text();
+    newdata3[3] = $another('item').eq(2).find('tomorrow').text();
+    newdata3[4] = $another('item').eq(3).find('tomorrow').text();
+    // newdata3[5] = $another('item').eq(5).find('tomorrow').text();
+    newdata3[5] = $another('item').eq(4).find('tomorrow').text();
+    newdata3[6] = $another('item').eq(5).find('tomorrow').text();
+    newdata3[7] = $another('item').eq(6).find('tomorrow').text();
+    newdata3[8] = $another('item').eq(7).find('tomorrow').text();
+    newdata3[9] = $another('item').eq(8).find('tomorrow').text();
+    newdata3[10] = parseFloat($another('item').eq(7).find('tomorrow').text()) + 9.89+(parseFloat($another('item').eq(7).find('today').text())-parseFloat($another('item').eq(7).find('tomorrow').text()));
+    newdata3[0] = (parseInt(anotherarr[0])+1).toString().padStart(2, '0') + '/' + anotherarr[1].padStart(2, '0') + '/' + anotherarr[2];
+    newdata3[0] = newdata3[0].split(' ')[0];
+
+    console.log('newdata >>> ' + newdata);
+    console.log('newdata3 >>>' + newdata3);
+
     //if todaydate < real today
     if (todaydate < date) {
         console.log('wrong date');
@@ -1135,16 +1161,29 @@ fastify.get('/', async (request, reply) => {
     let newdate1date = new Date(newdate1[2] - 543, newdate1[1] - 1, newdate1[0]);
     let newdate2 = newdata[0].split('/');
     let newdate2date = new Date(newdate2[2] - 543, newdate2[1] - 1, newdate2[0]);
+    let newdate3 = newdata3[0].split('/');
+    let newdate3date = new Date(newdate3[2] - 543, newdate3[1] - 1, newdate3[0]);
     //if newdate1date > newdate2date
     let comefromnew = false;
-    if (newdate2date != newdate1date) {
-        if (newdate1date > newdate2date) {
-            //set newdata2 to newdata
+    if (newdate3date > newdate2date) {
+        if (newdate3date > newdate1date) {
+            //set newdata3 to newdata
             console.log(newdate1date);
-            console.log(newdate2date);
-            newdata = newdata2;
-            console.log('newdata2');
+            console.log(newdate3date);
+            newdata = newdata3;
+            console.log('newdata3');
             comefromnew = true;
+        }
+    } else {
+        if (newdate2date != newdate1date) {
+            if (newdate1date > newdate2date) {
+                //set newdata2 to newdata
+                console.log(newdate1date);
+                console.log(newdate2date);
+                newdata = newdata2;
+                console.log('newdata2');
+                comefromnew = true;
+            }
         }
     }
 
