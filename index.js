@@ -1081,7 +1081,8 @@ fastify.get('/', async (request, reply) => {
     let year = parseInt(after);
 
     //let todaydate = new Date(arr[1] + '/' + arr[0] + '/' + year.toString());
-    let todaydate = new Date(monthnum + '/' + before + '/' + year.toString());
+    // let todaydate = new Date(monthnum + '/' + before + '/' + year.toString());
+    let todaydate = new Date(year.toString() , monthnum , before);
 
     //console.log(arr);
     console.log(todaydate);
