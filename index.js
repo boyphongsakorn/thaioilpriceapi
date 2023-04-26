@@ -1149,11 +1149,11 @@ fastify.get('/', async (request, reply) => {
     console.log('newdata3 >>>' + newdata3);
 
     //if todaydate < real today
-    if (todaydate < date) {
-        console.log('wrong date');
-        //set newdata to data[0]
-        newdata = data[0];
-    }
+    // if (todaydate < date) {
+    //     console.log('wrong date');
+    //     //set newdata to data[0]
+    //     newdata = data[0];
+    // }
     //}
 
     //convert text newdata2[0] and newdata[0] to date
@@ -1166,7 +1166,7 @@ fastify.get('/', async (request, reply) => {
     //if newdate1date > newdate2date
     let comefromnew = false;
     if (newdate3date > newdate2date) {
-        if (newdate3date > newdate1date) {
+        if (newdate3date > newdate1date || newdata2[0] == '') {
             //set newdata3 to newdata
             console.log(newdate1date);
             console.log(newdate3date);
