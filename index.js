@@ -1130,37 +1130,45 @@ fastify.get('/', async (request, reply) => {
     const $another = cheerio.load(anotherbody);
 
     let anotherarr = $another('update_date').text().split('/');
-    let anotherdate = new Date(anotherarr[2] - 543, anotherarr[1] - 1, anotherarr[0]);
 
-    newdata3[1] = $another('item').eq(0).find('tomorrow').text();
-    newdata3[2] = $another('item').eq(1).find('tomorrow').text();
-    newdata3[3] = $another('item').eq(2).find('tomorrow').text();
-    newdata3[4] = $another('item').eq(3).find('tomorrow').text();
-    // newdata3[5] = $another('item').eq(5).find('tomorrow').text();
-    newdata3[5] = $another('item').eq(4).find('tomorrow').text();
-    newdata3[6] = $another('item').eq(5).find('tomorrow').text();
-    newdata3[7] = $another('item').eq(6).find('tomorrow').text();
-    newdata3[8] = $another('item').eq(7).find('tomorrow').text();
-    newdata3[9] = $another('item').eq(8).find('tomorrow').text();
-    newdata3[10] = parseFloat($another('item').eq(7).find('tomorrow').text()) + 9.89+(parseFloat($another('item').eq(7).find('today').text())-parseFloat($another('item').eq(7).find('tomorrow').text()));
-    newdata3[0] = (parseInt(anotherarr[0])+1).toString().padStart(2, '0') + '/' + anotherarr[1].padStart(2, '0') + '/' + anotherarr[2];
-    newdata3[0] = newdata3[0].split(' ')[0];
+    if(anotherarr != '' && anotherarr != null && anotherarr != undefined){
 
-    console.log('newdata >>> ' + newdata);
-    console.log('newdata3 >>>' + newdata3);
+        let anotherdate = new Date(anotherarr[2] - 543, anotherarr[1] - 1, anotherarr[0]);
 
-    //if todaydate < real today
-    if (todaydate < date) {
-        console.log('wrong date');
-        //set newdata to data[0]
-        newdata = data[0];
-    }
-    //}
+        newdata3[1] = $another('item').eq(0).find('tomorrow').text();
+        newdata3[2] = $another('item').eq(1).find('tomorrow').text();
+        newdata3[3] = $another('item').eq(2).find('tomorrow').text();
+        newdata3[4] = $another('item').eq(3).find('tomorrow').text();
+        // newdata3[5] = $another('item').eq(5).find('tomorrow').text();
+        newdata3[5] = $another('item').eq(4).find('tomorrow').text();
+        newdata3[6] = $another('item').eq(5).find('tomorrow').text();
+        newdata3[7] = $another('item').eq(6).find('tomorrow').text();
+        newdata3[8] = $another('item').eq(7).find('tomorrow').text();
+        newdata3[9] = $another('item').eq(8).find('tomorrow').text();
+        newdata3[10] = parseFloat($another('item').eq(7).find('tomorrow').text()) + 9.89+(parseFloat($another('item').eq(7).find('today').text())-parseFloat($another('item').eq(7).find('tomorrow').text()));
+        newdata3[0] = (parseInt(anotherarr[0])+1).toString().padStart(2, '0') + '/' + anotherarr[1].padStart(2, '0') + '/' + anotherarr[2];
+        newdata3[0] = newdata3[0].split(' ')[0];
 
-    arrdiff = newdata.filter(x => !newdata3.includes(x));
-    console.log('arrdiff >>> ' + arrdiff.length);
-    if(arrdiff.length == 2){
-        console.log('same data');
+        console.log('newdata >>> ' + newdata);
+        console.log('newdata3 >>>' + newdata3);
+
+        //if todaydate < real today
+        if (todaydate < date) {
+            console.log('wrong date');
+            //set newdata to data[0]
+            newdata = data[0];
+        }
+        //}
+
+        arrdiff = newdata.filter(x => !newdata3.includes(x));
+        console.log('arrdiff >>> ' + arrdiff.length);
+        if(arrdiff.length == 2){
+            console.log('same data');
+            newdata = data[0];
+        }
+
+    } else {
+        newdata3 = data[0];
         newdata = data[0];
     }
 
