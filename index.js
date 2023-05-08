@@ -1344,6 +1344,7 @@ fastify.get('/', async (request, reply) => {
 
             if(parseFloat(data[2][6]) != 0.00){
                 data[0][9] = '~' + data[0][9];
+                data[0][10] = '~' + data[0][10];
                 data[0][11] = '~' + data[0][11];
             }
         }
