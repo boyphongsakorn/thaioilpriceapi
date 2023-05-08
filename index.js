@@ -1165,6 +1165,9 @@ fastify.get('/', async (request, reply) => {
         if(arrdiff.length == 2){
             console.log('same data');
             newdata = data[0];
+        } else if (arrdiff.length > 2) {
+            console.log('diff data');
+            newdata = newdata3;
         }
 
     } else {
