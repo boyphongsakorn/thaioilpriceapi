@@ -1383,6 +1383,15 @@ fastify.get('/', async (request, reply) => {
 
     let newway;
 
+    //check last time
+
+    // if data[0] and data[1] is different only 1 element set data[0] to data[1] and set data[1] = await getData()[1];
+
+    if (data[0].filter(x => !data[1].includes(x)).length === 1) {
+        data[0] = data[1];
+        data[1] = await getData()[1];
+    }
+
     if (info === 'true') {
         newway = {
             'info': {
