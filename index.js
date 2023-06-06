@@ -1032,6 +1032,10 @@ fastify.get('/', async (request, reply) => {
     //split body.data.remark_en by space
     let arr = body.data.remark_en.split(' ');
     //find index of month in arr
+    if(month.length == 0){
+        //get full month
+        let monthfulltext = new Date().toLocaleString('en-us', { month: 'long' });
+        month[0] = monthfulltext;
     let index = arr.indexOf(month[0]);
     //get before index of month and after index of month
     let before = arr[index - 1];
