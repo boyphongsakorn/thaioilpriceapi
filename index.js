@@ -1399,8 +1399,9 @@ fastify.get('/', async (request, reply) => {
 
     if (data[0].filter(x => !data[1].includes(x)).length === 1) {
         data[0] = data[1];
-        data[1] = await getData()[1];
-        console.log(await getData());
+        let newwow = await getData();
+        data[1] = newwow[1];
+        data[2] = newwow[2];
     }
 
     if (info === 'true') {
