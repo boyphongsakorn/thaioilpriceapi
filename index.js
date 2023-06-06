@@ -1035,7 +1035,9 @@ fastify.get('/', async (request, reply) => {
     if(month == null){
         //get full month
         let monthfulltext = new Date().toLocaleString('en-us', { month: 'long' });
-        month[0] = monthfulltext;
+        //change null to array
+        month = [];
+        month.push(monthfulltext);
     }
     let index = arr.indexOf(month[0]);
     //get before index of month and after index of month
