@@ -1156,10 +1156,10 @@ fastify.get('/', async (request, reply) => {
         // if(parseFloat($another('item').eq(7).find('tomorrow').text())-parseFloat($another('item').eq(7).find('today').text()) > 0){
         if(parseFloat($another('item').eq(7).find('tomorrow').text()) > parseFloat($another('item').eq(7).find('today').text())){
             //newdata3[10] = parseFloat(data[0][10]) - (parseFloat($another('item').eq(7).find('today').text())-parseFloat($another('item').eq(7).find('tomorrow').text()));
-            newdata3[10] = parseFloat(data[0][10]) - (parseFloat($another('item').eq(7).find('tomorrow').text())-parseFloat($another('item').eq(7).find('today').text()));
+            newdata3[10] = parseFloat(data[0][10]) + (parseFloat($another('item').eq(7).find('tomorrow').text())-parseFloat($another('item').eq(7).find('today').text()));
         }else{
             //newdata3[10] = parseFloat(data[0][10]) + (parseFloat($another('item').eq(7).find('today').text())-parseFloat($another('item').eq(7).find('tomorrow').text()));
-            newdata3[10] = parseFloat(data[0][10]) + (parseFloat($another('item').eq(7).find('tomorrow').text())-parseFloat($another('item').eq(7).find('today').text()));
+            newdata3[10] = parseFloat(data[0][10]) - (parseFloat($another('item').eq(7).find('tomorrow').text())-parseFloat($another('item').eq(7).find('today').text()));
         }
         newdata3[10] = parseFloat(newdata3[10]).toFixed(2).toString();
         newdata3[0] = (parseInt(anotherarr[0])+1).toString().padStart(2, '0') + '/' + anotherarr[1].padStart(2, '0') + '/' + anotherarr[2];
