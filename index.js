@@ -1133,6 +1133,8 @@ fastify.get('/', async (request, reply) => {
     //newdata[9] = body.data.items[4].PriceTomorrow.toString();
     newdata[10] = body.data.items[4].PriceTomorrow.toString();
 
+    let noten = false;
+
     const controller = new AbortController();
     const timeout = setTimeout(() => {
         controller.abort();
@@ -1170,6 +1172,7 @@ fastify.get('/', async (request, reply) => {
                 newdata3[10] = parseFloat(data[0][10]) - (parseFloat($another('item').eq(7).find('today').text())-parseFloat($another('item').eq(7).find('tomorrow').text()));
             }
             newdata3[10] = parseFloat(newdata3[10]).toFixed(2).toString();
+            noten = true;
             newdata3[0] = (parseInt(anotherarr[0])+1).toString().padStart(2, '0') + '/' + anotherarr[1].padStart(2, '0') + '/' + anotherarr[2];
             newdata3[0] = newdata3[0].split(' ')[0];
 
@@ -1497,7 +1500,7 @@ fastify.get('/', async (request, reply) => {
             if(parseFloat(data[2][6]) != 0.00){
                 data[0][9] = '~' + data[0][9];
                 data[0][11] = '~' + data[0][11];
-                if(parseFloat(data[2][10]) > 0.5){
+                if(parseFloat(data[2][10]) > 0.5 || noten == true){
                     data[0][10] = '~' + data[0][10];
                 }
             }
