@@ -1337,6 +1337,7 @@ fastify.get('/', async (request, reply) => {
     let newdate3date = new Date(newdate3[2] - 543, newdate3[1] - 1, newdate3[0]);
     //if newdate1date > newdate2date
     let comefromnew = false;
+    noten = false;
     console.log(newdate2date);
     console.log(newdate3date);
     if (newdate3date > newdate2date) {
@@ -1347,6 +1348,7 @@ fastify.get('/', async (request, reply) => {
             newdata = newdata3;
             console.log('newdata3');
             comefromnew = true;
+            noten = true;
         }
     } else {
         if (newdate2date != newdate1date) {
