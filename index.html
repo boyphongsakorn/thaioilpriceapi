@@ -313,6 +313,10 @@
                 document.getElementById("tomor7").innerText = result[0][7];
                 document.getElementById("tomor8").innerText = result[0][8];
                 document.getElementById("tomor9").innerText = result[0][9];
+                //if result[0][9] have ~ change to innerHTML and add small text say "ประมาณ"
+                if (result[0][9].includes("~")) {
+                    document.getElementById("tomor9").innerHTML = result[0][9] + "<p style='font-size: 10px;'>ประมาณ</p>";
+                }
                 document.getElementById("tomor10").innerText = result[0][10];
                 document.getElementById("tomor11").innerText = result[0][11];
                 // document.getElementById("tomor12").innerText = result[0][12];
@@ -344,6 +348,10 @@
                         document.getElementById("diff" + listresult[i]).style.borderColor = color;
                         // document.getElementById("tomor" + listresult[i]).innerHTML = "<h1 style='font-size: 1cm;margin-top: 0px;margin-bottom: 0px;line-height: 45px;'>" + result[0][i + 1] + "</h1>";
                         document.getElementById("tomor" + listresult[i]).innerHTML = "<h1 style='font-size: 1.5cm;margin-top: 0px;margin-bottom: 0px;line-height: 45px;'>" + result[0][i + 1] + "</h1>";
+                        if(result[0][i + 1].includes("~")){
+                            document.getElementById("tomor" + listresult[i]).innerHTML = "<h1 style='font-size: 1.5cm;margin-top: 0px;margin-bottom: 0px;line-height: 45px;'>" + result[0][i + 1] + "</h1><p style='font-size: 10px;margin-top: 0px;margin-bottom: 0px;'>(ประมาณ)</p>";
+                            document.getElementById("tomor" + listresult[i]).style.height = "80px";
+                        }
                         document.getElementById("tomor" + listresult[i]).style.fontSize = "none";
                         document.getElementById("tomor" + listresult[i]).style.color = color;
                         document.getElementById("tomor" + listresult[i]).style.fontWeight = "bold";
