@@ -1685,17 +1685,20 @@ fastify.get('/image', async (req, res) => {
         imageexist = false;
     }
 
-    if (imageexist && checkbody.info.lastupdate === fs.readFileSync(location + 'lastupdate.txt', 'utf8')) {
+    // if (imageexist && checkbody.info.lastupdate === fs.readFileSync(location + 'lastupdate.txt', 'utf8')) {
         //read image file and send
-        res.header('content-type', 'image/png');
+        // res.header('content-type', 'image/png');
         //try {
         //fs.createReadStream(location+'oilprice.png').pipe(res);
         //} catch (error) {
         //fs.createReadStream('/tmp/oilprice.png').pipe(res);
         //}
         //read file and return
-        return fs.readFileSync(location + 'oilprice.png')
-    } else {
+        // return fs.readFileSync(location + 'oilprice.png')
+        if(imageexist && checkbody.info.lastupdate === fs.readFileSync(location + 'lastupdate.txt', 'utf8')) {
+            res.send(fs.readFileSync(location + 'oilprice.png'))
+        }
+    // } else {
         let finish = false;
         let screenshotbody;
         while (finish === false) {
@@ -1714,7 +1717,7 @@ fastify.get('/image', async (req, res) => {
         //send image
         res.header('content-type', 'image/png');
         return screenshotbody;
-    }
+    // }
 
     //res.writeHead(200, { 'content-type': 'image/png' });
     //res.end(screenshotbody);
