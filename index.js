@@ -1178,6 +1178,10 @@ fastify.get('/', async (request, reply) => {
             newdata3[10] = parseFloat(newdata3[10]).toFixed(2).toString();
             noten = true;
             let realDate = new Date(anotherarr[2] - 543, anotherarr[1] - 1, parseInt(anotherarr[0])+1);
+            //check all day in that month
+            if(realDate.getDay() > new Date(anotherarr[2] - 543, anotherarr[1] - 1, 0).getDay()){
+                realDate = new Date(anotherarr[2] - 543, anotherarr[1] + 1, 1);
+            }
             // newdata3[0] = (parseInt(anotherarr[0])+1).toString().padStart(2, '0') + '/' + anotherarr[1].padStart(2, '0') + '/' + anotherarr[2];
             // newdata3[0] = newdata3[0].split(' ')[0];
             newdata3[0] = (realDate.getDate()).toString().padStart(2, '0') + '/' + (realDate.getMonth() + 1).toString().padStart(2, '0') + '/' + (realDate.getFullYear() + 543);
@@ -1351,7 +1355,8 @@ fastify.get('/', async (request, reply) => {
             //set newdata3 to newdata
             console.log(newdate1date);
             console.log(newdate3date);
-            newdata = newdata3;
+            // newdata = newdata3;
+            newdata = newdata2;
             console.log('newdata3');
             comefromnew = true;
             noten = true;
@@ -1362,7 +1367,8 @@ fastify.get('/', async (request, reply) => {
                 //set newdata2 to newdata
                 console.log(newdate1date);
                 console.log(newdate2date);
-                newdata = newdata2;
+                // newdata = newdata2;
+                newdata = newdata3;
                 console.log('newdata2');
                 comefromnew = true;
                 noten = false;
