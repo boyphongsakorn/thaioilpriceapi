@@ -1156,12 +1156,16 @@ fastify.get('/', async (request, reply) => {
             newdata3[2] = $another('item').eq(1).find('tomorrow').text();
             newdata3[3] = $another('item').eq(2).find('tomorrow').text();
             newdata3[4] = $another('item').eq(3).find('tomorrow').text();
-            // newdata3[5] = $another('item').eq(5).find('tomorrow').text();
-            newdata3[5] = $another('item').eq(4).find('tomorrow').text();
-            newdata3[6] = $another('item').eq(5).find('tomorrow').text();
-            newdata3[7] = $another('item').eq(6).find('tomorrow').text();
-            newdata3[8] = $another('item').eq(7).find('tomorrow').text();
-            newdata3[9] = $another('item').eq(8).find('tomorrow').text();
+            newdata3[5] = $another('item').eq(5).find('tomorrow').text();
+            // newdata3[5] = $another('item').eq(4).find('tomorrow').text();
+            // newdata3[6] = $another('item').eq(5).find('tomorrow').text();
+            newdata3[6] = $another('item').eq(6).find('tomorrow').text();
+            // newdata3[7] = $another('item').eq(6).find('tomorrow').text();
+            newdata3[7] = $another('item').eq(7).find('tomorrow').text();
+            // newdata3[8] = $another('item').eq(7).find('tomorrow').text();
+            newdata3[8] = $another('item').eq(8).find('tomorrow').text();
+            // newdata3[9] = $another('item').eq(8).find('tomorrow').text();
+            newdata3[9] = $another('item').eq(4).find('tomorrow').text();
             // newdata3[10] = parseFloat($another('item').eq(7).find('tomorrow').text()) + 9.89+(parseFloat($another('item').eq(7).find('today').text())-parseFloat($another('item').eq(7).find('tomorrow').text()));
             // if(parseFloat($another('item').eq(7).find('tomorrow').text())-parseFloat($another('item').eq(7).find('today').text()) > 0){
             if(parseFloat($another('item').eq(7).find('tomorrow').text()) > parseFloat($another('item').eq(7).find('today').text())){
