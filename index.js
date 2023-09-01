@@ -1181,10 +1181,12 @@ fastify.get('/', async (request, reply) => {
             //check all day in that month
             if(realDate.getDay() > new Date(anotherarr[2] - 543, anotherarr[1] - 1, 0).getDay()){
                 realDate = new Date(anotherarr[2] - 543, anotherarr[1] + 1, 1);
+                newdata3[0] = (realDate.getDate()).toString().padStart(2, '0') + '/' + (realDate.getMonth() + 1).toString().padStart(2, '0') + '/' + (realDate.getFullYear() + 543);
+            } else {
+                newdata3[0] = (parseInt(anotherarr[0])+1).toString().padStart(2, '0') + '/' + anotherarr[1].padStart(2, '0') + '/' + anotherarr[2];
+                newdata3[0] = newdata3[0].split(' ')[0];
             }
-            // newdata3[0] = (parseInt(anotherarr[0])+1).toString().padStart(2, '0') + '/' + anotherarr[1].padStart(2, '0') + '/' + anotherarr[2];
-            // newdata3[0] = newdata3[0].split(' ')[0];
-            newdata3[0] = (realDate.getDate()).toString().padStart(2, '0') + '/' + (realDate.getMonth() + 1).toString().padStart(2, '0') + '/' + (realDate.getFullYear() + 543);
+            
 
             console.log('newdata >>> ' + newdata);
             console.log('newdata3 >>>' + newdata3);
@@ -1248,8 +1250,13 @@ fastify.get('/', async (request, reply) => {
                     }
                     newdata3[10] = parseFloat(newdata3[10]).toFixed(2).toString();
                 }
-                newdata3[0] = (parseInt(anotherarr[0])+1).toString().padStart(2, '0') + '/' + anotherarr[1].padStart(2, '0') + '/' + anotherarr[2];
-                newdata3[0] = newdata3[0].split(' ')[0];
+                // newdata3[0] = (parseInt(anotherarr[0])+1).toString().padStart(2, '0') + '/' + anotherarr[1].padStart(2, '0') + '/' + anotherarr[2];
+                // newdata3[0] = newdata3[0].split(' ')[0];
+                let realDate = new Date(anotherarr[2] - 543, anotherarr[1] - 1, parseInt(anotherarr[0])+1);
+                //check all day in that month
+                if(realDate.getDay() > new Date(anotherarr[2] - 543, anotherarr[1] - 1, 0).getDay()){
+                    realDate = new Date(anotherarr[2] - 543, anotherarr[1] + 1, 1);
+                }
 
                 console.log('newdata >>> ' + newdata);
                 console.log('newdata3 >>>' + newdata3);
