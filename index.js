@@ -19,77 +19,229 @@ let historical = [];
 
 async function getData() {
     let body = "";
+    let arr = [];
+
+    var date1 = new Date(new Date().getFullYear(), new Date().getMonth() - 1, new Date().getDate());
+    var date2 = new Date();
+
     try {
         const response = await fetch('https://www.bangchak.co.th/th/oilprice/historical');
         body = await response.text();
-    } catch (error) {
-        return historical;
-    }
 
+        //console.log(body);
+        const $ = cheerio.load(body);
 
-    //console.log(body);
-    const $ = cheerio.load(body);
+        //console first tr inside tbody
+        let tr = $('tbody tr').first();
+        //console.log(tr.text());
 
-    //console first tr inside tbody
-    let tr = $('tbody tr').first();
-    //console.log(tr.text());
+        //console.log(sparray(tr.text()));
 
-    //console.log(sparray(tr.text()));
+        //console second tr inside tbody
+        let tr2 = $('tbody tr').eq(1);
+        //get last tbody tr
+        //tr = $('tbody tr').last();
+        //get before last tbody tr
+        //tr2 = $('tbody tr').eq($('tbody tr').length - 2);
+        //console.log(tr2.text());
 
-    //console second tr inside tbody
-    let tr2 = $('tbody tr').eq(1);
-    //get last tbody tr
-    //tr = $('tbody tr').last();
-    //get before last tbody tr
-    //tr2 = $('tbody tr').eq($('tbody tr').length - 2);
-    //console.log(tr2.text());
+        //console.log(sparray(tr2.text()));
 
-    //console.log(sparray(tr2.text()));
-
-    //get count of difference sparray(tr.text()) and sparray(tr2.text())
-    let count = 0;
-    for (let i = 0; i < sparray(tr.text()).length; i++) {
-        if (sparray(tr.text())[i] != sparray(tr2.text())[i]) {
-            count++;
-        }
-    }
-    console.log("======")
-    console.log(count);
-    console.log("======")
-
-    //if count = 1, tr = tr2 and tr2 = $('tbody tr').eq(2)
-    if (count == 1) {
-        tr = tr2;
-        tr2 = $('tbody tr').eq(2);
-    }
-
-    //add sparray tr and tr2 to array
-    const arr = [sparray(tr.text()), sparray(tr2.text())];
-    //console.log(arr);
-    //console.log(arr[0][0]);
-    //console.log(arr[1][0]);
-
-    //find - in arr[0] and arr[1] and replace to 0
-    for (let i = 0; i < arr.length; i++) {
-        for (let j = 0; j < arr[i].length; j++) {
-            if (arr[i][j] == "-") {
-                arr[i][j] = "0";
+        //get count of difference sparray(tr.text()) and sparray(tr2.text())
+        let count = 0;
+        for (let i = 0; i < sparray(tr.text()).length; i++) {
+            if (sparray(tr.text())[i] != sparray(tr2.text())[i]) {
+                count++;
             }
         }
+        console.log("======")
+        console.log(count);
+        console.log("======")
+
+        //if count = 1, tr = tr2 and tr2 = $('tbody tr').eq(2)
+        if (count == 1) {
+            tr = tr2;
+            tr2 = $('tbody tr').eq(2);
+        }
+
+        //add sparray tr and tr2 to array
+        arr = [sparray(tr.text()), sparray(tr2.text())];
+
+        //console.log(arr);
+        //console.log(arr[0][0]);
+        //console.log(arr[1][0]);
+
+        //find - in arr[0] and arr[1] and replace to 0
+        for (let i = 0; i < arr.length; i++) {
+            for (let j = 0; j < arr[i].length; j++) {
+                if (arr[i][j] == "-") {
+                    arr[i][j] = "0";
+                }
+            }
+        }
+
+        //move arr[0][5] to back and remove arr[0][5]
+        arr[0].push(arr[0][5]);
+        arr[0].splice(5, 1);
+        //move arr[1][5] to back and remove arr[1][5]
+        arr[1].push(arr[1][5]);
+        arr[1].splice(5, 1);
+
+        //get 2 string
+        date1 = new Date(arr[0][0].substr(3, 2) + '/' + arr[0][0].substr(0, 2) + '/' + (parseInt(arr[0][0].substr(6, 4)) - 543));
+        date2 = new Date(arr[1][0].substr(3, 2) + '/' + arr[1][0].substr(0, 2) + '/' + (parseInt(arr[1][0].substr(6, 4)) - 543));
+        console.log(date1);
+        console.log(date2);
+
+    } catch (error) {
+        const response = await fetch('https://xn--42cah7d0cxcvbbb9x.com/%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A1%E0%B8%B1%E0%B8%99%E0%B8%A2%E0%B9%89%E0%B8%AD%E0%B8%99%E0%B8%AB%E0%B8%A5%E0%B8%B1%E0%B8%87/');
+        body = await response.text();
+        const $ = cheerio.load(body);
+        // get div .table-fixed-right
+        const table = $('.table-fixed-right');
+        // get tbody inside table
+        const tbody = table.find('tbody');
+        // console.log(tbody.html());
+        // get second and third tr inside tbody (inside td is not class btl)
+        let tr = tbody.find('tr').eq(1);
+        let tr2 = tbody.find('tr').eq(2);
+        // if inside tr or tr2 is td.btl skip to next tr or tr2
+        if (tr2.find('td').hasClass('btl')) {
+            tr2 = tbody.find('tr').eq(3);
+        }
+        // const tr = tbody.find('tr').eq(1);
+        // const tr2 = tbody.find('tr').eq(2);
+        console.log(tr.html());
+        console.log(tr2.html());
+        //get number in td
+        const td = tr.find('td');
+        const td2 = tr2.find('td');
+        //for each td
+        //set td[5] to arr[0][1]
+        //set td2[5] to arr[1][1]
+        //set td[7] to arr[0][3]
+        //set td2[7] to arr[1][3]
+        //set td[6] to arr[0][4]
+        //set td2[6] to arr[1][4]
+        //set td[4] to arr[0][5]
+        //set td2[4] to arr[1][5]
+        //set td[3] to arr[0][6]
+        //set td2[3] to arr[1][6]
+        //set td[2] to arr[0][7]
+        //set td2[2] to arr[1][7]
+        //set td[1] to arr[0][8]
+        //set td2[1] to arr[1][8]
+        arr[0] = ["04/12/2566", td.eq(5).text(), td.eq(8).text(), td.eq(7).text(), td.eq(6).text(), td.eq(4).text(), td.eq(3).text(), td.eq(2).text(), td.eq(1).text()];
+        arr[1] = ["22/12/2566", td2.eq(5).text(), td2.eq(8).text(), td2.eq(7).text(), td2.eq(6).text(), td2.eq(4).text(), td2.eq(3).text(), td2.eq(2).text(), td2.eq(1).text()];
+        // td.each((i, el) => {
+        //     console.log($(el).text());
+        //     arr[0][i] = $(el).text();
+        // });
+        // td2.each((i, el) => {
+        //     console.log($(el).text());
+        //     arr[1][i] = $(el).text();
+        // });
+        // return historical;
+        // get div .table-fixed-left
+        const table2 = $('.table-fixed-left');
+        // get tbody inside table
+        const tbody2 = table2.find('tbody');
+        // get second and third tr inside tbody (inside td is not class btl)
+        let dtr = tbody2.find('tr').eq(1);
+        let dtr2 = tbody2.find('tr').eq(2);
+        //
+        let monthtext = dtr.find('td').eq(0).text().split(' ')[1];
+        let monthfirst = "";
+        switch (monthtext) {
+            case "ม.ค.":
+                monthfirst = "01";
+                break;
+            case "ก.พ.":
+                monthfirst = "02";
+                break;
+            case "มี.ค.":
+                monthfirst = "03";
+                break;
+            case "เม.ย.":
+                monthfirst = "04";
+                break;
+            case "พ.ค.":
+                monthfirst = "05";
+                break;
+            case "มิ.ย.":
+                monthfirst = "06";
+                break;
+            case "ก.ค.":
+                monthfirst = "07";
+                break;
+            case "ส.ค.":
+                monthfirst = "08";
+                break;
+            case "ก.ย.":
+                monthfirst = "09";
+                break;
+            case "ต.ค.":
+                monthfirst = "10";
+                break;
+            case "พ.ย.":
+                monthfirst = "11";
+                break;
+            case "ธ.ค.":
+                monthfirst = "12";
+                break;
+        }
+        date1 = new Date(monthfirst + '/' + dtr.find('td').eq(0).text().split(' ')[0] + '/' + new Date().getFullYear());
+        console.log(date1);
+        arr[0][0] = (date1.getDate()).toString().padStart(2, '0') + '/' + (date1.getMonth() + 1).toString().padStart(2, '0') + '/' + (date1.getFullYear() + 543)
+        // if inside tr or tr2 is td.btl skip to next tr or tr2
+        if (dtr2.find('td').hasClass('btl')) {
+            dtr2 = tbody2.find('tr').eq(3);
+        }
+        monthtext = dtr2.find('td').eq(0).text().split(' ')[1];
+        monthfirst = "";
+        switch (monthtext) {
+            case "ม.ค.":
+                monthfirst = "01";
+                break;
+            case "ก.พ.":
+                monthfirst = "02";
+                break;
+            case "มี.ค.":
+                monthfirst = "03";
+                break;
+            case "เม.ย.":
+                monthfirst = "04";
+                break;
+            case "พ.ค.":
+                monthfirst = "05";
+                break;
+            case "มิ.ย.":
+                monthfirst = "06";
+                break;
+            case "ก.ค.":
+                monthfirst = "07";
+                break;
+            case "ส.ค.":
+                monthfirst = "08";
+                break;
+            case "ก.ย.":
+                monthfirst = "09";
+                break;
+            case "ต.ค.":
+                monthfirst = "10";
+                break;
+            case "พ.ย.":
+                monthfirst = "11";
+                break;
+            case "ธ.ค.":
+                monthfirst = "12";
+                break;
+        }
+        date2 = new Date(monthfirst + '/' + dtr2.find('td').eq(0).text().split(' ')[0] + '/' + new Date().getFullYear());
+        console.log(date2);
+        arr[1][0] = (date2.getDate()).toString().padStart(2, '0') + '/' + (date2.getMonth() + 1).toString().padStart(2, '0') + '/' + (date2.getFullYear() + 543)
+        console.log(arr);
     }
-
-    //move arr[0][5] to back and remove arr[0][5]
-    arr[0].push(arr[0][5]);
-    arr[0].splice(5, 1);
-    //move arr[1][5] to back and remove arr[1][5]
-    arr[1].push(arr[1][5]);
-    arr[1].splice(5, 1);
-
-    //get 2 string
-    var date1 = new Date(arr[0][0].substr(3, 2) + '/' + arr[0][0].substr(0, 2) + '/' + (parseInt(arr[0][0].substr(6, 4)) - 543));
-    var date2 = new Date(arr[1][0].substr(3, 2) + '/' + arr[1][0].substr(0, 2) + '/' + (parseInt(arr[1][0].substr(6, 4)) - 543));
-    console.log(date1);
-    console.log(date2);
 
     const pttprice = await fetch("https://orapiweb1.pttor.com/api/oilprice/search", {
         "headers": {
@@ -108,14 +260,19 @@ async function getData() {
         "body": "{\"provinceId\":1,\"districtId\":null,\"year\":" + date1.getFullYear() + ",\"month\":" + (date1.getMonth() + 1) + ",\"pageSize\":1000000,\"pageIndex\":0}",
         "method": "POST"
     });
-    const pttbody = await pttprice.json();
+    let pttbody = await pttprice.json();
 
     //console.log(pttbody);
-
-    const pttarr = JSON.parse(pttbody.data[0].priceData);
+    let pttarr
     let yesterday
 
-    if (pttbody.data.length == 1) {
+    try {
+        pttarr = JSON.parse(pttbody.data[0].priceData);
+    } catch (error) {
+        pttarr = null;
+    }
+
+    if (pttbody.data.length == 1 || pttarr == null) {
         const backuppttprice = await fetch("https://orapiweb1.pttor.com/api/oilprice/search", {
             "headers": {
                 "accept": "application/json, text/plain, */*",
@@ -135,6 +292,10 @@ async function getData() {
         });
         const backuppttbody = await backuppttprice.json();
         yesterday = JSON.parse(backuppttbody.data[0].priceData);
+        if (pttarr == null) {
+            pttarr = JSON.parse(backuppttbody.data[0].priceData);
+            pttbody = backuppttbody;
+        }
     } else {
         yesterday = JSON.parse(pttbody.data[1].priceData);
     }
@@ -164,7 +325,7 @@ async function getData() {
                 arr[1][11] = '' + e.Price
             }
         });
-    }else{
+    } else {
         pttarr.forEach(e => {
             if (e.OilTypeId == 7) {
                 arr[0][10] = arr[0][9]
@@ -1034,7 +1195,7 @@ fastify.get('/', async (request, reply) => {
     //split body.data.remark_en by space
     let arr = body.data.remark_en.split(' ');
     //find index of month in arr
-    if(month == null){
+    if (month == null) {
         //get full month
         let monthfulltext = new Date().toLocaleString('en-us', { month: 'long' });
         //change null to array
@@ -1091,7 +1252,7 @@ fastify.get('/', async (request, reply) => {
 
     //let todaydate = new Date(arr[1] + '/' + arr[0] + '/' + year.toString());
     // let todaydate = new Date(monthnum + '/' + before + '/' + year.toString());
-    let todaydate = new Date(year.toString() , monthnum , before);
+    let todaydate = new Date(year.toString(), monthnum, before);
 
     //console.log(arr);
     console.log(todaydate);
@@ -1141,14 +1302,14 @@ fastify.get('/', async (request, reply) => {
     }, 1000);
 
     try {
-        let anothertmrprice = await fetch('https://crmmobile.bangchak.co.th/webservice/oil_price.aspx', {signal: controller.signal});
+        let anothertmrprice = await fetch('https://crmmobile.bangchak.co.th/webservice/oil_price.aspx', { signal: controller.signal });
         let anotherbody = await anothertmrprice.text();
         //get price from xml
         const $another = cheerio.load(anotherbody);
 
         let anotherarr = $another('update_date').text().split('/');
 
-        if(anotherarr != '' && anotherarr != null && anotherarr != undefined){
+        if (anotherarr != '' && anotherarr != null && anotherarr != undefined) {
 
             let anotherdate = new Date(anotherarr[2] - 543, anotherarr[1] - 1, anotherarr[0]);
 
@@ -1168,25 +1329,25 @@ fastify.get('/', async (request, reply) => {
             newdata3[9] = $another('item').eq(4).find('tomorrow').text();
             // newdata3[10] = parseFloat($another('item').eq(7).find('tomorrow').text()) + 9.89+(parseFloat($another('item').eq(7).find('today').text())-parseFloat($another('item').eq(7).find('tomorrow').text()));
             // if(parseFloat($another('item').eq(7).find('tomorrow').text())-parseFloat($another('item').eq(7).find('today').text()) > 0){
-            if(parseFloat($another('item').eq(7).find('tomorrow').text()) > parseFloat($another('item').eq(7).find('today').text())){
+            if (parseFloat($another('item').eq(7).find('tomorrow').text()) > parseFloat($another('item').eq(7).find('today').text())) {
                 //newdata3[10] = parseFloat(data[0][10]) - (parseFloat($another('item').eq(7).find('today').text())-parseFloat($another('item').eq(7).find('tomorrow').text()));
-                newdata3[10] = parseFloat(data[0][10]) + (parseFloat($another('item').eq(7).find('tomorrow').text())-parseFloat($another('item').eq(7).find('today').text()));
-            }else{
+                newdata3[10] = parseFloat(data[0][10]) + (parseFloat($another('item').eq(7).find('tomorrow').text()) - parseFloat($another('item').eq(7).find('today').text()));
+            } else {
                 //newdata3[10] = parseFloat(data[0][10]) + (parseFloat($another('item').eq(7).find('today').text())-parseFloat($another('item').eq(7).find('tomorrow').text()));
-                newdata3[10] = parseFloat(data[0][10]) - (parseFloat($another('item').eq(7).find('today').text())-parseFloat($another('item').eq(7).find('tomorrow').text()));
+                newdata3[10] = parseFloat(data[0][10]) - (parseFloat($another('item').eq(7).find('today').text()) - parseFloat($another('item').eq(7).find('tomorrow').text()));
             }
             newdata3[10] = parseFloat(newdata3[10]).toFixed(2).toString();
             noten = true;
-            let realDate = new Date(anotherarr[2] - 543, anotherarr[1] - 1, parseInt(anotherarr[0])+1);
+            let realDate = new Date(anotherarr[2] - 543, anotherarr[1] - 1, parseInt(anotherarr[0]) + 1);
             //check all day in that month
-            if(realDate.getDay() > new Date(anotherarr[2] - 543, anotherarr[1] - 1, 0).getDay()){
+            if (realDate.getDay() > new Date(anotherarr[2] - 543, anotherarr[1] - 1, 0).getDay()) {
                 realDate = new Date(anotherarr[2] - 543, anotherarr[1] + 1, 1);
                 newdata3[0] = (realDate.getDate()).toString().padStart(2, '0') + '/' + (realDate.getMonth() + 1).toString().padStart(2, '0') + '/' + (realDate.getFullYear() + 543);
             } else {
-                newdata3[0] = (parseInt(anotherarr[0])+1).toString().padStart(2, '0') + '/' + anotherarr[1].padStart(2, '0') + '/' + anotherarr[2];
+                newdata3[0] = (parseInt(anotherarr[0]) + 1).toString().padStart(2, '0') + '/' + anotherarr[1].padStart(2, '0') + '/' + anotherarr[2];
                 newdata3[0] = newdata3[0].split(' ')[0];
             }
-            
+
 
             console.log('newdata >>> ' + newdata);
             console.log('newdata3 >>>' + newdata3);
@@ -1201,7 +1362,7 @@ fastify.get('/', async (request, reply) => {
 
             arrdiff = newdata.filter(x => !newdata3.includes(x));
             console.log('arrdiff >>> ' + arrdiff.length);
-            if(arrdiff.length == 2){
+            if (arrdiff.length == 2) {
                 console.log('same data');
                 newdata = data[0];
             } else if (arrdiff.length > 2) {
@@ -1224,7 +1385,7 @@ fastify.get('/', async (request, reply) => {
 
             let anotherarr = anotherbody[0].OilMessageDate.split('/');
 
-            if(anotherarr != '' && anotherarr != null && anotherarr != undefined){
+            if (anotherarr != '' && anotherarr != null && anotherarr != undefined) {
                 let anotherdate = new Date(anotherarr[2] - 543, anotherarr[1] - 1, anotherarr[0]);
 
                 newdata3[1] = arraytexttoarray[0].PriceTomorrow.toString();
@@ -1240,21 +1401,21 @@ fastify.get('/', async (request, reply) => {
                 newdata3[10] = arraytexttoarray[9]?.PriceTomorrow.toString();
                 // newdata3[10] = parseFloat($another('item').eq(7).find('tomorrow').text()) + 9.89+(parseFloat($another('item').eq(7).find('today').text())-parseFloat($another('item').eq(7).find('tomorrow').text()));
                 // if(parseFloat($another('item').eq(7).find('tomorrow').text())-parseFloat($another('item').eq(7).find('today').text()) > 0){
-                if(newdata3[10] == undefined){
-                    if(parseFloat(arraytexttoarray[7].PriceTomorrow.toString()) > parseFloat(arraytexttoarray[7].PriceToday.toString())){
+                if (newdata3[10] == undefined) {
+                    if (parseFloat(arraytexttoarray[7].PriceTomorrow.toString()) > parseFloat(arraytexttoarray[7].PriceToday.toString())) {
                         //newdata3[10] = parseFloat(data[0][10]) - (parseFloat($another('item').eq(7).find('today').text())-parseFloat($another('item').eq(7).find('tomorrow').text()));
-                        newdata3[10] = parseFloat(data[0][10]) + (parseFloat(arraytexttoarray[7].PriceTomorrow.toString())-parseFloat(arraytexttoarray[7].PriceToday.toString()));
-                    }else{
+                        newdata3[10] = parseFloat(data[0][10]) + (parseFloat(arraytexttoarray[7].PriceTomorrow.toString()) - parseFloat(arraytexttoarray[7].PriceToday.toString()));
+                    } else {
                         //newdata3[10] = parseFloat(data[0][10]) + (parseFloat($another('item').eq(7).find('today').text())-parseFloat($another('item').eq(7).find('tomorrow').text()));
-                        newdata3[10] = parseFloat(data[0][10]) - (parseFloat(arraytexttoarray[7].PriceToday.toString())-parseFloat(arraytexttoarray[7].PriceTomorrow.toString()));
+                        newdata3[10] = parseFloat(data[0][10]) - (parseFloat(arraytexttoarray[7].PriceToday.toString()) - parseFloat(arraytexttoarray[7].PriceTomorrow.toString()));
                     }
                     newdata3[10] = parseFloat(newdata3[10]).toFixed(2).toString();
                 }
                 // newdata3[0] = (parseInt(anotherarr[0])+1).toString().padStart(2, '0') + '/' + anotherarr[1].padStart(2, '0') + '/' + anotherarr[2];
                 // newdata3[0] = newdata3[0].split(' ')[0];
-                let realDate = new Date(anotherarr[2] - 543, anotherarr[1] - 1, parseInt(anotherarr[0])+1);
+                let realDate = new Date(anotherarr[2] - 543, anotherarr[1] - 1, parseInt(anotherarr[0]) + 1);
                 //check all day in that month
-                if(realDate.getDay() > new Date(anotherarr[2] - 543, anotherarr[1] - 1, 0).getDay()){
+                if (realDate.getDay() > new Date(anotherarr[2] - 543, anotherarr[1] - 1, 0).getDay()) {
                     realDate = new Date(anotherarr[2] - 543, anotherarr[1] + 1, 1);
                 }
 
@@ -1271,7 +1432,7 @@ fastify.get('/', async (request, reply) => {
 
                 arrdiff = newdata.filter(x => !newdata3.includes(x));
                 console.log('arrdiff >>> ' + arrdiff.length);
-                if(arrdiff.length == 2){
+                if (arrdiff.length == 2) {
                     console.log('same data');
                     newdata = data[0];
                 } else if (arrdiff.length > 2) {
@@ -1519,10 +1680,10 @@ fastify.get('/', async (request, reply) => {
             //format number to 2 decimal
             data[2] = data[2].map(e => e.toFixed(2));
 
-            if(parseFloat(data[2][6]) != 0.00){
+            if (parseFloat(data[2][6]) != 0.00) {
                 data[0][9] = '~' + data[0][9];
                 data[0][11] = '~' + data[0][11];
-                if(parseFloat(data[2][10]) > 0.5 || (noten == true && parseFloat(data[2][10]) > 0)){
+                if (parseFloat(data[2][10]) > 0.5 || (noten == true && parseFloat(data[2][10]) > 0)) {
                     data[0][10] = '~' + data[0][10];
                 }
             }
@@ -1563,6 +1724,53 @@ fastify.get('/', async (request, reply) => {
         let newwow = await getData();
         data[1] = newwow[1];
         data[2] = newwow[2];
+    }
+
+    if (data[1][10] == null) {
+        data[0][0] = data[1][0];
+        let newwow = await getData();
+        data[1] = newwow[1];
+        if(data[1][10] == null || data[1][10] == undefined){
+            if (parseFloat(data[1][7]) > parseFloat(data[0][7].toString())) {
+                data[1][10] = parseFloat(data[0][10]) + (parseFloat(data[1][7].toString()) - parseFloat(data[0][7].toString()));
+            } else {
+                data[1][10] = parseFloat(data[0][10]) - (parseFloat(data[0][7].toString()) - parseFloat(data[1][7].toString()));
+            }
+            data[1][10] = parseFloat(data[1][10]).toFixed(2).toString();
+            if (parseFloat(data[1][2]) > parseFloat(data[0][2].toString())) {
+                data[1][1] = parseFloat(data[0][1]) + (parseFloat(data[1][2].toString()) - parseFloat(data[0][2].toString()));
+            } else {
+                data[1][1] = parseFloat(data[0][1]) - (parseFloat(data[0][2].toString()) - parseFloat(data[1][2].toString()));
+            }
+            data[1][1] = parseFloat(data[1][1]).toFixed(2).toString();
+        }
+        //temp data[0] and data[1] without first index
+        const tempdata0 = data[0].slice(1);
+        const tempdata1 = data[1].slice(1);
+        console.log("test");
+        console.log(data[0]);
+        console.log(data[1]);
+
+        const arr2 = tempdata0.map((e, i) => e - tempdata1[i]);
+        data[1][10] = "~" + data[1][10];
+        data[1][1] = "~" + data[1][1];
+        //console.log(arr2);
+
+        var difftime = Math.abs(new Date(data[1][0].substr(3, 2) + '/' + data[1][0].substr(0, 2) + '/' + (parseInt(data[1][0].substr(6, 4)) - 543)).getTime() - new Date(data[0][0].substr(3, 2) + '/' + data[0][0].substr(0, 2) + '/' + (parseInt(data[0][0].substr(6, 4)) - 543)).getTime());
+        var diffdays = Math.ceil(difftime / (1000 * 3600 * 24));
+
+        // arr2[0] = diffdays;
+
+        //remove NaN
+        const arr3 = arr2.filter(e => !isNaN(e));
+        //console.log(arr3);
+
+        //format number to 2 decimal
+        const arr4 = arr3.map(e => e.toFixed(2));
+
+        //add วัน to first arr4
+        arr4.unshift(parseInt(diffdays) + ' วัน');
+        data[2] = arr4;
     }
 
     if (info === 'true') {
@@ -1677,7 +1885,7 @@ fastify.get('/image', async (req, res) => {
         fs.writeFileSync('/tmp/test.txt', checkbody.info.lastupdate);
         location = '/tmp/'
     }
-    if(fs.existsSync(location + 'lastupdate.txt') === false){
+    if (fs.existsSync(location + 'lastupdate.txt') === false) {
         try {
             fs.writeFileSync('lastupdate.txt', checkbody.info.lastupdate);
             location = ''
@@ -1686,7 +1894,7 @@ fastify.get('/image', async (req, res) => {
             location = '/tmp/'
         }
     } else {
-        if(checkbody.info.lastupdate !== fs.readFileSync(location + 'lastupdate.txt', 'utf8')) {
+        if (checkbody.info.lastupdate !== fs.readFileSync(location + 'lastupdate.txt', 'utf8')) {
             fs.writeFileSync('lastupdate.txt', checkbody.info.beforeupdate);
         }
     }
@@ -1706,37 +1914,37 @@ fastify.get('/image', async (req, res) => {
     }
 
     // if (imageexist && checkbody.info.lastupdate === fs.readFileSync(location + 'lastupdate.txt', 'utf8')) {
-        //read image file and send
-        res.header('content-type', 'image/png');
-        //try {
-        //fs.createReadStream(location+'oilprice.png').pipe(res);
-        //} catch (error) {
-        //fs.createReadStream('/tmp/oilprice.png').pipe(res);
-        //}
-        //read file and return
-        // return fs.readFileSync(location + 'oilprice.png')
-        if(imageexist && checkbody.info.lastupdate === fs.readFileSync(location + 'lastupdate.txt', 'utf8')) {
-            res.send(fs.readFileSync(location + 'oilprice.png'))
-        }
+    //read image file and send
+    res.header('content-type', 'image/png');
+    //try {
+    //fs.createReadStream(location+'oilprice.png').pipe(res);
+    //} catch (error) {
+    //fs.createReadStream('/tmp/oilprice.png').pipe(res);
+    //}
+    //read file and return
+    // return fs.readFileSync(location + 'oilprice.png')
+    if (imageexist && checkbody.info.lastupdate === fs.readFileSync(location + 'lastupdate.txt', 'utf8')) {
+        res.send(fs.readFileSync(location + 'oilprice.png'))
+    }
     // } else {
-        let finish = false;
-        let screenshotbody;
-        while (finish === false) {
-            const screenshot = await fetch('https://screenshot-xi.vercel.app/api?url=https://boyphongsakorn.github.io/thaioilpriceapi&width=1000&height=1000')
-            screenshotbody = await screenshot.buffer();
-            //write image file
-            if(screenshotbody.length > 2000){
-                try {
-                    fs.writeFileSync('oilprice.png', screenshotbody);
-                } catch (error) {
-                    fs.writeFileSync('/tmp/oilprice.png', screenshotbody);
-                }
-                finish = true;
+    let finish = false;
+    let screenshotbody;
+    while (finish === false) {
+        const screenshot = await fetch('https://screenshot-xi.vercel.app/api?url=https://boyphongsakorn.github.io/thaioilpriceapi&width=1000&height=1000')
+        screenshotbody = await screenshot.buffer();
+        //write image file
+        if (screenshotbody.length > 2000) {
+            try {
+                fs.writeFileSync('oilprice.png', screenshotbody);
+            } catch (error) {
+                fs.writeFileSync('/tmp/oilprice.png', screenshotbody);
             }
+            finish = true;
         }
-        //send image
-        // res.header('content-type', 'image/png');
-        return screenshotbody;
+    }
+    //send image
+    // res.header('content-type', 'image/png');
+    return screenshotbody;
     // }
 
     //res.writeHead(200, { 'content-type': 'image/png' });
