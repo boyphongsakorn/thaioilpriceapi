@@ -290,7 +290,8 @@ async function getData() {
     let yesterday
 
     try {
-        pttarr = JSON.parse(pttbody.data[0].priceData);
+        // pttarr = JSON.parse(pttbody.data[0].priceData);
+        pttarr = pttbody.data[0].priceData;
     } catch (error) {
         pttarr = null;
     }
@@ -334,9 +335,11 @@ async function getData() {
             "method": "POST"
         });
         const backuppttbody = await backuppttprice.json();
-        yesterday = JSON.parse(backuppttbody.data[0].priceData);
+        // yesterday = JSON.parse(backuppttbody.data[0].priceData);
+        yesterday = backuppttbody.data[0].priceData;
         if (pttarr == null) {
-            pttarr = JSON.parse(backuppttbody.data[0].priceData);
+            // pttarr = JSON.parse(backuppttbody.data[0].priceData);
+            pttarr = backuppttbody.data[0].priceData;
             pttbody = backuppttbody;
         }
     } else {
