@@ -313,7 +313,7 @@ async function getData() {
         //     "body": "{\"provinceId\":1,\"districtId\":null,\"year\":" + date1.getFullYear() + ",\"month\":" + date1.getMonth() + ",\"pageSize\":1000000,\"pageIndex\":0}",
         //     "method": "POST"
         // });
-        const pttprice = await fetch("https://www.pttor.com/wp-admin/admin-ajax.php", {
+        const backuppttprice = await fetch("https://www.pttor.com/wp-admin/admin-ajax.php", {
             "headers": {
               "accept": "*/*",
               "accept-language": "th-TH,th;q=0.9,en;q=0.8",
