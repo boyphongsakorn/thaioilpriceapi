@@ -1335,8 +1335,10 @@ fastify.get('/', async (request, reply) => {
     newdata[4] = body.data.items[3].PriceTomorrow.toString();
     newdata[5] = body.data.items[5].PriceTomorrow.toString();
     newdata[6] = body.data.items[6].PriceTomorrow.toString();
-    newdata[7] = body.data.items[7].PriceTomorrow.toString();
-    newdata[8] = body.data.items[8].PriceTomorrow.toString();
+    // newdata[7] = body.data.items[7].PriceTomorrow.toString();
+    // newdata[8] = body.data.items[8].PriceTomorrow.toString();
+    newdata[7] = 0;
+    newdata[8] = 0;
     //newdata[9] = body.data.items[4].PriceTomorrow.toString();
     newdata[10] = body.data.items[4].PriceTomorrow.toString();
 
@@ -1442,9 +1444,12 @@ fastify.get('/', async (request, reply) => {
                 newdata3[5] = arraytexttoarray[4].PriceTomorrow.toString();
                 newdata3[6] = arraytexttoarray[5].PriceTomorrow.toString();
                 newdata3[7] = arraytexttoarray[6].PriceTomorrow.toString();
-                newdata3[8] = arraytexttoarray[7].PriceTomorrow.toString();
-                newdata3[9] = arraytexttoarray[8].PriceTomorrow.toString();
-                newdata3[10] = arraytexttoarray[9]?.PriceTomorrow.toString();
+                // newdata3[8] = arraytexttoarray[7].PriceTomorrow.toString();
+                // newdata3[9] = arraytexttoarray[8].PriceTomorrow.toString();
+                // newdata3[10] = arraytexttoarray[9]?.PriceTomorrow.toString();
+                newdata3[8] = 0;
+                newdata3[9] = 0;
+                newdata3[10] = 0;
                 // newdata3[10] = parseFloat($another('item').eq(7).find('tomorrow').text()) + 9.89+(parseFloat($another('item').eq(7).find('today').text())-parseFloat($another('item').eq(7).find('tomorrow').text()));
                 // if(parseFloat($another('item').eq(7).find('tomorrow').text())-parseFloat($another('item').eq(7).find('today').text()) > 0){
                 if (newdata3[10] == undefined) {
@@ -1818,6 +1823,37 @@ fastify.get('/', async (request, reply) => {
         arr4.unshift(parseInt(diffdays) + ' วัน');
         data[2] = arr4;
     }
+
+    console.log("===== before =====")
+    console.log(data[0])
+    console.log(data[1])
+    console.log(data[2])
+
+    //rearrange
+    let temp = data[0][5];
+    let temptwo = data[1][5];
+    let tempthree = data[2][5];
+    data[0][5] = data[0][4];
+    data[1][5] = data[1][4];
+    data[2][5] = data[2][4];
+    // data[0][7] = temp;
+    // data[1][7] = temptwo;
+    // data[2][7] = tempthree;
+    // temp = data[0][8];
+    // temptwo = data[1][8];
+    // tempthree = data[2][8];
+    data[0][8] = data[0][6];
+    data[1][8] = data[1][6];
+    data[2][8] = data[2][6];
+    data[0][4] = data[0][10];
+    data[1][4] = data[1][7];
+    data[2][4] = (parseFloat(data[0][4]) - parseFloat(data[1][4])).toFixed(2).toString();
+    data[0][10] = data[0][3];
+    data[1][10] = data[1][3];
+    data[2][10] = data[2][3];
+    data[0][7] = temp;
+    data[1][7] = temptwo;
+    data[2][7] = tempthree;
 
     if (info === 'true') {
         newway = {
