@@ -1854,6 +1854,9 @@ fastify.get('/', async (request, reply) => {
     data[0][7] = temp;
     data[1][7] = temptwo;
     data[2][7] = tempthree;
+    data[0][6] = data[0][4];
+    data[1][6] = data[1][4];
+    data[2][6] = data[2][4];
 
     if (info === 'true') {
         newway = {
