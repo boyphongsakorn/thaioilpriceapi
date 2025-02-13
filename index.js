@@ -2006,13 +2006,14 @@ fastify.get('/image', async (req, res) => {
     //read file and return
     // return fs.readFileSync(location + 'oilprice.png')
     if (imageexist && checkbody.info.lastupdate === fs.readFileSync(location + 'lastupdate.txt', 'utf8')) {
-        res.send(fs.readFileSync(location + 'oilprice.png'))
+        // res.send(fs.readFileSync(location + 'oilprice.png'))
+        return fs.readFileSync(location + 'oilprice.png')
     }
     // } else {
     let finish = false;
     let screenshotbody;
     while (finish === false) {
-        const screenshot = await fetch('https://screenshot-xi.vercel.app/api?url=https://pwisetthon.com/thaioilpriceapi&width=1000&height=1000')
+        const screenshot = await fetch('https://api.apiflash.com/v1/urltoimage?access_key='+process.env.aaf+'&url=https%3A%2F%2Fpwisetthon.com%2Fthaioilpriceapi&format=jpeg&width=1000&height=1000&delay=10')
         screenshotbody = await screenshot.buffer();
         //write image file
         if (screenshotbody.length > 2000) {
