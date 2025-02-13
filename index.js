@@ -2012,7 +2012,7 @@ fastify.get('/image', async (req, res) => {
     let finish = false;
     let screenshotbody;
     while (finish === false) {
-        const screenshot = await fetch('https://screenshot-xi.vercel.app/api?url=https://boyphongsakorn.github.io/thaioilpriceapi&width=1000&height=1000')
+        const screenshot = await fetch('https://screenshot-xi.vercel.app/api?url=https://pwisetthon.com/thaioilpriceapi&width=1000&height=1000')
         screenshotbody = await screenshot.buffer();
         //write image file
         if (screenshotbody.length > 2000) {
