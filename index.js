@@ -296,7 +296,7 @@ async function getData() {
         pttarr = null;
     }
 
-    if (pttbody.data.length == 1 || pttarr == null) {
+    if (pttbody.data.length < 1 || pttarr == null) {
         // const backuppttprice = await fetch("https://orapiweb1.pttor.com/api/oilprice/search", {
         //     "headers": {
         //         "accept": "application/json, text/plain, */*",
