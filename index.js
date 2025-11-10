@@ -356,7 +356,7 @@ async function getData() {
     //if (date1.getDate() != pttdate.getDate()) {
     if (date1 > pttdate) {
         pttarr.forEach(e => {
-            if (e.OilTypeId == 7) {
+            if (e.OilTypeId == 'เบนซิน') {
                 arr[0][10] = arr[0][9]
                 arr[0][9] = '' + e.Price
                 arr[1][10] = arr[1][9]
@@ -365,7 +365,7 @@ async function getData() {
             /*if (e.OilTypeId == 1) {
                 arr[0][11] = '' + e.Price
             }*/
-            if (e.OilTypeId == 22) {
+            if (e.OilTypeId == 'Super Power GSH95') {
                 //arr[0][12] = '' + e.Price
                 arr[0][11] = '' + e.Price
                 arr[1][11] = '' + e.Price
@@ -373,28 +373,28 @@ async function getData() {
         });
     } else {
         pttarr.forEach(e => {
-            if (e.OilTypeId == 7) {
+            if (e.OilTypeId == 'เบนซิน') {
                 arr[0][10] = arr[0][9]
                 arr[0][9] = '' + e.Price
             }
             /*if (e.OilTypeId == 1) {
                 arr[0][11] = '' + e.Price
             }*/
-            if (e.OilTypeId == 22) {
+            if (e.OilTypeId == 'Super Power GSH95') {
                 //arr[0][12] = '' + e.Price
                 arr[0][11] = '' + e.Price
             }
         });
 
         yesterday.forEach(e => {
-            if (e.OilTypeId == 7) {
+            if (e.OilTypeId == 'เบนซิน') {
                 arr[1][10] = arr[1][9]
                 arr[1][9] = '' + e.Price
             }
             /*if (e.OilTypeId == 1) {
                 arr[1][11] = '' + e.Price
             }*/
-            if (e.OilTypeId == 22) {
+            if (e.OilTypeId == 'Super Power GSH95') {
                 //arr[1][12] = '' + e.Price
                 arr[1][11] = '' + e.Price
             }
