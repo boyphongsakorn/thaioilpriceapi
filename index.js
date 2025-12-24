@@ -2061,7 +2061,7 @@ fastify.get('/image', async (req, res) => {
     let finish = false;
     let screenshotbody;
     while (finish === false) {
-        const screenshot = await fetch('https://api.apiflash.com/v1/urltoimage?access_key='+process.env.aaf+'&url=https%3A%2F%2Fpwisetthon.com%2Fthaioilpriceapi&format=jpeg&width=1000&height=1000&delay=10')
+        const screenshot = await fetch('https://api.apiflash.com/v1/urltoimage?access_key='+process.env.aaf+'&url=https%3A%2F%2Fpwisetthon.com%2Fthaioilpriceapi&format=jpeg&width=1000&height=1000&delay=10&fresh=true')
         screenshotbody = await screenshot.buffer();
         //write image file
         if (screenshotbody.length > 2000) {
