@@ -336,11 +336,55 @@ async function getData() {
         });
         const backuppttbody = await backuppttprice.json();
         // yesterday = JSON.parse(backuppttbody.data[0].priceData);
-        yesterday = backuppttbody.data[0].priceData;
-        if (pttarr == null) {
-            // pttarr = JSON.parse(backuppttbody.data[0].priceData);
-            pttarr = backuppttbody.data[0].priceData;
-            pttbody = backuppttbody;
+        if (backuppttbody.data.length >= 1) {
+            yesterday = backuppttbody.data[0].priceData;
+            if (pttarr == null) {
+                // pttarr = JSON.parse(backuppttbody.data[0].priceData);
+                pttarr = backuppttbody.data[0].priceData;
+                pttbody = backuppttbody;
+            }
+        } else {
+            let found = false;
+            let month = date1.getMonth() - 1;
+            let year = date1.getFullYear() + 543;
+            while (!found) {
+                const loopbackuppttprice = await fetch("https://www.pttor.com/wp-admin/admin-ajax.php", {
+                    "headers": {
+                    "accept": "*/*",
+                    "accept-language": "th-TH,th;q=0.9,en;q=0.8",
+                    "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+                    "priority": "u=1, i",
+                    "sec-ch-ua": "\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"",
+                    "sec-ch-ua-mobile": "?0",
+                    "sec-ch-ua-platform": "\"macOS\"",
+                    "sec-fetch-dest": "empty",
+                    "sec-fetch-mode": "cors",
+                    "sec-fetch-site": "same-origin",
+                    "x-requested-with": "XMLHttpRequest",
+                    "cookie": "_ga=GA1.1.831413899.1739374030; hidecta=no; OptanonConsent=isGpcEnabled=0&datestamp=Wed+Feb+12+2025+22%3A27%3A14+GMT%2B0700+(Indochina+Time)&version=202409.2.0&browserGpcFlag=0&isIABGlobal=false&hosts=&landingPath=NotLandingPage&groups=C0001%3A1%2CC0002%3A0%2CC0004%3A0&AwaitingReconsent=false; _ga_P1MB04T1HD=GS1.1.1739374029.1.1.1739374035.0.0.0; pll_language=en",
+                    "Referer": "https://www.pttor.com/news/oil-price",
+                    "Referrer-Policy": "strict-origin-when-cross-origin"
+                    },
+                    "body": "action=fetch_oil_prices&province=%E0%B8%81%E0%B8%A3%E0%B8%B8%E0%B8%87%E0%B9%80%E0%B8%97%E0%B8%9E%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B8%99%E0%B8%84%E0%B8%A3&month="+month+"&year="+year,
+                    "method": "POST"
+                });
+                const loopbackuppttbody = await loopbackuppttprice.json();
+                if (loopbackuppttbody.data.length >= 1) {
+                    yesterday = loopbackuppttbody.data[0].priceData;
+                    if (pttarr == null) {
+                        // pttarr = JSON.parse(backuppttbody.data[0].priceData);
+                        pttarr = loopbackuppttbody.data[0].priceData;
+                        pttbody = loopbackuppttbody;
+                    }
+                    found = true;
+                } else {
+                    month--;
+                    if (month < 1) {
+                        month = 12;
+                        year--;
+                    }
+                }
+            }
         }
     } else {
         yesterday = JSON.parse(pttbody.data[1].priceData);
@@ -1777,52 +1821,52 @@ fastify.get('/', async (request, reply) => {
         data[2] = newwow[2];
     }
 
-    // if (data[1][10] == null) {
-    //     data[0][0] = data[1][0];
-    //     let newwow = await getData();
-    //     data[1] = newwow[1];
-    //     if(data[1][10] == null || data[1][10] == undefined){
-    //         if (parseFloat(data[1][7]) > parseFloat(data[0][7].toString())) {
-    //             data[1][10] = parseFloat(data[0][10]) + (parseFloat(data[1][7].toString()) - parseFloat(data[0][7].toString()));
-    //         } else {
-    //             data[1][10] = parseFloat(data[0][10]) - (parseFloat(data[0][7].toString()) - parseFloat(data[1][7].toString()));
-    //         }
-    //         data[1][10] = parseFloat(data[1][10]).toFixed(2).toString();
-    //         if (parseFloat(data[1][2]) > parseFloat(data[0][2].toString())) {
-    //             data[1][1] = parseFloat(data[0][1]) + (parseFloat(data[1][2].toString()) - parseFloat(data[0][2].toString()));
-    //         } else {
-    //             data[1][1] = parseFloat(data[0][1]) - (parseFloat(data[0][2].toString()) - parseFloat(data[1][2].toString()));
-    //         }
-    //         data[1][1] = parseFloat(data[1][1]).toFixed(2).toString();
-    //     }
-    //     //temp data[0] and data[1] without first index
-    //     const tempdata0 = data[0].slice(1);
-    //     const tempdata1 = data[1].slice(1);
-    //     console.log("test");
-    //     console.log(data[0]);
-    //     console.log(data[1]);
+    if (data[1][10] == null) {
+        data[0][0] = data[1][0];
+        let newwow = await getData();
+        data[1] = newwow[1];
+        if(data[1][10] == null || data[1][10] == undefined){
+            if (parseFloat(data[1][7]) > parseFloat(data[0][7].toString())) {
+                data[1][10] = parseFloat(data[0][10]) + (parseFloat(data[1][7].toString()) - parseFloat(data[0][7].toString()));
+            } else {
+                data[1][10] = parseFloat(data[0][10]) - (parseFloat(data[0][7].toString()) - parseFloat(data[1][7].toString()));
+            }
+            data[1][10] = parseFloat(data[1][10]).toFixed(2).toString();
+            if (parseFloat(data[1][2]) > parseFloat(data[0][2].toString())) {
+                data[1][1] = parseFloat(data[0][1]) + (parseFloat(data[1][2].toString()) - parseFloat(data[0][2].toString()));
+            } else {
+                data[1][1] = parseFloat(data[0][1]) - (parseFloat(data[0][2].toString()) - parseFloat(data[1][2].toString()));
+            }
+            data[1][1] = parseFloat(data[1][1]).toFixed(2).toString();
+        }
+        //temp data[0] and data[1] without first index
+        const tempdata0 = data[0].slice(1);
+        const tempdata1 = data[1].slice(1);
+        console.log("test");
+        console.log(data[0]);
+        console.log(data[1]);
 
-    //     const arr2 = tempdata0.map((e, i) => e - tempdata1[i]);
-    //     data[1][10] = "~" + data[1][10];
-    //     data[1][1] = "~" + data[1][1];
-    //     //console.log(arr2);
+        const arr2 = tempdata0.map((e, i) => e - tempdata1[i]);
+        data[1][10] = "~" + data[1][10];
+        data[1][1] = "~" + data[1][1];
+        //console.log(arr2);
 
-    //     var difftime = Math.abs(new Date(data[1][0].substr(3, 2) + '/' + data[1][0].substr(0, 2) + '/' + (parseInt(data[1][0].substr(6, 4)) - 543)).getTime() - new Date(data[0][0].substr(3, 2) + '/' + data[0][0].substr(0, 2) + '/' + (parseInt(data[0][0].substr(6, 4)) - 543)).getTime());
-    //     var diffdays = Math.ceil(difftime / (1000 * 3600 * 24));
+        var difftime = Math.abs(new Date(data[1][0].substr(3, 2) + '/' + data[1][0].substr(0, 2) + '/' + (parseInt(data[1][0].substr(6, 4)) - 543)).getTime() - new Date(data[0][0].substr(3, 2) + '/' + data[0][0].substr(0, 2) + '/' + (parseInt(data[0][0].substr(6, 4)) - 543)).getTime());
+        var diffdays = Math.ceil(difftime / (1000 * 3600 * 24));
 
-    //     // arr2[0] = diffdays;
+        // arr2[0] = diffdays;
 
-    //     //remove NaN
-    //     const arr3 = arr2.filter(e => !isNaN(e));
-    //     //console.log(arr3);
+        //remove NaN
+        const arr3 = arr2.filter(e => !isNaN(e));
+        //console.log(arr3);
 
-    //     //format number to 2 decimal
-    //     const arr4 = arr3.map(e => e.toFixed(2));
+        //format number to 2 decimal
+        const arr4 = arr3.map(e => e.toFixed(2));
 
-    //     //add วัน to first arr4
-    //     arr4.unshift(parseInt(diffdays) + ' วัน');
-    //     data[2] = arr4;
-    // }
+        //add วัน to first arr4
+        arr4.unshift(parseInt(diffdays) + ' วัน');
+        data[2] = arr4;
+    }
 
     console.log("===== before =====")
     console.log(data[0])
