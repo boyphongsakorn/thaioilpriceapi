@@ -1814,6 +1814,7 @@ fastify.get('/', async (request, reply) => {
 
     // if data[0] and data[1] is different only 1 element set data[0] to data[1] and set data[1] = await getData()[1];
 
+    console.log("data[0].filter(x => !data[1].includes(x)).length : " + data[0].filter(x => !data[1].includes(x)).length)
     if (data[0].filter(x => !data[1].includes(x)).length === 1) {
         data[0] = data[1];
         let newwow = await getData();
