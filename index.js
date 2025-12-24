@@ -1903,6 +1903,11 @@ fastify.get('/', async (request, reply) => {
     data[1][6] = data[1][4];
     data[2][6] = data[2][4];
 
+    //recalculate data[2] index 9 and beyond
+    for (let i = 9; i < data[0].length; i++) {
+        data[2][i] = (parseFloat(data[0][i]) - parseFloat(data[1][i])).toFixed(2).toString();
+    }
+
     if (info === 'true') {
         newway = {
             'info': {
