@@ -279,7 +279,7 @@ async function getData() {
           "Referer": "https://www.pttor.com/news/oil-price",
           "Referrer-Policy": "strict-origin-when-cross-origin"
         },
-        "body": "action=fetch_oil_prices&province=%E0%B8%81%E0%B8%A3%E0%B8%B8%E0%B8%87%E0%B9%80%E0%B8%97%E0%B8%9E%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B8%99%E0%B8%84%E0%B8%A3&month="+(date1.getMonth() + 1)+"&year=2568",
+        "body": "action=fetch_oil_prices&province=%E0%B8%81%E0%B8%A3%E0%B8%B8%E0%B8%87%E0%B9%80%E0%B8%97%E0%B8%9E%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B8%99%E0%B8%84%E0%B8%A3&month="+(date1.getMonth() + 1)+"&year="+(date1.getFullYear() + 543),
         "method": "POST"
     });
 
@@ -331,7 +331,7 @@ async function getData() {
               "Referer": "https://www.pttor.com/news/oil-price",
               "Referrer-Policy": "strict-origin-when-cross-origin"
             },
-            "body": "action=fetch_oil_prices&province=%E0%B8%81%E0%B8%A3%E0%B8%B8%E0%B8%87%E0%B9%80%E0%B8%97%E0%B8%9E%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B8%99%E0%B8%84%E0%B8%A3&month="+date1.getMonth()+"&year=2568",
+            "body": "action=fetch_oil_prices&province=%E0%B8%81%E0%B8%A3%E0%B8%B8%E0%B8%87%E0%B9%80%E0%B8%97%E0%B8%9E%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B8%99%E0%B8%84%E0%B8%A3&month="+date1.getMonth()+"&year="+(date1.getFullYear() + 543),
             "method": "POST"
         });
         const backuppttbody = await backuppttprice.json();
