@@ -89,11 +89,38 @@ async function getData() {
 
         //get 2 string
         date1 = new Date(arr[0][0].substr(3, 2) + '/' + arr[0][0].substr(0, 2) + '/' + (parseInt(arr[0][0].substr(6, 4)) - 543));
+        if(arr[1][0] == undefined) {
+            const responselastyear = await fetch('https://www.bangchak.co.th/th/oilprice/historical?year=' + (new Date().getFullYear() - 1));
+            body = await responselastyear.text();
+
+            const $two = cheerio.load(body);
+            tr2 = $two('tbody tr').first();
+
+            for (let i = 0; i < sparray(tr2.text()).length; i++) {
+                if (sparray(tr2.text())[i] != sparray(tr.text())[i]) {
+                    count++;
+                }
+            }
+
+            arr[1] = sparray(tr2.text());
+
+            for (let j = 0; j < arr[1].length; j++) {
+                if (arr[1][j] == "-") {
+                    arr[1][j] = "0";
+                }
+            }
+
+            //move arr[1][5] to back and remove arr[1][5]
+            arr[1].push(arr[1][5]);
+            arr[1].splice(5, 1);
+        }
         date2 = new Date(arr[1][0].substr(3, 2) + '/' + arr[1][0].substr(0, 2) + '/' + (parseInt(arr[1][0].substr(6, 4)) - 543));
         console.log(date1);
         console.log(date2);
 
     } catch (error) {
+        console.log("old price error")
+        console.log(error)
         const response = await fetch('https://xn--42cah7d0cxcvbbb9x.com/%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B8%A1%E0%B8%B1%E0%B8%99%E0%B8%A2%E0%B9%89%E0%B8%AD%E0%B8%99%E0%B8%AB%E0%B8%A5%E0%B8%B1%E0%B8%87/');
         body = await response.text();
         const $ = cheerio.load(body);
