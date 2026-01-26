@@ -323,7 +323,7 @@ async function getData() {
         pttarr = null;
     }
 
-    if (pttbody.data.length >= 1 || pttarr == null) {
+    if (pttarr == null) {
         // const backuppttprice = await fetch("https://orapiweb1.pttor.com/api/oilprice/search", {
         //     "headers": {
         //         "accept": "application/json, text/plain, */*",
@@ -414,7 +414,12 @@ async function getData() {
             }
         }
     } else {
-        yesterday = JSON.parse(pttbody.data[1].priceData);
+        console.log(pttbody.data[0].priceData)
+        try {
+            yesterday = JSON.parse(pttbody.data[0].priceData);
+        } catch (error) {
+            yesterday = pttbody.data[0].priceData;
+        }
     }
 
     //const yesterday = JSON.parse(pttbody.data[1].priceData);
