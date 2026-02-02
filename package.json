@@ -19,7 +19,7 @@
   "homepage": "https://github.com/boyphongsakorn/thaioilpriceapi#readme",
   "dependencies": {
     "cheerio": "^1.0.0-rc.10",
-    "fastify": "^4.10.2",
+    "fastify": "^5.7.4",
     "node-fetch": "^3.2.3"
   }
 }
