@@ -1854,52 +1854,52 @@ fastify.get('/', async (request, reply) => {
         data[2] = newwow[2];
     }
 
-    if (data[1][10] == null) {
-        data[0][0] = data[1][0];
-        let newwow = await getData();
-        data[1] = newwow[1];
-        if(data[1][10] == null || data[1][10] == undefined){
-            if (parseFloat(data[1][7]) > parseFloat(data[0][7].toString())) {
-                data[1][10] = parseFloat(data[0][10]) + (parseFloat(data[1][7].toString()) - parseFloat(data[0][7].toString()));
-            } else {
-                data[1][10] = parseFloat(data[0][10]) - (parseFloat(data[0][7].toString()) - parseFloat(data[1][7].toString()));
-            }
-            data[1][10] = parseFloat(data[1][10]).toFixed(2).toString();
-            if (parseFloat(data[1][2]) > parseFloat(data[0][2].toString())) {
-                data[1][1] = parseFloat(data[0][1]) + (parseFloat(data[1][2].toString()) - parseFloat(data[0][2].toString()));
-            } else {
-                data[1][1] = parseFloat(data[0][1]) - (parseFloat(data[0][2].toString()) - parseFloat(data[1][2].toString()));
-            }
-            data[1][1] = parseFloat(data[1][1]).toFixed(2).toString();
-        }
-        //temp data[0] and data[1] without first index
-        const tempdata0 = data[0].slice(1);
-        const tempdata1 = data[1].slice(1);
-        console.log("test");
-        console.log(data[0]);
-        console.log(data[1]);
+    // if (data[1][10] == null) {
+    //     data[0][0] = data[1][0];
+    //     let newwow = await getData();
+    //     data[1] = newwow[1];
+    //     if(data[1][10] == null || data[1][10] == undefined){
+    //         if (parseFloat(data[1][7]) > parseFloat(data[0][7].toString())) {
+    //             data[1][10] = parseFloat(data[0][10]) + (parseFloat(data[1][7].toString()) - parseFloat(data[0][7].toString()));
+    //         } else {
+    //             data[1][10] = parseFloat(data[0][10]) - (parseFloat(data[0][7].toString()) - parseFloat(data[1][7].toString()));
+    //         }
+    //         data[1][10] = parseFloat(data[1][10]).toFixed(2).toString();
+    //         if (parseFloat(data[1][2]) > parseFloat(data[0][2].toString())) {
+    //             data[1][1] = parseFloat(data[0][1]) + (parseFloat(data[1][2].toString()) - parseFloat(data[0][2].toString()));
+    //         } else {
+    //             data[1][1] = parseFloat(data[0][1]) - (parseFloat(data[0][2].toString()) - parseFloat(data[1][2].toString()));
+    //         }
+    //         data[1][1] = parseFloat(data[1][1]).toFixed(2).toString();
+    //     }
+    //     //temp data[0] and data[1] without first index
+    //     const tempdata0 = data[0].slice(1);
+    //     const tempdata1 = data[1].slice(1);
+    //     console.log("test");
+    //     console.log(data[0]);
+    //     console.log(data[1]);
 
-        const arr2 = tempdata0.map((e, i) => e - tempdata1[i]);
-        data[1][10] = "~" + data[1][10];
-        data[1][1] = "~" + data[1][1];
-        //console.log(arr2);
+    //     const arr2 = tempdata0.map((e, i) => e - tempdata1[i]);
+    //     data[1][10] = "~" + data[1][10];
+    //     data[1][1] = "~" + data[1][1];
+    //     //console.log(arr2);
 
-        var difftime = Math.abs(new Date(data[1][0].substr(3, 2) + '/' + data[1][0].substr(0, 2) + '/' + (parseInt(data[1][0].substr(6, 4)) - 543)).getTime() - new Date(data[0][0].substr(3, 2) + '/' + data[0][0].substr(0, 2) + '/' + (parseInt(data[0][0].substr(6, 4)) - 543)).getTime());
-        var diffdays = Math.ceil(difftime / (1000 * 3600 * 24));
+    //     var difftime = Math.abs(new Date(data[1][0].substr(3, 2) + '/' + data[1][0].substr(0, 2) + '/' + (parseInt(data[1][0].substr(6, 4)) - 543)).getTime() - new Date(data[0][0].substr(3, 2) + '/' + data[0][0].substr(0, 2) + '/' + (parseInt(data[0][0].substr(6, 4)) - 543)).getTime());
+    //     var diffdays = Math.ceil(difftime / (1000 * 3600 * 24));
 
-        // arr2[0] = diffdays;
+    //     // arr2[0] = diffdays;
 
-        //remove NaN
-        const arr3 = arr2.filter(e => !isNaN(e));
-        //console.log(arr3);
+    //     //remove NaN
+    //     const arr3 = arr2.filter(e => !isNaN(e));
+    //     //console.log(arr3);
 
-        //format number to 2 decimal
-        const arr4 = arr3.map(e => e.toFixed(2));
+    //     //format number to 2 decimal
+    //     const arr4 = arr3.map(e => e.toFixed(2));
 
-        //add วัน to first arr4
-        arr4.unshift(parseInt(diffdays) + ' วัน');
-        data[2] = arr4;
-    }
+    //     //add วัน to first arr4
+    //     arr4.unshift(parseInt(diffdays) + ' วัน');
+    //     data[2] = arr4;
+    // }
 
     console.log("===== before =====")
     console.log(data[0])
