@@ -1846,14 +1846,6 @@ fastify.get('/', async (request, reply) => {
 
     // if data[0] and data[1] is different only 1 element set data[0] to data[1] and set data[1] = await getData()[1];
 
-    console.log("data[0].filter(x => !data[1].includes(x)).length : " + data[0].filter(x => !data[1].includes(x)).length)
-    if (data[0].filter(x => !data[1].includes(x)).length === 1) {
-        data[0] = data[1];
-        let newwow = await getData();
-        data[1] = newwow[1];
-        data[2] = newwow[2];
-    }
-
     if (data[1][10] == null && data[0].filter(x => !data[1].includes(x)).length <= 3) {
         data[0][0] = data[1][0];
         let newwow = await getData();
@@ -1899,6 +1891,17 @@ fastify.get('/', async (request, reply) => {
         //add วัน to first arr4
         arr4.unshift(parseInt(diffdays) + ' วัน');
         data[2] = arr4;
+    }
+
+    console.log("data[0].filter(x => !data[1].includes(x)).length : " + data[0].filter(x => !data[1].includes(x)).length)
+    if (data[0].filter(x => !data[1].includes(x)).length === 1) {
+        data[0] = data[1];
+        console.log(data);
+        let newwow = await getData();
+        data[1] = newwow[1];
+        data[2] = newwow[2];
+        console.log(" ");
+        console.log(data);
     }
 
     console.log("===== before =====")
