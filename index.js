@@ -1423,8 +1423,57 @@ fastify.get('/', async (request, reply) => {
         //newdata[9] = body.data.items[4].PriceTomorrow.toString();
         newdata[10] = body.data.items[4].PriceTomorrow.toString();
     } catch (err) {
-        newdata = data[1];
-        todaydate = new Date(data[0][0].substr(3, 2) + '/' + data[0][0].substr(0, 2) + '/' + (parseInt(data[0][0].substr(6, 4)) - 543));
+        console.log('request was aborted');
+        // new code
+        let anothertmrprice = await fetch('https://oil-price.bangchak.co.th/apioilprice2/th')
+        let anotherbody = await anothertmrprice.json();
+
+        let arraytexttoarray = JSON.parse(anotherbody[0].OilList);
+
+        console.log(arraytexttoarray);
+        console.log("-----");
+
+        let anotherarr = anotherbody[0].OilMessageDate.split('/');
+
+        if (anotherarr != '' && anotherarr != null && anotherarr != undefined) {
+            let anotherdate = new Date(anotherarr[2] - 543, anotherarr[1] - 1, anotherarr[0]);
+
+            newdata3[1] = arraytexttoarray[0].PriceTomorrow.toString();
+            newdata3[2] = arraytexttoarray[1].PriceTomorrow.toString();
+            newdata3[3] = arraytexttoarray[2].PriceTomorrow.toString();
+            newdata3[4] = arraytexttoarray[3].PriceTomorrow.toString();
+            // newdata3[5] = $another('item').eq(5).find('tomorrow').text();
+            newdata3[5] = arraytexttoarray[4].PriceTomorrow.toString();
+            newdata3[6] = arraytexttoarray[5].PriceTomorrow.toString();
+            newdata3[7] = arraytexttoarray[6].PriceTomorrow.toString();
+            // newdata3[8] = arraytexttoarray[7].PriceTomorrow.toString();
+            // newdata3[9] = arraytexttoarray[8].PriceTomorrow.toString();
+            // newdata3[10] = arraytexttoarray[9]?.PriceTomorrow.toString();
+            newdata3[8] = 0;
+            newdata3[9] = 0;
+            newdata3[10] = 0;
+            // newdata3[10] = parseFloat($another('item').eq(7).find('tomorrow').text()) + 9.89+(parseFloat($another('item').eq(7).find('today').text())-parseFloat($another('item').eq(7).find('tomorrow').text()));
+            // if(parseFloat($another('item').eq(7).find('tomorrow').text())-parseFloat($another('item').eq(7).find('today').text()) > 0){
+            if (newdata3[10] == undefined) {
+                if (parseFloat(arraytexttoarray[7].PriceTomorrow.toString()) > parseFloat(arraytexttoarray[7].PriceToday.toString())) {
+                    //newdata3[10] = parseFloat(data[0][10]) - (parseFloat($another('item').eq(7).find('today').text())-parseFloat($another('item').eq(7).find('tomorrow').text()));
+                    newdata3[10] = parseFloat(data[0][10]) + (parseFloat(arraytexttoarray[7].PriceTomorrow.toString()) - parseFloat(arraytexttoarray[7].PriceToday.toString()));
+                } else {
+                    //newdata3[10] = parseFloat(data[0][10]) + (parseFloat($another('item').eq(7).find('today').text())-parseFloat($another('item').eq(7).find('tomorrow').text()));
+                    newdata3[10] = parseFloat(data[0][10]) - (parseFloat(arraytexttoarray[7].PriceToday.toString()) - parseFloat(arraytexttoarray[7].PriceTomorrow.toString()));
+                }
+                newdata3[10] = parseFloat(newdata3[10]).toFixed(2).toString();
+            }
+            // newdata3[0] = (parseInt(anotherarr[0])+1).toString().padStart(2, '0') + '/' + anotherarr[1].padStart(2, '0') + '/' + anotherarr[2];
+            // newdata3[0] = newdata3[0].split(' ')[0];
+            let realDate = new Date(anotherarr[2] - 543, anotherarr[1] - 1, parseInt(anotherarr[0]) + 1);
+            //check all day in that month
+            if (realDate.getDay() > new Date(anotherarr[2] - 543, anotherarr[1] - 1, 0).getDay()) {
+                realDate = new Date(anotherarr[2] - 543, anotherarr[1] + 1, 1);
+            }
+
+            newdata = newdata3;
+        }
     }
 
     let noten = false;
