@@ -1423,7 +1423,7 @@ fastify.get('/', async (request, reply) => {
         //newdata[9] = body.data.items[4].PriceTomorrow.toString();
         newdata[10] = body.data.items[4].PriceTomorrow.toString();
     } catch (err) {
-        newdata = data[0];
+        newdata = data[1];
         todaydate = new Date(data[0][0].substr(3, 2) + '/' + data[0][0].substr(0, 2) + '/' + (parseInt(data[0][0].substr(6, 4)) - 543));
     }
 
