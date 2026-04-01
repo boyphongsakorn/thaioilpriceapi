@@ -118,6 +118,8 @@ async function getData() {
         console.log(date1);
         console.log(date2);
 
+        console.log("group 1/0" + arr[0]);
+        console.log("group 1/1" + arr[1]);
     } catch (error) {
         console.log("old price error")
         console.log(error)
@@ -268,6 +270,9 @@ async function getData() {
         console.log(date2);
         arr[1][0] = (date2.getDate()).toString().padStart(2, '0') + '/' + (date2.getMonth() + 1).toString().padStart(2, '0') + '/' + (date2.getFullYear() + 543)
         console.log(arr);
+
+        console.log("group 2/0" + arr[0]);
+        console.log("group 2/1" + arr[1]);
     }
 
     // const pttprice = await fetch("https://orapiweb1.pttor.com/api/oilprice/search", {
@@ -1960,7 +1965,7 @@ fastify.get('/', async (request, reply) => {
     }
 
     console.log("data[0].filter(x => !data[1].includes(x)).length : " + data[0].filter(x => !data[1].includes(x)).length)
-    if (data[0].filter(x => !data[1].includes(x)).length === 1) {
+    if (data[0].filter(x => !data[1].includes(x)).length === 1 || data[0][0] == '') {
         data[0] = data[1];
         console.log(data);
         let newwow = await getData();
@@ -1968,6 +1973,12 @@ fastify.get('/', async (request, reply) => {
         data[2] = newwow[2];
         console.log(" ");
         console.log(data);
+    }
+
+    if (data[1][2] == '-') {
+        let newwow = await getData();
+        data[1] = newwow[1];
+        data[2] = newwow[2];
     }
 
     console.log("===== before =====")
