@@ -1395,8 +1395,17 @@ fastify.get('/', async (request, reply) => {
 
         //push date/month/year to newdata[0]
 
+        // check body.data.items[i].PriceDifTomorrow if all 0 set date to today and not tomorrow
+        let allzerotomorrow = true;
+        for (let i = 0; i < body.data.items.length; i++) {
+            if (body.data.items[i].PriceDifTomorrow != 0) {
+                allzerotomorrow = false;
+                break;
+            }
+        }
+
         //if todaydate is yesterday
-        if (date.getDate() - 1 == todaydate.getDate() && date.getMonth() == todaydate.getMonth() && date.getFullYear() == todaydate.getFullYear()) {
+        if ((date.getDate() - 1 == todaydate.getDate() && date.getMonth() == todaydate.getMonth() && date.getFullYear() == todaydate.getFullYear()) || allzerotomorrow) {
             console.log('yesterday');
             newdata[0] = (date.getDate()).toString().padStart(2, '0') + '/' + (date.getMonth() + 1).toString().padStart(2, '0') + '/' + (date.getFullYear() + 543);
         } else {
