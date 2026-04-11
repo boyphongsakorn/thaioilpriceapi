@@ -2013,6 +2013,9 @@ fastify.get('/', async (request, reply) => {
     data[1][8] = data[1][6];
     data[2][8] = data[2][6];
     data[0][4] = data[0][10];
+    if(data[0][4] == null || data[0][4] == undefined){
+        data[0][4] = data[0][7];
+    }
     data[1][4] = data[1][7];
     data[2][4] = (parseFloat(data[0][4]) - parseFloat(data[1][4])).toFixed(2).toString();
     data[0][10] = data[0][3];
