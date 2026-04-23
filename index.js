@@ -1467,6 +1467,10 @@ fastify.get('/', async (request, reply) => {
             newdata3[8] = 0;
             newdata3[9] = 0;
             newdata3[10] = 0;
+            //reflow
+            newdata3[1] = newdata3[3]
+            newdata3[3] = newdata3[4]
+            newdata3[5] = newdata3[7]
             // newdata3[10] = parseFloat($another('item').eq(7).find('tomorrow').text()) + 9.89+(parseFloat($another('item').eq(7).find('today').text())-parseFloat($another('item').eq(7).find('tomorrow').text()));
             // if(parseFloat($another('item').eq(7).find('tomorrow').text())-parseFloat($another('item').eq(7).find('today').text()) > 0){
             if (newdata3[10] == undefined) {
@@ -1486,6 +1490,51 @@ fastify.get('/', async (request, reply) => {
             if (realDate.getDay() > new Date(anotherarr[2] - 543, anotherarr[1] - 1, 0).getDay()) {
                 realDate = new Date(anotherarr[2] - 543, anotherarr[1] + 1, 1);
             }
+
+            let monthtext = anotherbody[0].OilRemark2.replace('ราคามีผล ณ วันที่ ', '').split(' ')[1];
+            let monthfirst = '';
+
+            switch (monthtext) {
+                case "ม.ค.":
+                    monthfirst = "01";
+                    break;
+                case "ก.พ.":
+                    monthfirst = "02";
+                    break;
+                case "มี.ค.":
+                    monthfirst = "03";
+                    break;
+                case "เม.ย.":
+                    monthfirst = "04";
+                    break;
+                case "พ.ค.":
+                    monthfirst = "05";
+                    break;
+                case "มิ.ย.":
+                    monthfirst = "06";
+                    break;
+                case "ก.ค.":
+                    monthfirst = "07";
+                    break;
+                case "ส.ค.":
+                    monthfirst = "08";
+                    break;
+                case "ก.ย.":
+                    monthfirst = "09";
+                    break;
+                case "ต.ค.":
+                    monthfirst = "10";
+                    break;
+                case "พ.ย.":
+                    monthfirst = "11";
+                    break;
+                case "ธ.ค.":
+                    monthfirst = "12";
+                    break;
+            }
+
+            realDate = new Date("20" + anotherbody[0].OilRemark2.replace('ราคามีผล ณ วันที่ ', '').split(' ')[2] - 43, monthfirst - 1, anotherbody[0].OilRemark2.replace('ราคามีผล ณ วันที่ ', '').split(' ')[0]);
+            newdata3[0] = (realDate.getDate()).toString().padStart(2, '0') + '/' + (realDate.getMonth() + 1).toString().padStart(2, '0') + '/' + (realDate.getFullYear() + 543);
 
             newdata = newdata3;
         }
@@ -1599,6 +1648,17 @@ fastify.get('/', async (request, reply) => {
                 newdata3[8] = 0;
                 newdata3[9] = 0;
                 newdata3[10] = 0;
+                //reflow
+                newdata3[1] = arraytexttoarray[2].PriceTomorrow.toString();
+                newdata3[2] = arraytexttoarray[1].PriceTomorrow.toString();
+                newdata3[3] = arraytexttoarray[3].PriceTomorrow.toString();
+                newdata3[4] = arraytexttoarray[4].PriceTomorrow.toString();
+                newdata3[5] = arraytexttoarray[3].PriceTomorrow.toString();
+                newdata3[6] = arraytexttoarray[7].PriceTomorrow.toString();
+                // newdata3[7] = arraytexttoarray[6].PriceTomorrow.toString();
+                // newdata3[8] = arraytexttoarray[7].PriceTomorrow.toString();
+                // newdata3[9] = arraytexttoarray[7].PriceTomorrow.toString();
+                newdata3[10] = arraytexttoarray[5].PriceTomorrow.toString();
                 // newdata3[10] = parseFloat($another('item').eq(7).find('tomorrow').text()) + 9.89+(parseFloat($another('item').eq(7).find('today').text())-parseFloat($another('item').eq(7).find('tomorrow').text()));
                 // if(parseFloat($another('item').eq(7).find('tomorrow').text())-parseFloat($another('item').eq(7).find('today').text()) > 0){
                 if (newdata3[10] == undefined) {
@@ -1619,8 +1679,49 @@ fastify.get('/', async (request, reply) => {
                     realDate = new Date(anotherarr[2] - 543, anotherarr[1] + 1, 1);
                 }
 
-                console.log('newdata >>> ' + newdata);
-                console.log('newdata3 >>>' + newdata3);
+                let monthtext = anotherbody[0].OilRemark2.replace('ราคามีผล ณ วันที่ ', '').split(' ')[1];
+                let monthfirst = '';
+
+                switch (monthtext) {
+                    case "ม.ค.":
+                        monthfirst = "01";
+                        break;
+                    case "ก.พ.":
+                        monthfirst = "02";
+                        break;
+                    case "มี.ค.":
+                        monthfirst = "03";
+                        break;
+                    case "เม.ย.":
+                        monthfirst = "04";
+                        break;
+                    case "พ.ค.":
+                        monthfirst = "05";
+                        break;
+                    case "มิ.ย.":
+                        monthfirst = "06";
+                        break;
+                    case "ก.ค.":
+                        monthfirst = "07";
+                        break;
+                    case "ส.ค.":
+                        monthfirst = "08";
+                        break;
+                    case "ก.ย.":
+                        monthfirst = "09";
+                        break;
+                    case "ต.ค.":
+                        monthfirst = "10";
+                        break;
+                    case "พ.ย.":
+                        monthfirst = "11";
+                        break;
+                    case "ธ.ค.":
+                        monthfirst = "12";
+                        break;
+                }
+
+                realDate = new Date("20" + anotherbody[0].OilRemark2.replace('ราคามีผล ณ วันที่ ', '').split(' ')[2] - 43, monthfirst - 1, anotherbody[0].OilRemark2.replace('ราคามีผล ณ วันที่ ', '').split(' ')[0]);
 
                 //if todaydate < real today
                 if (todaydate < date) {
@@ -2021,9 +2122,9 @@ fastify.get('/', async (request, reply) => {
     data[0][10] = data[0][3];
     data[1][10] = data[1][3];
     data[2][10] = data[2][3];
-    data[0][7] = temp;
+    // data[0][7] = temp;
     data[1][7] = temptwo;
-    data[2][7] = tempthree;
+    data[2][7] = parseFloat(parseFloat(data[0][7]) - parseFloat(data[1][7])).toFixed(2).toString();
     data[0][6] = data[0][4];
     data[1][6] = data[1][4];
     data[2][6] = data[2][4];
