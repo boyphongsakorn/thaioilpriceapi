@@ -2296,6 +2296,7 @@ fastify.get('/image', async (req, res) => {
         const screenshot = await fetch('https://api.apiflash.com/v1/urltoimage?access_key='+process.env.aaf+'&url=https%3A%2F%2Fpwisetthon.com%2Fthaioilpriceapi&format=jpeg&width=1000&height=1000&delay=10&fresh=true')
         screenshotbody = await screenshot.buffer();
         //write image file
+        console.log(screenshotbody.length)
         if (screenshotbody.length > 2000) {
             try {
                 fs.writeFileSync('oilprice.png', screenshotbody);
@@ -2304,6 +2305,7 @@ fastify.get('/image', async (req, res) => {
             }
             finish = true;
         }
+        console.log(finish)
     }
     //send image
     // res.header('content-type', 'image/png');
