@@ -1875,8 +1875,10 @@ fastify.get('/', async (request, reply) => {
 
     //if count > 1, then set data[1] = data[0] and set data[0] = newdata
     if (count > 2) {
+        if (newdata[0] != data[0][0]) {
         data[1] = data[0];
         data[0] = newdata;
+        }
 
         //if(data[0][9] == '-'){
         if (!comefromnew) {
