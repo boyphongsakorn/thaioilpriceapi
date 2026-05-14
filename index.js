@@ -2125,16 +2125,16 @@ fastify.get('/', async (request, reply) => {
     data[1][8] = data[1][6];
     data[2][8] = data[2][6];
     data[0][4] = data[0][10];
-    if(data[0][4] == null || data[0][4] == undefined){
-        data[0][4] = data[0][7];
-    }
+    // if(data[0][4] == null || data[0][4] == undefined){
+    //     data[0][4] = data[0][7];
+    // }
     data[1][4] = data[1][7];
     data[2][4] = (parseFloat(data[0][4]) - parseFloat(data[1][4])).toFixed(2).toString();
     data[0][10] = data[0][3];
     data[1][10] = data[1][3];
     data[2][10] = data[2][3];
     // data[0][7] = temp;
-    data[1][7] = temptwo;
+    // data[1][7] = temptwo;
     data[2][7] = parseFloat(parseFloat(data[0][7]) - parseFloat(data[1][7])).toFixed(2).toString();
     data[0][6] = data[0][4];
     data[1][6] = data[1][4];
