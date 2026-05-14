@@ -83,9 +83,20 @@ async function getData() {
         //move arr[0][5] to back and remove arr[0][5]
         arr[0].push(arr[0][5]);
         arr[0].splice(5, 1);
+        arr[0][5] = arr[0][arr[0].length - 1];
+        
         //move arr[1][5] to back and remove arr[1][5]
         arr[1].push(arr[1][5]);
         arr[1].splice(5, 1);
+        arr[1][5] = arr[1][arr[1].length - 1];
+
+        //set [x][7] to [x][8] and set [x][8] to [x][7]
+        let temp = arr[0][7];
+        let temptwo = arr[1][7];
+        arr[0][7] = arr[0][6];
+        arr[1][7] = arr[1][6];
+        arr[0][6] = temp;
+        arr[1][6] = temptwo;
 
         //get 2 string
         date1 = new Date(arr[0][0].substr(3, 2) + '/' + arr[0][0].substr(0, 2) + '/' + (parseInt(arr[0][0].substr(6, 4)) - 543));
@@ -113,6 +124,7 @@ async function getData() {
             //move arr[1][5] to back and remove arr[1][5]
             arr[1].push(arr[1][5]);
             arr[1].splice(5, 1);
+            arr[1][5] = arr[1][arr[1].length - 1];
         }
         date2 = new Date(arr[1][0].substr(3, 2) + '/' + arr[1][0].substr(0, 2) + '/' + (parseInt(arr[1][0].substr(6, 4)) - 543));
         console.log(date1);
