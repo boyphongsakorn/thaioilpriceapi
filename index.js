@@ -1479,10 +1479,10 @@ fastify.get('/', async (request, reply) => {
             newdata3[8] = 0;
             newdata3[9] = 0;
             newdata3[10] = 0;
-            //reflow
-            newdata3[1] = newdata3[3]
-            newdata3[3] = newdata3[4]
-            newdata3[5] = newdata3[7]
+            //reflow new
+            // newdata3[1] = newdata3[3]
+            // newdata3[3] = newdata3[4]
+            // newdata3[5] = newdata3[7]
             // newdata3[10] = parseFloat($another('item').eq(7).find('tomorrow').text()) + 9.89+(parseFloat($another('item').eq(7).find('today').text())-parseFloat($another('item').eq(7).find('tomorrow').text()));
             // if(parseFloat($another('item').eq(7).find('tomorrow').text())-parseFloat($another('item').eq(7).find('today').text()) > 0){
             if (newdata3[10] == undefined) {
@@ -1660,17 +1660,14 @@ fastify.get('/', async (request, reply) => {
                 newdata3[8] = 0;
                 newdata3[9] = 0;
                 newdata3[10] = 0;
-                //reflow
-                newdata3[1] = arraytexttoarray[2].PriceTomorrow.toString();
-                newdata3[2] = arraytexttoarray[1].PriceTomorrow.toString();
-                newdata3[3] = arraytexttoarray[3].PriceTomorrow.toString();
-                newdata3[4] = arraytexttoarray[4].PriceTomorrow.toString();
-                newdata3[5] = arraytexttoarray[3].PriceTomorrow.toString();
-                newdata3[6] = arraytexttoarray[7].PriceTomorrow.toString();
-                // newdata3[7] = arraytexttoarray[6].PriceTomorrow.toString();
-                // newdata3[8] = arraytexttoarray[7].PriceTomorrow.toString();
-                // newdata3[9] = arraytexttoarray[7].PriceTomorrow.toString();
-                newdata3[10] = arraytexttoarray[5].PriceTomorrow.toString();
+                //reflow new
+                // newdata3[1] = arraytexttoarray[2].PriceTomorrow.toString();
+                // newdata3[2] = arraytexttoarray[1].PriceTomorrow.toString();
+                // newdata3[3] = arraytexttoarray[3].PriceTomorrow.toString();
+                // newdata3[4] = arraytexttoarray[4].PriceTomorrow.toString();
+                // newdata3[5] = arraytexttoarray[3].PriceTomorrow.toString();
+                // newdata3[6] = arraytexttoarray[7].PriceTomorrow.toString();
+                // newdata3[10] = arraytexttoarray[5].PriceTomorrow.toString();
                 // newdata3[10] = parseFloat($another('item').eq(7).find('tomorrow').text()) + 9.89+(parseFloat($another('item').eq(7).find('today').text())-parseFloat($another('item').eq(7).find('tomorrow').text()));
                 // if(parseFloat($another('item').eq(7).find('tomorrow').text())-parseFloat($another('item').eq(7).find('today').text()) > 0){
                 if (newdata3[10] == undefined) {
@@ -2112,12 +2109,12 @@ fastify.get('/', async (request, reply) => {
     console.log(data[2])
 
     //rearrange
-    let temp = data[0][5];
+    // let temp = data[0][5];
     let temptwo = data[1][5];
-    let tempthree = data[2][5];
-    data[0][5] = data[0][4];
-    data[1][5] = data[1][4];
-    data[2][5] = data[2][4];
+    // let tempthree = data[2][5];
+    // data[0][5] = data[0][4];
+    // data[1][5] = data[1][4];
+    // data[2][5] = data[2][4];
     // data[0][7] = temp;
     // data[1][7] = temptwo;
     // data[2][7] = tempthree;
