@@ -82,21 +82,27 @@ async function getData() {
 
         //move arr[0][5] to back and remove arr[0][5]
         arr[0].push(arr[0][5]);
+        let temp = arr[0][6];
+        let temp95 = arr[0][8];
         arr[0].splice(5, 1);
         arr[0][5] = arr[0][arr[0].length - 1];
         
         //move arr[1][5] to back and remove arr[1][5]
         arr[1].push(arr[1][5]);
+        let temptwo = arr[1][6];
+        let temptwo95 = arr[1][8];
         arr[1].splice(5, 1);
         arr[1][5] = arr[1][arr[1].length - 1];
 
         //set [x][7] to [x][8] and set [x][8] to [x][7]
-        let temp = arr[0][7];
-        let temptwo = arr[1][7];
+        // let temp = arr[0][7];
+        // let temptwo = arr[1][7];
         arr[0][7] = arr[0][6];
         arr[1][7] = arr[1][6];
         arr[0][6] = temp;
         arr[1][6] = temptwo;
+        arr[0][8] = temp95;
+        arr[1][8] = temptwo95;
 
         //get 2 string
         date1 = new Date(arr[0][0].substr(3, 2) + '/' + arr[0][0].substr(0, 2) + '/' + (parseInt(arr[0][0].substr(6, 4)) - 543));
@@ -2121,24 +2127,24 @@ fastify.get('/', async (request, reply) => {
     // temp = data[0][8];
     // temptwo = data[1][8];
     // tempthree = data[2][8];
-    data[0][8] = data[0][6];
-    data[1][8] = data[1][6];
-    data[2][8] = data[2][6];
-    data[0][4] = data[0][10];
+    // data[0][8] = data[0][6];
+    // data[1][8] = data[1][6];
+    // data[2][8] = data[2][6];
+    // data[0][4] = data[0][10];
     // if(data[0][4] == null || data[0][4] == undefined){
     //     data[0][4] = data[0][7];
     // }
-    data[1][4] = data[1][7];
-    data[2][4] = (parseFloat(data[0][4]) - parseFloat(data[1][4])).toFixed(2).toString();
+    // data[1][4] = data[1][7];
+    // data[2][4] = (parseFloat(data[0][4]) - parseFloat(data[1][4])).toFixed(2).toString();
     data[0][10] = data[0][3];
     data[1][10] = data[1][3];
     data[2][10] = data[2][3];
     // data[0][7] = temp;
     // data[1][7] = temptwo;
     data[2][7] = parseFloat(parseFloat(data[0][7]) - parseFloat(data[1][7])).toFixed(2).toString();
-    data[0][6] = data[0][4];
-    data[1][6] = data[1][4];
-    data[2][6] = data[2][4];
+    // data[0][6] = data[0][4];
+    // data[1][6] = data[1][4];
+    // data[2][6] = data[2][4];
 
     //recalculate data[2] index 9 and beyond
     for (let i = 9; i < data[0].length; i++) {
