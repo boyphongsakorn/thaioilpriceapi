@@ -1660,10 +1660,10 @@ fastify.get('/', async (request, reply) => {
                 newdata3[5] = arraytexttoarray[4].PriceTomorrow.toString();
                 newdata3[6] = arraytexttoarray[5].PriceTomorrow.toString();
                 newdata3[7] = arraytexttoarray[6].PriceTomorrow.toString();
-                // newdata3[8] = arraytexttoarray[7].PriceTomorrow.toString();
+                newdata3[8] = arraytexttoarray[7].PriceTomorrow.toString();
                 // newdata3[9] = arraytexttoarray[8].PriceTomorrow.toString();
                 // newdata3[10] = arraytexttoarray[9]?.PriceTomorrow.toString();
-                newdata3[8] = 0;
+                // newdata3[8] = 0;
                 newdata3[9] = 0;
                 newdata3[10] = 0;
                 //reflow new
