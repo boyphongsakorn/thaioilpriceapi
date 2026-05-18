@@ -1652,12 +1652,12 @@ fastify.get('/', async (request, reply) => {
             if (anotherarr != '' && anotherarr != null && anotherarr != undefined) {
                 let anotherdate = new Date(anotherarr[2] - 543, anotherarr[1] - 1, anotherarr[0]);
 
-                newdata3[1] = arraytexttoarray[0].PriceTomorrow.toString();
+                newdata3[1] = arraytexttoarray[2].PriceTomorrow.toString();
                 newdata3[2] = arraytexttoarray[1].PriceTomorrow.toString();
-                newdata3[3] = arraytexttoarray[2].PriceTomorrow.toString();
+                newdata3[3] = arraytexttoarray[0].PriceTomorrow.toString();
                 newdata3[4] = arraytexttoarray[3].PriceTomorrow.toString();
                 // newdata3[5] = $another('item').eq(5).find('tomorrow').text();
-                newdata3[5] = arraytexttoarray[5].PriceTomorrow.toString();
+                newdata3[5] = arraytexttoarray[4].PriceTomorrow.toString();
                 newdata3[6] = arraytexttoarray[5].PriceTomorrow.toString();
                 newdata3[7] = arraytexttoarray[6].PriceTomorrow.toString();
                 // newdata3[8] = arraytexttoarray[7].PriceTomorrow.toString();
