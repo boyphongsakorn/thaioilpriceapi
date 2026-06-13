@@ -1891,8 +1891,8 @@ fastify.get('/', async (request, reply) => {
     //if count > 1, then set data[1] = data[0] and set data[0] = newdata
     if (count > 2) {
         if (newdata[0] != data[0][0]) {
-        data[1] = data[0];
-        data[0] = newdata;
+            data[1] = data[0];
+            data[0] = newdata;
         }
 
         //if(data[0][9] == '-'){
@@ -1968,7 +1968,7 @@ fastify.get('/', async (request, reply) => {
                 }
             })
 
-            if (comefromnew === false) {
+            if (comefromnew === false && (newdata[0] != data[0][0])) {
                 //data[0][10] = data[0][9];
                 data[0][9] = parseFloat(data[1][9]) + parseFloat(data[2][6]);
                 data[0][11] = parseFloat(data[1][11]) + parseFloat(data[2][6]);
@@ -1987,11 +1987,16 @@ fastify.get('/', async (request, reply) => {
         data[2] = data[2].map(e => e.toFixed(2));
 
         if (comefromnew === false) {
+            if (newdata[0] != data[0][0]) {
             data[0][9] = parseFloat(data[1][9]) + parseFloat(data[2][6]);
             data[0][11] = parseFloat(data[1][11]) + parseFloat(data[2][6]);
 
             data[0][9] = data[0][9].toFixed(2);
             data[0][11] = data[0][11].toFixed(2);
+            } else {
+                data[1][9] = parseFloat(data[0][9]) - parseFloat(data[2][6]);
+                data[1][9] = data[1][9].toFixed(2);
+            }
 
             //reroll data[2]
             data[2] = data[0].map((e, i) => e - data[1][i]);
@@ -2148,7 +2153,7 @@ fastify.get('/', async (request, reply) => {
 
     //recalculate data[2] index 9 and beyond
     for (let i = 9; i < data[0].length; i++) {
-        data[2][i] = (parseFloat(data[0][i]) - parseFloat(data[1][i])).toFixed(2).toString();
+        data[2][i] = (parseFloat(data[0][i].replace(/~/g, '')) - parseFloat(data[1][i])).toFixed(2).toString();
     }
 
     if (info === 'true') {
