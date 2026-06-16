@@ -1988,14 +1988,14 @@ fastify.get('/', async (request, reply) => {
 
         if (comefromnew === false) {
             if (newdata[0] != data[0][0]) {
-            data[0][9] = parseFloat(data[1][9]) + parseFloat(data[2][6]);
-            data[0][11] = parseFloat(data[1][11]) + parseFloat(data[2][6]);
+                data[0][9] = parseFloat(data[1][9]) + parseFloat(data[2][6]);
+                data[0][11] = parseFloat(data[1][11]) + parseFloat(data[2][6]);
 
-            data[0][9] = data[0][9].toFixed(2);
-            data[0][11] = data[0][11].toFixed(2);
+                data[0][9] = data[0][9].toFixed(2);
+                data[0][11] = data[0][11].toFixed(2);
             } else {
-                data[1][9] = parseFloat(data[0][9]) - parseFloat(data[2][6]);
-                data[1][9] = data[1][9].toFixed(2);
+                data[0][9] = parseFloat(data[1][9]) + parseFloat(data[2][6]);
+                data[0][9] = data[0][9].toFixed(2);
             }
 
             //reroll data[2]
