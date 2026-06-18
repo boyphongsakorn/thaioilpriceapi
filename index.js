@@ -437,15 +437,16 @@ async function getData() {
             }
         }
     } else {
-        console.log(pttbody.data[0].priceData)
+        console.log("yesterday");
+        console.log(pttbody.data[1])
         try {
-            yesterday = JSON.parse(pttbody.data[0].priceData);
+            yesterday = JSON.parse(pttbody.data[1].priceData);
         } catch (error) {
             yesterday = pttbody.data[0].priceData;
         }
     }
 
-    //const yesterday = JSON.parse(pttbody.data[1].priceData);
+    // const yesterday = JSON.parse(pttbody.data[1]?.priceData);
     const pttdate = new Date(pttbody.data[0].priceDate);
     console.log('pttdate', pttdate);
 
@@ -591,6 +592,8 @@ async function getData() {
 
     //console.log(arr4);
     historical = [now, old, arr4];
+    console.log('historical');
+    console.log(historical);
     return [now, old, arr4];
 }
 
