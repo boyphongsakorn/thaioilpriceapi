@@ -442,7 +442,11 @@ async function getData() {
         try {
             yesterday = JSON.parse(pttbody.data[1].priceData);
         } catch (error) {
-            yesterday = pttbody.data[0].priceData;
+            try {
+            yesterday = pttbody.data[1].priceData;
+            } catch (error) {
+                yesterday = pttbody.data[0].priceData;
+            }
         }
     }
 
