@@ -2072,9 +2072,9 @@ fastify.get('/', async (request, reply) => {
                 data[1][10] = parseFloat(data[0][10]) - (parseFloat(data[0][7].toString()) - parseFloat(data[1][7].toString()));
             }
             data[1][10] = parseFloat(data[1][10]).toFixed(2).toString();
-            if (parseFloat(data[1][2]) > parseFloat(data[0][2].toString()) && data[2][1] == '0.00') {
+            if (parseFloat(data[1][2]) > parseFloat(data[0][2].toString())) {
                 data[1][1] = parseFloat(data[0][1]) + (parseFloat(data[1][2].toString()) - parseFloat(data[0][2].toString()));
-            } else {
+            } else if (data[2][1] == '0.00') {
                 data[1][1] = parseFloat(data[0][1]) - (parseFloat(data[0][2].toString()) - parseFloat(data[1][2].toString()));
             }
             data[1][1] = parseFloat(data[1][1]).toFixed(2).toString();
