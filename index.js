@@ -2050,17 +2050,21 @@ fastify.get('/', async (request, reply) => {
     // if data[0] and data[1] is different only 1 element set data[0] to data[1] and set data[1] = await getData()[1];
 
     if ((data[1][10] == null || data[0][0] == '') && data[0].filter(x => !data[1].includes(x)).length <= 3) {
-        data[0][0] = data[1][0];
+        // data[0][0] = data[1][0];
         let newwow = await getData();
-        console.log("data[1][0] : " + data[1][0]);
-        console.log("newwow[0][0] : " + newwow[0][0]);
-        console.log(data);
-        console.log(newwow);
-        if (newwow[1][0] == data[0][0]) {
-            data[1] = newwow[0];
-        } else {
-            data[1] = newwow[1];
-        }
+        // console.log("data[1][0] : " + data[1][0]);
+        // console.log("data[0][0] : " + data[0][0]);
+        // console.log("newwow[0][0] : " + newwow[0][0]);
+        // console.log("newwow[1][0] : " + newwow[0][0]);
+        // console.log(data);
+        // console.log(newwow);
+        // if (newwow[1][0] == data[0][0]) {
+        //     data[1] = newwow[0];
+        // } else if (newwow[1][0] != data[1][0]) {
+        //     data[0] = newwow[0];
+        //     // data[1] = newwow[1];
+        // }
+        console.log(data[0][0])
         if(data[1][10] == null || data[1][10] == undefined){
             if (parseFloat(data[1][7]) > parseFloat(data[0][7].toString())) {
                 data[1][10] = parseFloat(data[0][10]) + (parseFloat(data[1][7].toString()) - parseFloat(data[0][7].toString()));
@@ -2068,7 +2072,7 @@ fastify.get('/', async (request, reply) => {
                 data[1][10] = parseFloat(data[0][10]) - (parseFloat(data[0][7].toString()) - parseFloat(data[1][7].toString()));
             }
             data[1][10] = parseFloat(data[1][10]).toFixed(2).toString();
-            if (parseFloat(data[1][2]) > parseFloat(data[0][2].toString())) {
+            if (parseFloat(data[1][2]) > parseFloat(data[0][2].toString()) && data[2][1] == '0.00') {
                 data[1][1] = parseFloat(data[0][1]) + (parseFloat(data[1][2].toString()) - parseFloat(data[0][2].toString()));
             } else {
                 data[1][1] = parseFloat(data[0][1]) - (parseFloat(data[0][2].toString()) - parseFloat(data[1][2].toString()));
