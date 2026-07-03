@@ -16,6 +16,8 @@ const port = process.env.PORT || 8080;
 const AbortController = globalThis.AbortController
 
 let historical = [];
+let pttlatest
+let pttlast
 
 async function getData() {
     let body = "";
@@ -346,7 +348,7 @@ async function getData() {
         pttarr = null;
     }
 
-    if (pttarr == null) {
+    if (pttarr == null || pttbody.data.length == 1) {
         // const backuppttprice = await fetch("https://orapiweb1.pttor.com/api/oilprice/search", {
         //     "headers": {
         //         "accept": "application/json, text/plain, */*",
@@ -449,6 +451,8 @@ async function getData() {
             }
         }
     }
+    pttlatest = pttarr
+    pttlast = yesterday
 
     // const yesterday = JSON.parse(pttbody.data[1]?.priceData);
     const pttdate = new Date(pttbody.data[0].priceDate);
@@ -2013,80 +2017,96 @@ fastify.get('/', async (request, reply) => {
             if (parseFloat(data[2][6]) != 0.00) {
                 // data[0][9] = '~' + data[0][9];
 
-                const pttprice = await fetch("https://www.pttor.com/wp-admin/admin-ajax.php", {
-                    "headers": {
-                    "accept": "*/*",
-                    "accept-language": "th-TH,th;q=0.9,en;q=0.8",
-                    "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-                    "priority": "u=1, i",
-                    "sec-ch-ua": "\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"",
-                    "sec-ch-ua-mobile": "?0",
-                    "sec-ch-ua-platform": "\"macOS\"",
-                    "sec-fetch-dest": "empty",
-                    "sec-fetch-mode": "cors",
-                    "sec-fetch-site": "same-origin",
-                    "x-requested-with": "XMLHttpRequest",
-                    "cookie": "_ga=GA1.1.831413899.1739374030; hidecta=no; OptanonConsent=isGpcEnabled=0&datestamp=Wed+Feb+12+2025+22%3A27%3A14+GMT%2B0700+(Indochina+Time)&version=202409.2.0&browserGpcFlag=0&isIABGlobal=false&hosts=&landingPath=NotLandingPage&groups=C0001%3A1%2CC0002%3A0%2CC0004%3A0&AwaitingReconsent=false; _ga_P1MB04T1HD=GS1.1.1739374029.1.1.1739374035.0.0.0; pll_language=en",
-                    "Referer": "https://www.pttor.com/news/oil-price",
-                    "Referrer-Policy": "strict-origin-when-cross-origin"
-                    },
-                    "body": "action=fetch_oil_prices&province=%E0%B8%81%E0%B8%A3%E0%B8%B8%E0%B8%87%E0%B9%80%E0%B8%97%E0%B8%9E%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B8%99%E0%B8%84%E0%B8%A3&month="+(newdate3date.getMonth() + 1)+"&year="+(newdate3date.getFullYear() + 543),
-                    "method": "POST"
-                });
+                // old way
+                // const pttprice = await fetch("https://www.pttor.com/wp-admin/admin-ajax.php", {
+                //     "headers": {
+                //     "accept": "*/*",
+                //     "accept-language": "th-TH,th;q=0.9,en;q=0.8",
+                //     "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+                //     "priority": "u=1, i",
+                //     "sec-ch-ua": "\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"",
+                //     "sec-ch-ua-mobile": "?0",
+                //     "sec-ch-ua-platform": "\"macOS\"",
+                //     "sec-fetch-dest": "empty",
+                //     "sec-fetch-mode": "cors",
+                //     "sec-fetch-site": "same-origin",
+                //     "x-requested-with": "XMLHttpRequest",
+                //     "cookie": "_ga=GA1.1.831413899.1739374030; hidecta=no; OptanonConsent=isGpcEnabled=0&datestamp=Wed+Feb+12+2025+22%3A27%3A14+GMT%2B0700+(Indochina+Time)&version=202409.2.0&browserGpcFlag=0&isIABGlobal=false&hosts=&landingPath=NotLandingPage&groups=C0001%3A1%2CC0002%3A0%2CC0004%3A0&AwaitingReconsent=false; _ga_P1MB04T1HD=GS1.1.1739374029.1.1.1739374035.0.0.0; pll_language=en",
+                //     "Referer": "https://www.pttor.com/news/oil-price",
+                //     "Referrer-Policy": "strict-origin-when-cross-origin"
+                //     },
+                //     "body": "action=fetch_oil_prices&province=%E0%B8%81%E0%B8%A3%E0%B8%B8%E0%B8%87%E0%B9%80%E0%B8%97%E0%B8%9E%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B8%99%E0%B8%84%E0%B8%A3&month="+(newdate3date.getMonth() + 1)+"&year="+(newdate3date.getFullYear() + 543),
+                //     "method": "POST"
+                // });
 
-                let pttbody = await pttprice.json();
+                // let pttbody = await pttprice.json();
 
-                console.log("pttbody.data")
-                console.log(pttbody.data);
-                let pttarr = pttbody.data[0].priceData;
-                let thismonthlength = pttbody.data.length;
+                // console.log("pttbody.data")
+                // console.log(pttbody.data);
+                // let pttarr = pttbody.data[0].priceData;
+                // let thismonthlength = pttbody.data.length;
 
-                if (thismonthlength == 1) {
-                    let lastpttprice = await fetch("https://www.pttor.com/wp-admin/admin-ajax.php", {
-                        "headers": {
-                        "accept": "*/*",
-                        "accept-language": "th-TH,th;q=0.9,en;q=0.8",
-                        "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-                        "priority": "u=1, i",
-                        "sec-ch-ua": "\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"",
-                        "sec-ch-ua-mobile": "?0",
-                        "sec-ch-ua-platform": "\"macOS\"",
-                        "sec-fetch-dest": "empty",
-                        "sec-fetch-mode": "cors",
-                        "sec-fetch-site": "same-origin",
-                        "x-requested-with": "XMLHttpRequest",
-                        "cookie": "_ga=GA1.1.831413899.1739374030; hidecta=no; OptanonConsent=isGpcEnabled=0&datestamp=Wed+Feb+12+2025+22%3A27%3A14+GMT%2B0700+(Indochina+Time)&version=202409.2.0&browserGpcFlag=0&isIABGlobal=false&hosts=&landingPath=NotLandingPage&groups=C0001%3A1%2CC0002%3A0%2CC0004%3A0&AwaitingReconsent=false; _ga_P1MB04T1HD=GS1.1.1739374029.1.1.1739374035.0.0.0; pll_language=en",
-                        "Referer": "https://www.pttor.com/news/oil-price",
-                        "Referrer-Policy": "strict-origin-when-cross-origin"
-                        },
-                        "body": "action=fetch_oil_prices&province=%E0%B8%81%E0%B8%A3%E0%B8%B8%E0%B8%87%E0%B9%80%E0%B8%97%E0%B8%9E%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B8%99%E0%B8%84%E0%B8%A3&month="+newdate3date.getMonth()+"&year="+(newdate3date.getFullYear() + 543),
-                        "method": "POST"
-                    });
+                // if (thismonthlength == 1) {
+                //     let lastpttprice = await fetch("https://www.pttor.com/wp-admin/admin-ajax.php", {
+                //         "headers": {
+                //         "accept": "*/*",
+                //         "accept-language": "th-TH,th;q=0.9,en;q=0.8",
+                //         "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+                //         "priority": "u=1, i",
+                //         "sec-ch-ua": "\"Not(A:Brand\";v=\"99\", \"Google Chrome\";v=\"133\", \"Chromium\";v=\"133\"",
+                //         "sec-ch-ua-mobile": "?0",
+                //         "sec-ch-ua-platform": "\"macOS\"",
+                //         "sec-fetch-dest": "empty",
+                //         "sec-fetch-mode": "cors",
+                //         "sec-fetch-site": "same-origin",
+                //         "x-requested-with": "XMLHttpRequest",
+                //         "cookie": "_ga=GA1.1.831413899.1739374030; hidecta=no; OptanonConsent=isGpcEnabled=0&datestamp=Wed+Feb+12+2025+22%3A27%3A14+GMT%2B0700+(Indochina+Time)&version=202409.2.0&browserGpcFlag=0&isIABGlobal=false&hosts=&landingPath=NotLandingPage&groups=C0001%3A1%2CC0002%3A0%2CC0004%3A0&AwaitingReconsent=false; _ga_P1MB04T1HD=GS1.1.1739374029.1.1.1739374035.0.0.0; pll_language=en",
+                //         "Referer": "https://www.pttor.com/news/oil-price",
+                //         "Referrer-Policy": "strict-origin-when-cross-origin"
+                //         },
+                //         "body": "action=fetch_oil_prices&province=%E0%B8%81%E0%B8%A3%E0%B8%B8%E0%B8%87%E0%B9%80%E0%B8%97%E0%B8%9E%E0%B8%A1%E0%B8%AB%E0%B8%B2%E0%B8%99%E0%B8%84%E0%B8%A3&month="+newdate3date.getMonth()+"&year="+(newdate3date.getFullYear() + 543),
+                //         "method": "POST"
+                //     });
 
-                    let lastpttbody = await lastpttprice.json();
+                //     let lastpttbody = await lastpttprice.json();
 
-                    let lastpttarr = lastpttbody.data[0].priceData;
-                    console.log("lastpttarr.data")
-                    console.log(lastpttarr);
+                //     let lastpttarr = lastpttbody.data[0].priceData;
+                //     console.log("lastpttarr.data")
+                //     console.log(lastpttarr);
 
-                    lastpttarr.forEach(e => {
+                //     lastpttarr.forEach(e => {
+                //         if (e.OilTypeId == 'เบนซิน') {
+                //             // arr[0][10] = arr[0][9]
+                //             data[1][9] = '' + e.Price
+                //             // arr[1][10] = arr[1][9]
+                //             // arr[1][9] = '' + e.Price
+                //         }
+                //     })
+                // }
+
+                // console.log("pttarr.data")
+                // console.log(pttarr);
+                // pttarr.forEach(e => {
+                //     if (e.OilTypeId == 'เบนซิน') {
+                //         // arr[0][10] = arr[0][9]
+                //         data[0][9] = '' + e.Price
+                //         // arr[1][10] = arr[1][9]
+                //         // arr[1][9] = '' + e.Price
+                //     }
+                // })
+                console.log("pttlatest.data")
+                console.log(pttlatest);
+                console.log("pttlast.data")
+                console.log(pttlast);
+                pttlatest.forEach(e => {
                         if (e.OilTypeId == 'เบนซิน') {
-                            // arr[0][10] = arr[0][9]
-                            data[1][9] = '' + e.Price
-                            // arr[1][10] = arr[1][9]
-                            // arr[1][9] = '' + e.Price
+                        data[0][9] = '' + e.Price
                         }
                     })
-                }
 
-                console.log("pttarr.data")
-                console.log(pttarr);
-                pttarr.forEach(e => {
+                pttlast.forEach(e => {
                     if (e.OilTypeId == 'เบนซิน') {
-                        // arr[0][10] = arr[0][9]
-                        data[0][9] = '' + e.Price
-                        // arr[1][10] = arr[1][9]
-                        // arr[1][9] = '' + e.Price
+                        data[1][9] = '' + e.Price
                     }
                 })
 
