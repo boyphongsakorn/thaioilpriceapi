@@ -2098,14 +2098,24 @@ fastify.get('/', async (request, reply) => {
                 console.log(pttlatest);
                 console.log("pttlast.data")
                 console.log(pttlast);
+                console.log(data[0][0])
+                let pttlatesupdate = true;
                 pttlatest.forEach(e => {
                         if (e.OilTypeId == 'เบนซิน') {
+                        if (e.PriceDate.slice(0, 10) != data[0][0].split('/')[2] + '-' + data[0][0].split('/')[1] + '-' + data[0][0].split('/')[0]) {
+                            pttlatesupdate = false;
+                            data[0][9] = '' + (e.Price + parseFloat(data[2][6]));
+                            data[1][9] = '' + e.Price;
+                        } else {
                         data[0][9] = '' + e.Price
+                        }
+                        // console.log(e.PriceDate.slice(0, 10))
+                        // console.log(data[0][0].split('/')[2] + '-' + data[0][0].split('/')[1] + '-' + data[0][0].split('/')[0])
                         }
                     })
 
                 pttlast.forEach(e => {
-                    if (e.OilTypeId == 'เบนซิน') {
+                    if (e.OilTypeId == 'เบนซิน' && pttlatest == true) {
                         data[1][9] = '' + e.Price
                     }
                 })
