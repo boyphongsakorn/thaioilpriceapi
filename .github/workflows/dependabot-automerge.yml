@@ -1,0 +1,80 @@
+name: Dependabot automerge (Vercel gated)
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened, ready_for_review]
+  issue_comment:
+    types: [created]
+  check_run:
+    types: [completed]
+
+permissions:
+  contents: read
+  pull-requests: read
+  checks: read
+
+jobs:
+  # 1. Dependabot PR opened/updated -> enable auto-merge.
+  # GitHub holds the merge until required checks (Vercel) pass.
+  enable-automerge:
+    if: github.event_name == 'pull_request_target' && github.event.pull_request.user.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Enable auto-merge (squash)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: |
+          gh pr review --approve "$PR_URL" || true
+          gh pr merge --auto --squash "$PR_URL"
+
+  # 2. Vercel bot comments deployment ready -> merge Dependabot PR.
+  vercel-comment:
+    if: github.event_name == 'issue_comment' && github.event.issue.pull_request && github.event.comment.user.login == 'vercel[bot]' && (contains(github.event.comment.body, 'Deployment has completed') || contains(github.event.comment.body, 'is ready') || contains(github.event.comment.body, 'Preview'))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Auto-merge Dependabot PR after Vercel success comment
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.issue.number }}
+        run: |
+          AUTHOR=$(gh pr view "$PR_NUMBER" --json author --jq '.author.login')
+          if [ "$AUTHOR" != "dependabot[bot]" ]; then
+            echo "Not a Dependabot PR ($AUTHOR), skipping."
+            exit 0
+          fi
+          gh pr review --approve "$PR_NUMBER" || true
+          # --auto waits for required checks if Vercel is still running,
+          # merges immediately if Vercel already succeeded.
+          gh pr merge --auto --squash "$PR_NUMBER" || gh pr merge --squash "$PR_NUMBER"
+
+  # 3. Vercel check succeeded -> merge Dependabot PR (covers no-comment case).
+  vercel-check:
+    if: github.event_name == 'check_run' && github.event.check_run.conclusion == 'success' && contains(github.event.check_run.name, 'Vercel')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      checks: read
+    steps:
+      - name: Auto-merge Dependabot PRs for this commit
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PRS='${{ toJSON(github.event.check_run.pull_requests) }}'
+          echo "$PRS" | jq -r '.[].number' | while read -r PR; do
+            [ -z "$PR" ] && continue
+            AUTHOR=$(gh pr view "$PR" --json author --jq '.author.login')
+            if [ "$AUTHOR" = "dependabot[bot]" ]; then
+              gh pr review --approve "$PR" || true
+              gh pr merge --auto --squash "$PR" || gh pr merge --squash "$PR"
+            else
+              echo "PR #$PR is not Dependabot ($AUTHOR), skipping."
+            fi
+          done
